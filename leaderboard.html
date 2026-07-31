@@ -209,10 +209,11 @@
     }
 
     function startLiveLeaderboardEngine() {
-        const tbody = document.getElementById('leaderboardBody');
-        const pinBadge = document.getElementById('roomPinBadge');
-        
-        if (pinBadge) pinBadge.innerText = activePin || "----";
+        const tbody = document.getElementById('leaderboardLiveBody');
+        const pinBadge = document.getElementById('pinDisplay');
+        const emptyState = document.getElementById('noPlayersState');
+
+        if (pinBadge) pinBadge.innerText = 'PIN: ' + (activePin || "----");
         if (!activePin || !tbody) return;
 
         // Pasang radar pemantau data perolehan skor murid secara realtime
@@ -220,9 +221,10 @@
             tbody.innerHTML = ""; // Wipe baris data lama biar gak numpuk ganda
 
             if (!snapshot.exists()) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:20px; color:#94a3b8;">Belum ada murid yang bertanding, bre.</td></tr>';
+                if (emptyState) emptyState.style.display = 'block';
                 return;
             }
+            if (emptyState) emptyState.style.display = 'none';
 
             let playersArray = [];
             snapshot.forEach((child) => {

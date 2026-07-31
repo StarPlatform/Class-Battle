@@ -26,12 +26,52 @@
         .finish-view { text-align: center; padding: 20px 0; }
         .finish-view i { font-size: 3.5rem; color: #10b981; margin-bottom: 16px; }
         .finish-view h2 { font-size: 1.4rem; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+
+        /* RUANG TUNGGU sebelum guru klik mulai */
+        .waiting-view { text-align: center; padding: 10px 0; }
+        .waiting-pulse { width: 74px; height: 74px; margin: 0 auto 18px; background: #eef2ff; border: 2px dashed #4f46e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #4f46e5; animation: pulseGlow 2s infinite; }
+        .waiting-view h2 { font-size: 1.2rem; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+        .waiting-pin { background: #eef2ff; color: #4f46e5; font-weight: 700; padding: 4px 14px; border-radius: 20px; font-size: 0.85rem; display: inline-block; margin-bottom: 4px; }
+        .waiting-sub { font-size: 0.85rem; color: #64748b; display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; }
+        .loading-dots span { animation: blink 1.4s infinite both; font-size: 1.2rem; line-height: 0; }
+        .loading-dots span:nth-child(2) { animation-delay: .2s; }
+        .loading-dots span:nth-child(3) { animation-delay: .4s; }
+        @keyframes pulseGlow { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.35); } 70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(79, 70, 229, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); } }
+        @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
+
+        /* Baris tombol emoji reaction */
+        .reaction-bar { display: flex; justify-content: center; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
+        .reaction-btn { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; font-size: 1.35rem; width: 46px; height: 46px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
+        .reaction-btn:hover { background: #eef2ff; border-color: #c7d2fe; transform: translateY(-2px); }
+        .reaction-btn:active { transform: scale(0.9); }
+
+        /* Emoji yang terbang naik pas ada yang kirim reaction */
+        .reaction-float-container { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 9999; }
+        .reaction-bubble { position: absolute; bottom: 40px; text-align: center; animation: floatUp 3s ease-out forwards; }
+        .reaction-bubble .emoji-face { font-size: 2rem; display: block; }
+        .reaction-bubble .emoji-owner { font-size: 0.7rem; font-weight: 600; color: #4f46e5; background: white; border-radius: 10px; padding: 1px 8px; margin-top: 2px; display: inline-block; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+            15% { opacity: 1; transform: translateY(-20px) translateX(var(--drift, 0px)) scale(1.1); }
+            100% { transform: translateY(-380px) translateX(var(--drift, 0px)) scale(1); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
 <div class="quiz-card">
-    <div id="gameView">
+    <div id="waitingView" class="waiting-view" style="display:none;">
+        <div class="waiting-pulse">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>
+        </div>
+        <span class="waiting-pin">PIN Arena: <span id="waitingPinText">----</span></span>
+        <h2 id="waitingPlayerName">Halo, Pemain!</h2>
+        <p class="waiting-sub">Menunggu guru mulai pertandingan <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
+
+        <div class="reaction-bar" id="reactionBar"></div>
+    </div>
+
+    <div id="gameView" style="display:none;">
         <div class="quiz-header">
             <span id="questionNumberIndicator">Pertanyaan 1/5</span>
             <span class="score-live-badge"><i class="fas fa-star"></i> <span id="liveScoreText">0</span> Pts</span>
@@ -60,6 +100,8 @@
     </div>
 </div>
 
+<div class="reaction-float-container" id="reactionFloatContainer"></div>
+
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -76,19 +118,124 @@
 
     const activePin = localStorage.getItem('star_battle_pin');
     const myPlayerKey = localStorage.getItem('star_battle_key');
+    const myName = localStorage.getItem('star_battle_name') || "Pemain";
 
     let quizData = [];
     let currentQuestionIdx = 0;
     let currentScore = 0;
 
-    function fetchQuizBundle() {
+    const REACTION_EMOJIS = ['😂', '🔥', '👍', '❤️', '🎉', '😮'];
+
+    function escapeHtml(str) {
+        return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
+    }
+
+    // Nyalain layar sesuai status room: kalau guru belum klik Mulai, tampilin ruang tunggu dulu
+    function initPlaySession() {
         if (!activePin || !myPlayerKey) {
             alert("Sesi kamu hilang! Kembali ke halaman masuk.");
             window.location.href = "player.html";
             return;
         }
 
-        // Ambil info Quiz ID dari room aktif
+        db.ref(`rooms/${activePin}`).once('value').then((roomSnap) => {
+            if (!roomSnap.exists()) {
+                alert("Room sudah tidak tersedia, bre.");
+                window.location.href = "player.html";
+                return;
+            }
+
+            const room = roomSnap.val();
+            if (room.status === "playing") {
+                showGameView();
+                fetchQuizBundle();
+            } else {
+                showWaitingView();
+                // Pantau real-time kapan guru klik "Mulai" di room.html
+                db.ref(`rooms/${activePin}/status`).on('value', (snap) => {
+                    if (snap.exists() && snap.val() === "playing") {
+                        db.ref(`rooms/${activePin}/status`).off();
+                        showGameView();
+                        fetchQuizBundle();
+                    }
+                });
+            }
+        });
+
+        setupReactionListener();
+    }
+
+    function showWaitingView() {
+        const waitingPin = document.getElementById('waitingPinText');
+        if (waitingPin) waitingPin.innerText = activePin;
+        const waitingName = document.getElementById('waitingPlayerName');
+        if (waitingName) waitingName.innerText = `Halo, ${myName}!`;
+
+        renderReactionBar();
+
+        document.getElementById('waitingView').style.display = 'block';
+        document.getElementById('gameView').style.display = 'none';
+    }
+
+    function showGameView() {
+        document.getElementById('waitingView').style.display = 'none';
+        document.getElementById('gameView').style.display = 'block';
+    }
+
+    // ==========================================
+    // EMOJI REACTION: kirim & terima, muncul ke semua pemain + pembuat kode
+    // ==========================================
+    function renderReactionBar() {
+        const bar = document.getElementById('reactionBar');
+        if (!bar) return;
+        bar.innerHTML = '';
+        REACTION_EMOJIS.forEach((emoji) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'reaction-btn';
+            btn.innerText = emoji;
+            btn.addEventListener('click', () => sendReaction(emoji));
+            bar.appendChild(btn);
+        });
+    }
+
+    function sendReaction(emoji) {
+        if (!activePin) return;
+        const reactionRef = db.ref(`rooms/${activePin}/reactions`).push();
+        reactionRef.set({
+            emoji: emoji,
+            name: myName,
+            time: firebase.database.ServerValue.TIMESTAMP
+        }).then(() => {
+            // Beresin data reaction abis kepake, biar database gak numpuk
+            setTimeout(() => reactionRef.remove(), 4000);
+        });
+    }
+
+    function setupReactionListener() {
+        db.ref(`rooms/${activePin}/reactions`).on('child_added', (snap) => {
+            const data = snap.val();
+            if (data && data.emoji) spawnReactionBubble(data.emoji, data.name);
+        });
+    }
+
+    function spawnReactionBubble(emoji, name) {
+        const container = document.getElementById('reactionFloatContainer');
+        if (!container) return;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'reaction-bubble';
+        bubble.style.left = `${10 + Math.random() * 80}%`;
+        bubble.style.setProperty('--drift', `${(Math.random() * 60) - 30}px`);
+        bubble.innerHTML = `
+            <span class="emoji-face">${emoji}</span>
+            ${name ? `<span class="emoji-owner">${escapeHtml(name)}</span>` : ''}
+        `;
+        container.appendChild(bubble);
+        bubble.addEventListener('animationend', () => bubble.remove());
+    }
+
+    function fetchQuizBundle() {
         db.ref(`rooms/${activePin}`).once('value').then((roomSnap) => {
             if (!roomSnap.exists()) return;
             const quizId = roomSnap.val().quizId;
@@ -190,7 +337,7 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', fetchQuizBundle);
+    document.addEventListener('DOMContentLoaded', initPlaySession);
 </script>
 
 </body>

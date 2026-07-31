@@ -31,18 +31,6 @@
         .btn { width: 100%; padding: 14px; background: #4f46e5; color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15); transition: all 0.2s; }
         .btn:hover { background: #4338ca; }
         .btn:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
-
-        /* LOBBY VIEW */
-        .lobby-box { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-        .pulse-avatar { font-size: 3rem; background: #f0fdf4; border: 2px dashed #10b981; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; animation: pulseGlow 2s infinite; }
-        .badge-pin { background: #eef2ff; color: #4f46e5; font-weight: 700; padding: 4px 14px; border-radius: 20px; font-size: 0.9rem; margin-top: 4px; display: inline-block; }
-        
-        .loading-dots span { animation: blink 1.4s infinite both; font-size: 1.4rem; line-height: 0; }
-        .loading-dots span:nth-child(2) { animation-delay: .2s; }
-        .loading-dots span:nth-child(3) { animation-delay: .4s; }
-
-        @keyframes pulseGlow { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
-        @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
     </style>
 </head>
 <body>
@@ -77,24 +65,6 @@
         </div>
 
         <button class="btn" id="btnJoinRoom"><i class="fas fa-door-open"></i> Masuk Arena</button>
-    </div>
-
-    <div class="card" id="lobbyView" style="display: none;">
-        <div class="lobby-box">
-            <div class="pulse-avatar" id="avatarDisplay"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg></div>
-            <div>
-                <h3 style="font-size: 1.2rem; font-weight:700;" id="displayPlayerName">Nama Siswa</h3>
-                <span class="badge-pin">PIN Arena: <span id="displayPin">----</span></span>
-            </div>
-            
-            <div style="margin-top: 12px; color:#64748b; font-size:0.9rem;">
-                <p style="font-weight: 500; color:#0f172a;">Kamu sudah terdaftar di layar guru!</p>
-                <p style="margin-top:4px; display:inline-flex; align-items:center; gap:4px;">
-                    Menunggu guru memulai pertandingan
-                    <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
-                </p>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -179,8 +149,8 @@
                 localStorage.setItem('star_battle_key', myPlayerKey);
                 localStorage.setItem('star_battle_name', name);
 
-                // Ganti tampilan ke Lobby Ruang Tunggu
-                initRoomLobby();
+                // Lempar ke play.html: di sana ada ruang tunggu sambil nunggu guru mulai
+                window.location.href = "play.html";
             }).catch(err => {
                 alert("Error join: " + err.message);
                 resetJoinButton();
@@ -200,96 +170,18 @@
     }
 
     // ==========================================
-    // 3. FUNGSI LOBBY & RADAR OTOMATIS GURU PLAY
-    // ==========================================
-    function initRoomLobby() {
-        // Tukar panel view UI bawaan HTML lu
-        if (document.getElementById('authZone')) document.getElementById('authZone').style.display = 'none';
-        if (document.getElementById('lobbyZone')) document.getElementById('lobbyZone').style.display = 'block';
-        
-        // Cetak nama & PIN ke komponen lobby
-        if (document.getElementById('displayPin')) document.getElementById('displayPin').innerText = activePin;
-        if (document.getElementById('playerNameInput')) document.getElementById('playerNameInput').value = currentName;
-
-        // Render visual avatar yang dipilih di lobby
-        updateLobbyAvatarUI();
-
-        // RADAR SAKLAR: Pantau real-time kapan Guru klik tombol "Mulai" di room.html
-        db.ref(`rooms/${activePin}/status`).on('value', (snapshot) => {
-            if (snapshot.exists() && snapshot.val() === "playing") {
-                // Matikan radar biar hemat memory HP
-                db.ref(`rooms/${activePin}/status`).off();
-                // Serentak lempar murid ke arena pengerjaan soal kuis
-                window.location.href = "play.html";
-            }
-        });
-    }
-
-    // Update Nama Live dari Lobby (Fitur Tambahan UI Lu)
-    function updateMyName() {
-        const newName = document.getElementById('playerNameInput').value.trim();
-        if (!newName) return alert("Nama tidak boleh kosong, bre!");
-
-        if (activePin && myPlayerKey) {
-            db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
-                name: newName
-            }).then(() => {
-                currentName = newName;
-                localStorage.setItem('star_battle_name', newName);
-                alert("Nama kamu berhasil diperbarui di server!");
-            }).catch(err => alert("Gagal update nama: " + err.message));
-        }
-    }
-
-    // Mengubah pilihan icon avatar murid
-    function selectAvatar(emoji, element) {
-        selectedAvatar = emoji;
-        
-        // Lepas class active dari semua item avatar
-        document.querySelectorAll('.avatar-item').forEach(el => el.classList.remove('active'));
-        // Pasang ke yang diklik
-        if (element) element.classList.add('active');
-
-        // Jika murid merubah avatar pas udah di dalem lobby, langsung update real-time ke database
-        if (activePin && myPlayerKey) {
-            db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
-                avatar: selectedAvatar
-            }).then(() => {
-                updateLobbyAvatarUI();
-            });
-        }
-    }
-
-    function updateLobbyAvatarUI() {
-        const lobbyBox = document.getElementById('lobbyAvatarBox');
-        if (lobbyBox) lobbyBox.innerHTML = selectedAvatar;
-        const avatarDisplay = document.getElementById('avatarDisplay');
-        if (avatarDisplay) avatarDisplay.innerHTML = selectedAvatar;
-    }
-
-    // ==========================================
-    // 4. TRIGGER EVENT LISTENER SAAT HALAMAN DIBUKA
+    // 3. TRIGGER EVENT LISTENER SAAT HALAMAN DIBUKA
     // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
         const savedPin = localStorage.getItem('star_battle_pin');
         const savedKey = localStorage.getItem('star_battle_key');
         const savedName = localStorage.getItem('star_battle_name');
 
-        // Balikin ke lobby otomatis kalau murid gak sengaja ke-refresh atau close browser sementara kuis belum dimulai
+        // Balikin otomatis ke play.html kalau murid gak sengaja ke-refresh atau balik ke halaman ini padahal udah join
         if (savedPin && savedKey && savedName) {
             db.ref(`rooms/${savedPin}`).once('value').then((snapshot) => {
-                if (snapshot.exists()) {
-                    const room = snapshot.val();
-                    // Kalau gurunya belum mulai atau statusnya masih waiting, balikin ke lobby murid
-                    if (room.status === "waiting" && room.players && room.players[savedKey]) {
-                        activePin = savedPin;
-                        myPlayerKey = savedKey;
-                        currentName = savedName;
-                        selectedAvatar = room.players[savedKey].avatar || DEFAULT_AVATAR_SVG;
-                        initRoomLobby();
-                    } else {
-                        localStorage.clear();
-                    }
+                if (snapshot.exists() && snapshot.val().players && snapshot.val().players[savedKey]) {
+                    window.location.href = "play.html";
                 } else {
                     localStorage.clear();
                 }
@@ -312,12 +204,6 @@
 
                 joinRoom(pin, name);
             });
-        }
-
-        // Handler klik tombol Perbarui Nama di dalam lobby
-        const btnUpdate = document.getElementById('btnUpdateName');
-        if (btnUpdate) {
-            btnUpdate.addEventListener('click', updateMyName);
         }
     });
 </script>
