@@ -55,6 +55,11 @@
             color: #2563eb;
             font-size: 1.3rem;
         }
+        .logo span {
+            font-weight: 400;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
 
         .nav-menu {
             display: flex;
@@ -565,9 +570,10 @@
     <nav class="navbar">
         <div class="logo" onclick="location.href='index.html'">
             <i class="fas fa-star"></i>
-            <span>Class Battle</span>
+            <span>Class Battle <span style="font-weight:400; color:#64748b;">x Star Tools</span></span>
         </div>
         <ul class="nav-menu">
+            <li><a href="friends.html"><i class="fas fa-user-group"></i> Teman</a></li>
             <li><a href="#" id="pinMenuBtn"><i class="fas fa-key"></i> Masukkan PIN</a></li>
             <li>
                 <a href="#" id="loginMenuBtn" class="btn-login-nav">
@@ -801,7 +807,6 @@
     // NAVIGASI FUNGSI
     // =======================================================
     function goToPlay() {
-        // Cek apakah ada PIN tersimpan
         const savedPin = localStorage.getItem('star_battle_pin');
         const savedKey = localStorage.getItem('star_battle_key');
         if (savedPin && savedKey) {
@@ -865,19 +870,15 @@
             }
         });
 
-        // MODAL - muncul saat klik banner CTA
+        // MODAL - muncul saat klik area banner CTA
         const modal = document.getElementById('choiceModal');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-        // Tampilkan modal saat klik "Ingin mencoba battle" di banner
-        // Tapi kita sudah punya tombol langsung di banner, jadi modal dipakai untuk yang klik area banner
         document.querySelector('.cta-banner')?.addEventListener('click', (e) => {
-            // Jangan trigger jika klik tombol di dalam
             if (e.target.closest('.cta-actions') || e.target.closest('button')) return;
             modal.classList.add('show');
         });
 
-        // Tutup modal
         modalCloseBtn?.addEventListener('click', () => {
             modal.classList.remove('show');
         });
@@ -885,6 +886,8 @@
         modal?.addEventListener('click', (e) => {
             if (e.target === modal) modal.classList.remove('show');
         });
+
+        // Tombol Teman sudah otomatis ke friends.html
     });
 
     // =======================================================
