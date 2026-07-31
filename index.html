@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Class Battle | Star Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .logo i {
+            color: #2563eb;
+            font-size: 1.3rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #475569;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-menu a:hover {
+            color: #2563eb;
+        }
+
+        /* Profil Circle di Navbar */
+        .nav-profile-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #ffffff;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+            overflow: hidden;
+            transition: transform 0.2s;
+            background: #2563eb;
+            cursor: pointer;
+            border: none;
+        }
+        .nav-profile-btn:hover {
+            transform: scale(1.08);
+        }
+        .nav-profile-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .btn-login-nav {
+            background: #1e293b;
+            color: #ffffff !important;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem !important;
+            font-weight: 600 !important;
+        }
+        .btn-login-nav:hover {
+            background: #0f172a;
+        }
+
+        .hero {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 48px 24px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            max-width: 720px;
+            margin: 0 auto 16px;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: #475569;
+            max-width: 560px;
+            margin: 0 auto 32px;
+        }
+
+        .btn-main {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-main:hover {
+            background: #1d4ed8;
+        }
+
+        .feature-section {
+            max-width: 1280px;
+            margin: 20px auto 40px;
+            padding: 0 24px;
+        }
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 24px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+            border: 1px solid #edf2f7;
+            transition: all 0.2s;
+        }
+        .card:hover {
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 20px -8px rgba(0,0,0,0.08);
+        }
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .card p {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .arena-section {
+            max-width: 1280px;
+            margin: 24px auto 48px;
+            padding: 0 24px;
+        }
+        .arena-panel {
+            background: #ffffff;
+            border-radius: 24px;
+            border: 1px solid #e9edf2;
+            padding: 24px 28px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .panel-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pin-input-area {
+            display: flex;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 4px 12px 4px 16px;
+            border-radius: 48px;
+            border: 1px solid #e2e8f0;
+            align-items: center;
+        }
+        .pin-input-area input {
+            border: none;
+            background: transparent;
+            padding: 8px 0;
+            font-size: 0.85rem;
+            outline: none;
+            width: 120px;
+        }
+        .pin-input-area button {
+            background: #eef2ff;
+            border: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            color: #1e40af;
+        }
+        .pin-input-area button:hover { background: #e0e7ff; }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ecf3fa;
+        }
+        .leaderboard-table th { 
+            font-weight: 600; 
+            color: #334155; 
+        }
+        .leaderboard-table th i { 
+            margin-right: 6px; 
+            color: #94a3b8; 
+        }
+        .rank-badge {
+            font-weight: 600;
+            background: #f1f5f9;
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+            border-radius: 20px;
+            padding: 2px 0;
+        }
+        .rank-1 { background: #fef9e3; color: #b45309; }
+        .rank-2 { background: #eef2ff; color: #1e40af; }
+        .rank-3 { background: #e6f7ec; color: #15803d; }
+        .score-value { font-weight: 700; color: #0f172a; }
+        
+        .simulasi-btn {
+            margin-top: 20px;
+            background: #f8fafc;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+        }
+        .simulasi-btn:hover { background: #f0f4f9; }
+        .empty-leaderboard {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+        .empty-leaderboard i {
+            font-size: 2rem;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+        }
+
+        .chat-section {
+            max-width: 848px;
+            width: 100%;
+            margin: 40px auto 20px;
+            padding: 0 24px;
+        }
+        .chat-section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chat-section-title i { color: #2563eb; }
+
+        .chat-timeline {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 24px;
+            min-height: 240px;
+            max-height: 480px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+        }
+
+        .empty-chat {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            margin: auto 0;
+        }
+        .empty-chat i {
+            font-size: 2.5rem;
+            color: #cbd5e1;
+            margin-bottom: 12px;
+        }
+
+        .chat-node {
+            background: #f8fafc;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            padding: 14px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-self: flex-start;
+            max-width: 85%;
+        }
+        .chat-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            font-size: 0.75rem;
+        }
+        .user-anon { font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 4px; }
+        .chat-time { color: #94a3b8; }
+        .chat-content { font-size: 0.9rem; color: #1e293b; word-break: break-word; white-space: pre-line; }
+
+        .admin-reply-box {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-top: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .admin-tag {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .admin-tag i { font-size: 0.85rem; }
+
+        .chat-input-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 12px 16px;
+            margin-top: 14px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+        }
+        .main-textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: none;
+            height: 38px;
+            max-height: 100px;
+            padding-top: 8px;
+            color: #0f172a;
+        }
+        .btn-main-send {
+            background: #2563eb;
+            color: white;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+        .btn-main-send:hover { background: #1d4ed8; }
+
+        .cta-banner {
+            background: #e2e8f0;
+            margin: 40px 24px;
+            border-radius: 32px;
+            padding: 36px 28px;
+            text-align: center;
+        }
+        .cta-banner h3 { font-size: 1.3rem; font-weight: 600; color: #0f172a; }
+        .cta-banner button {
+            margin-top: 18px; background: #1e293b; color: white; border: none;
+            padding: 10px 28px; border-radius: 40px; font-weight: 500; cursor: pointer;
+        }
+
+        footer {
+            background: #ffffff;
+            border-top: 1px solid #e2e8f0;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: auto;
+        }
+
+        @media (max-width: 680px) {
+            .navbar { flex-direction: column; align-items: center; }
+            .hero h1 { font-size: 1.7rem; }
+            .panel-header { flex-direction: column; align-items: stretch; }
+            .chat-node { max-width: 95%; }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo" onclick="location.href='index.html'">
+            <span>Class Battle X Star Tools</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="friends.html"><i class="fas fa-user-group"></i> Teman</a></li>
+            <li><a href="#" id="pinMenuBtn"><i class="fas fa-key"></i> Masukkan PIN</a></li>
+            <li>
+                <a href="#" id="loginMenuBtn" class="btn-login-nav">
+                    <i class="fas fa-right-to-bracket"></i> Login
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="hero">
+        <h1>Kompetisi kelas lebih seru dengan <span style="color:#2563eb;">Class Battle</span></h1>
+        <p>Guru siapkan soal, murid bertarung di papan peringkat. Belajar kelompok makin kompetitif dan transparan.</p>
+        
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-main" id="btnStartBattle"><i class="fas fa-play"></i> Mulai Battle</button>
+            <button class="btn-main" id="btnCreateRoom" style="background: #10b981;"><i class="fas fa-chalkboard-user"></i> Buat Room</button>
+        </div>
+    </div>
+
+    <!-- FEATURE SECTION -->
+    <div class="feature-section">
+        <div class="grid-cards">
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-trophy" style="color:#eab308;"></i></div>
+                <h3>Live Leaderboard</h3>
+                <p>Skor terupdate tiap kali siswa menjawab. Sistem peringkat real-time antar kelas.</p>
+            </div>
+
+            <!-- CARD 2: MODE GRUP & INDIVIDU -->
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-users" style="color:#2563eb;"></i></div>
+                <h3>Mode Grup & Individu</h3>
+                <p>Battle per tim atau duel personal. Cocok untuk kuis harian atau uji coba tryout.</p>
+            </div>
+
+            <!-- CARD 3: ANALITIK PERFORMA -->
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-chart-line" style="color:#10b981;"></i></div>
+                <h3>Analitik Performa</h3>
+                <p>Rekap hasil, kelemahan materi, rekomendasi belajar untuk tiap siswa.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARENA / LEADERBOARD SECTION -->
+    <div class="arena-section">
+        <div class="arena-panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-trophy" style="color:#eab308;"></i> Papan Peringkat</h2>
+                <div class="pin-input-area" id="pinWrapper">
+                    <i class="fas fa-lock" style="color:#64748b; font-size:0.8rem;"></i>
+                    <input type="text" id="pinInputField" placeholder="Kode PIN arena" maxlength="10">
+                    <button id="btnConfirmPin">Akses</button>
+                </div>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Peserta</th>
+                            <th>Kelas</th>
+                            <th>Skor</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <tr>
+                            <td colspan="4">
+                                <div class="empty-leaderboard">
+                                    <i class="fas fa-database"></i>
+                                    <p>Belum ada data pemain. Yuk mulai battle!</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="display: flex; justify-content: flex-end;">
+            </div>
+            <p style="margin-top: 14px; font-size:0.7rem; color:#62748c;"><i class="fas fa-info-circle"></i> Untuk dapat memasuki peringkat kamu perlu banyak mengumpulkan poin dengan cara bermain di Class Battle.</p>
+        </div>
+    </div>
+
+    <!-- CHAT SECTION -->
+    <div class="chat-section">
+        <div class="chat-section-title">
+            <i class="fas fa-comments"></i>
+            <span>User Chat & Saran</span>
+        </div>
+
+        <div class="chat-timeline" id="chatTimeline">
+            <div class="empty-chat" id="emptyState">
+                <i class="fas fa-message-slash"></i>
+                <p>Belum ada saran atau kritik yang masuk</p>
+            </div>
+        </div>
+
+        <div class="chat-input-box">
+            <textarea id="userInputText" class="main-textarea" placeholder="Tulis saran atau kritik di sini..."></textarea>
+            <button class="btn-main-send" id="btnSendMain"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="cta-banner">
+        <h3>Ingin mencoba battle di kelas kamu?</h3>
+        <button id="ctaDaftarBtn"><i class="fas fa-arrow-right"></i> Daftar sekarang</button>
+    </div>
+</main>
+
+<footer>
+    <span>© 2026 Class Battle Ecosystem<br>All rights reserved.</span>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCBVjPohvfPZYs8DfGtzEdi5j4Svb3UvLI",
+        authDomain: "class-battle-19f8c.firebaseapp.com",
+        databaseURL: "https://class-battle-19f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "class-battle-19f8c",
+        storageBucket: "class-battle-19f8c.firebasestorage.app",
+        messagingSenderId: "586414902582",
+        appId: "1:586414902582:web:1fb3398c53c8d8e8d0b797",
+        measurementId: "G-ZKTK9S7LVS"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    let currentUserUID = null;
+    let currentUserName = "Anonim";
+    let myCustomUid = null;
+
+    function escapeHtml(str) {
+        return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
+    }
+
+    // =======================================================
+    // AMBIL CUSTOM UID DARI DATABASE
+    // =======================================================
+    async function getMyCustomUid(firebaseUid) {
+        const mappingSnap = await db.ref('uid_mapping/' + firebaseUid).once('value');
+        let customUid = mappingSnap.val();
+        
+        if (customUid) {
+            return customUid;
+        }
+
+        const userSnap = await db.ref('users').orderByChild('firebaseUID').equalTo(firebaseUid).once('value');
+        if (userSnap.exists()) {
+            const entries = Object.entries(userSnap.val());
+            const userData = entries[0][1];
+            if (userData && userData.uid) {
+                await db.ref('uid_mapping/' + firebaseUid).set(userData.uid);
+                return userData.uid;
+            }
+        }
+
+        return null;
+    }
+
+    // =======================================================
+    // 1. CEK SESI LOGIN & SINKRONISASI NAVBAR
+    // =======================================================
+    auth.onAuthStateChanged(async (user) => {
+        const loginMenuBtn = document.getElementById("loginMenuBtn");
+        if (!loginMenuBtn) return;
+
+        if (user) {
+            currentUserUID = user.uid;
+            myCustomUid = await getMyCustomUid(currentUserUID);
+            
+            if (!myCustomUid) {
+                loginMenuBtn.href = "account.html";
+                loginMenuBtn.innerHTML = '<i class="fas fa-user"></i> Akun';
+                loginMenuBtn.className = 'nav-profile-btn';
+                loginMenuBtn.style.background = '#2563eb';
+                return;
+            }
+
+            loginMenuBtn.href = "account.html";
+
+            db.ref("users/" + myCustomUid).once("value").then((snap) => {
+                const userData = snap.val() || {};
+                currentUserName = userData.name || user.email.split('@')[0];
+                
+                // Ubah style jadi profile circle
+                loginMenuBtn.className = 'nav-profile-btn';
+                
+                if (userData.avatarData) {
+                    loginMenuBtn.innerHTML = `<img src="${userData.avatarData}" alt="PP">`;
+                    loginMenuBtn.style.background = "transparent";
+                } else {
+                    const initial = currentUserName.charAt(0).toUpperCase();
+                    loginMenuBtn.innerHTML = initial;
+                    loginMenuBtn.style.background = "#2563eb";
+                }
+            }).catch(err => console.error("Gagal sinkronisasi nama navbar:", err));
+        } else {
+            currentUserUID = null;
+            currentUserName = "Anonim";
+            myCustomUid = null;
+            loginMenuBtn.href = "login.html";
+            loginMenuBtn.innerHTML = '<i class="fas fa-right-to-bracket"></i> Login';
+            loginMenuBtn.className = 'btn-login-nav';
+            loginMenuBtn.removeAttribute("style");
+        }
+    });
+
+    // =======================================================
+    // 2. KIRIM PESAN KE CHAT_HUB
+    // =======================================================
+    const btnSendMain = document.getElementById('btnSendMain');
+    const tx = document.getElementById('userInputText');
+
+    if (tx) {
+        tx.addEventListener('input', function() {
+            this.style.height = '38px';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    }
+
+    if (btnSendMain && tx) {
+        btnSendMain.addEventListener('click', () => {
+            const message = tx.value.trim();
+            if (!message) return;
+
+            const timeNow = new Date();
+            const timestampStr = timeNow.toLocaleDateString('id-ID') + ' ' + timeNow.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+
+            const chatPayload = {
+                senderUID: myCustomUid || currentUserUID || "ANONIM_USER",
+                senderName: currentUserName,
+                message: message,
+                time: timestampStr,
+                timestamp: Date.now(),
+                reply: ""
+            };
+
+            db.ref('chat_hub').push(chatPayload).then(() => {
+                tx.value = '';
+                tx.style.height = '38px';
+            }).catch((err) => {
+                alert("Gagal kirim pesan. Error: " + err.message);
+            });
+        });
+    }
+
+    // =======================================================
+    // 3. AMBIL DATA REAL-TIME CHAT
+    // =======================================================
+    const timeline = document.getElementById('chatTimeline');
+    const emptyState = document.getElementById('emptyState');
+
+    if (timeline && emptyState) {
+        db.ref('chat_hub').on('value', (snapshot) => {
+            const data = snapshot.val();
+
+            timeline.innerHTML = '';
+            timeline.appendChild(emptyState);
+
+            if (!data) {
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            Object.entries(data).forEach(([key, val]) => {
+                const node = document.createElement('div');
+                node.className = 'chat-node';
+
+                const displaySender = val.senderUID !== "ANONIM_USER" ? val.senderName : "Anonim";
+
+                let nodeInner = `
+                    <div class="chat-meta">
+                        <span class="user-anon"><i class="fas ${val.senderUID !== 'ANONIM_USER' ? 'fa-user' : 'fa-user-secret'}"></i> ${escapeHtml(displaySender)}</span>
+                        <span class="chat-time">${val.time}</span>
+                    </div>
+                    <div class="chat-content">${escapeHtml(val.message)}</div>
+                `;
+
+                if (val.reply) {
+                    nodeInner += `
+                        <div class="admin-reply-box">
+                            <div class="admin-tag">
+                                <span>MinBattle</span>
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="chat-content" style="color: #0f172a; font-weight: 500;">${escapeHtml(val.reply)}</div>
+                        </div>
+                    `;
+                }
+
+                node.innerHTML = nodeInner;
+                timeline.appendChild(node);
+            });
+
+            timeline.scrollTop = timeline.scrollHeight;
+        });
+    }
+
+    // =======================================================
+    // 4. LEADERBOARD REAL-TIME DARI DATABASE
+    // =======================================================
+    function renderLeaderboard(usersData) {
+        const tbody = document.getElementById('leaderboardBody');
+        if (!tbody) return;
+
+        if (!usersData || Object.keys(usersData).length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4">
+                        <div class="empty-leaderboard">
+                            <i class="fas fa-database"></i>
+                            <p>Belum ada data pemain. Yuk mulai battle!</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        // Konversi ke array dan urutkan berdasarkan score (kalo ada)
+        const users = Object.entries(usersData)
+            .map(([uid, data]) => ({
+                uid: uid,
+                name: data.name || "Pengguna",
+                score: data.score || data.points || 0,
+                class: data.class || data.kelas || "-",
+                avatarData: data.avatarData || null
+            }))
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 50); // Top 50 aja
+
+        if (users.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4">
+                        <div class="empty-leaderboard">
+                            <i class="fas fa-database"></i>
+                            <p>Belum ada data pemain. Yuk mulai battle!</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            return;
+        }
+
+        tbody.innerHTML = users.map((item, idx) => {
+            let rankClass = '';
+            if (idx === 0) rankClass = 'rank-1';
+            else if (idx === 1) rankClass = 'rank-2';
+            else if (idx === 2) rankClass = 'rank-3';
+
+            return `
+                <tr>
+                    <td><span class="rank-badge ${rankClass}">${idx + 1}</span></td>
+                    <td><strong>${escapeHtml(item.name)}</strong></td>
+                    <td>${escapeHtml(item.class)}</td>
+                    <td class="score-value">${item.score.toLocaleString('id-ID')} pts</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // LISTENER REAL-TIME DARI DATABASE
+    db.ref('users').on('value', (snapshot) => {
+        const data = snapshot.val();
+        renderLeaderboard(data);
+    });
+
+    // =======================================================
+    // 5. SIMULASI SKOR (BUAT DEMO)
+    // =======================================================
+    document.getElementById('simulateBtn')?.addEventListener('click', () => {
+        db.ref('users').once('value', (snapshot) => {
+            const users = snapshot.val();
+            if (!users) {
+                alert("Belum ada user. Buat akun dulu!");
+                return;
+            }
+
+            Object.entries(users).forEach(([uid, data]) => {
+                if (uid === myCustomUid) return; // skip diri sendiri
+                const newScore = (data.score || 0) + Math.floor(Math.random() * 50) + 10;
+                db.ref('users/' + uid + '/score').set(newScore);
+            });
+
+            // Tambah skor user sendiri juga
+            if (myCustomUid) {
+                db.ref('users/' + myCustomUid).once('value', (snap) => {
+                    const myData = snap.val() || {};
+                    const newScore = (myData.score || 0) + Math.floor(Math.random() * 30) + 5;
+                    db.ref('users/' + myCustomUid + '/score').set(newScore);
+                });
+            }
+
+            alert("Skor semua user bertambah! 🎉");
+        });
+    });
+
+    // =======================================================
+    // 6. EVENT LAINNYA
+    // =======================================================
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('btnConfirmPin')?.addEventListener('click', () => {
+            if (document.getElementById('pinInputField').value.trim() === "BATTLE2025") {
+                alert("Akses arena diterima.");
+            } else {
+                alert("PIN salah.");
+            }
+        });
+
+        document.getElementById('btnStartBattle')?.addEventListener('click', () => {
+            document.getElementById('pinInputField').focus();
+            document.getElementById('pinWrapper').style.borderColor = '#2563eb';
+        });
+
+        document.getElementById('btnCreateRoom')?.addEventListener('click', () => {
+            alert("Fitur ini akan segera hadir! 🚀");
+        });
+
+        document.getElementById('ctaDaftarBtn')?.addEventListener('click', () => {
+            window.location.href = 'login.html';
+        });
+
+        document.getElementById('pinMenuBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('pinInputField').focus();
+        });
+    });
+</script>
+</body>
+</html>

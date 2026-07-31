@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Star Tools | Join Battle Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fb; color: #1e293b; min-height: 100vh; display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+        header { background: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 14px 20px; }
+        .navbar { max-width: 600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 700; font-size: 1rem; color: #0f172a; display: flex; align-items: center; gap: 6px; }
+        .logo i { color: #10b981; }
+
+        .container { max-width: 480px; width: 100%; margin: 40px auto; padding: 0 20px; flex: 1; }
+        .card { background: white; border: 1px solid #e2e8f0; border-radius: 24px; padding: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.01); }
+        
+        .title-group { text-align: center; margin-bottom: 24px; }
+        .title-group h2 { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
+        .title-group p { font-size: 0.85rem; color: #64748b; margin-top: 4px; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #475569; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-wrapper { position: relative; display: flex; align-items: center; }
+        .input-wrapper i { position: absolute; left: 16px; color: #94a3b8; font-size: 1rem; }
+        .form-control { width: 100%; padding: 12px 16px 12px 44px; font-size: 0.95rem; border: 1px solid #cbd5e1; border-radius: 12px; background: #fff; color: #1e293b; outline: none; transition: all 0.2s; }
+        .form-control:focus { border-color: #4f46e5; box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1); }
+
+        .btn { width: 100%; padding: 14px; background: #4f46e5; color: white; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15); transition: all 0.2s; }
+        .btn:hover { background: #4338ca; }
+        .btn:disabled { background: #cbd5e1; color: #94a3b8; box-shadow: none; cursor: not-allowed; }
+
+        /* LOBBY VIEW */
+        .lobby-box { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .pulse-avatar { font-size: 3rem; background: #f0fdf4; border: 2px dashed #10b981; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 50%; animation: pulseGlow 2s infinite; }
+        .badge-pin { background: #eef2ff; color: #4f46e5; font-weight: 700; padding: 4px 14px; border-radius: 20px; font-size: 0.9rem; margin-top: 4px; display: inline-block; }
+        
+        .loading-dots span { animation: blink 1.4s infinite both; font-size: 1.4rem; line-height: 0; }
+        .loading-dots span:nth-child(2) { animation-delay: .2s; }
+        .loading-dots span:nth-child(3) { animation-delay: .4s; }
+
+        @keyframes pulseGlow { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); } 70% { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
+        @keyframes blink { 0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo"><i class="fas fa-star"></i> Star Tools <span style="font-weight:400; color:#64748b;">| Kelas</span></div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="card" id="authView">
+        <div class="title-group">
+            <h2>Masuk Kamar Kuis</h2>
+            <p>Masukkan PIN dari layar proyektor guru dan nama aslimu, bre.</p>
+        </div>
+
+        <div class="form-group">
+            <label>PIN Kuis (4 Digit)</label>
+            <div class="input-wrapper">
+                <i class="fas fa-key"></i>
+                <input type="text" class="form-control" id="pinInput" placeholder="Contoh: 1234" maxlength="4" inputmode="numeric">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Nama Lengkap Kamu</label>
+            <div class="input-wrapper">
+                <i class="fas fa-user-tag"></i>
+                <input type="text" class="form-control" id="nameInput" placeholder="Masukkan nama kamu...">
+            </div>
+        </div>
+
+        <button class="btn" id="btnJoinRoom"><i class="fas fa-door-open"></i> Masuk Arena</button>
+    </div>
+
+    <div class="card" id="lobbyView" style="display: none;">
+        <div class="lobby-box">
+            <div class="pulse-avatar" id="avatarDisplay"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg></div>
+            <div>
+                <h3 style="font-size: 1.2rem; font-weight:700;" id="displayPlayerName">Nama Siswa</h3>
+                <span class="badge-pin">PIN Arena: <span id="displayPin">----</span></span>
+            </div>
+            
+            <div style="margin-top: 12px; color:#64748b; font-size:0.9rem;">
+                <p style="font-weight: 500; color:#0f172a;">Kamu sudah terdaftar di layar guru!</p>
+                <p style="margin-top:4px; display:inline-flex; align-items:center; gap:4px;">
+                    Menunggu guru memulai pertandingan
+                    <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    // ==========================================
+    // 1. KONFIGURASI DATABASE FIREBASE
+    // ==========================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyCBVjPohvfPZYs8DfGtzEdi5j4Svb3UvLI",
+        authDomain: "class-battle-19f8c.firebaseapp.com",
+        databaseURL: "https://class-battle-19f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "class-battle-19f8c",
+        storageBucket: "class-battle-19f8c.firebasestorage.app",
+        messagingSenderId: "586414902582",
+        appId: "1:586414902582:web:1fb3398c53c8d8e8d0b797"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+
+    // State Global Murid
+    let activePin = null;
+    let myPlayerKey = null;
+    let currentName = "";
+    // Ikon avatar default berbentuk SVG (pengganti avatar emoji lama)
+    const DEFAULT_AVATAR_SVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>';
+    let selectedAvatar = DEFAULT_AVATAR_SVG;
+
+    // Anti Hacker XSS HTML
+    function escapeHtml(str) {
+        return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
+    }
+
+    // ==========================================
+    // 2. FUNGSI LOGIK UTAMA (GABUNG ROOM)
+    // ==========================================
+    function joinRoom(pin, name) {
+        const btnJoin = document.getElementById('btnJoinRoom');
+        if (btnJoin) {
+            btnJoin.disabled = true;
+            btnJoin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Masuk Arena...';
+        }
+
+        // Cek dulu apakah Room dengan PIN tersebut ada di Firebase
+        db.ref('rooms/' + pin).once('value').then((snapshot) => {
+            if (!snapshot.exists()) {
+                alert("PIN Arena tidak ditemukan, bre! Cek lagi papan tulis.");
+                resetJoinButton();
+                return;
+            }
+
+            const roomData = snapshot.val();
+
+            // Validasi Status Room
+            if (roomData.status !== "waiting") {
+                alert("Waduh lambat, kompetisi di arena ini sudah berjalan atau sudah ditutup!");
+                resetJoinButton();
+                return;
+            }
+
+            // Jika aman, push data murid ke node sub-players di room tersebut
+            const playerRef = db.ref(`rooms/${pin}/players`).push();
+            const playerData = {
+                name: name,
+                avatar: selectedAvatar,
+                score: 0,
+                status: "Bertanding"
+            };
+
+            playerRef.set(playerData).then(() => {
+                activePin = pin;
+                myPlayerKey = playerRef.key;
+                currentName = name;
+
+                // Ikat di memori HP murid biar kalau ke-refresh gak mental login ulang
+                localStorage.setItem('star_battle_pin', pin);
+                localStorage.setItem('star_battle_key', myPlayerKey);
+                localStorage.setItem('star_battle_name', name);
+
+                // Ganti tampilan ke Lobby Ruang Tunggu
+                initRoomLobby();
+            }).catch(err => {
+                alert("Error join: " + err.message);
+                resetJoinButton();
+            });
+        }).catch(err => {
+            alert("Koneksi gagal: " + err.message);
+            resetJoinButton();
+        });
+    }
+
+    function resetJoinButton() {
+        const btnJoin = document.getElementById('btnJoinRoom');
+        if (btnJoin) {
+            btnJoin.disabled = false;
+            btnJoin.innerHTML = 'Gabung ke Pertandingan <i class="fas fa-arrow-right"></i>';
+        }
+    }
+
+    // ==========================================
+    // 3. FUNGSI LOBBY & RADAR OTOMATIS GURU PLAY
+    // ==========================================
+    function initRoomLobby() {
+        // Tukar panel view UI bawaan HTML lu
+        if (document.getElementById('authZone')) document.getElementById('authZone').style.display = 'none';
+        if (document.getElementById('lobbyZone')) document.getElementById('lobbyZone').style.display = 'block';
+        
+        // Cetak nama & PIN ke komponen lobby
+        if (document.getElementById('displayPin')) document.getElementById('displayPin').innerText = activePin;
+        if (document.getElementById('playerNameInput')) document.getElementById('playerNameInput').value = currentName;
+
+        // Render visual avatar yang dipilih di lobby
+        updateLobbyAvatarUI();
+
+        // RADAR SAKLAR: Pantau real-time kapan Guru klik tombol "Mulai" di room.html
+        db.ref(`rooms/${activePin}/status`).on('value', (snapshot) => {
+            if (snapshot.exists() && snapshot.val() === "playing") {
+                // Matikan radar biar hemat memory HP
+                db.ref(`rooms/${activePin}/status`).off();
+                // Serentak lempar murid ke arena pengerjaan soal kuis
+                window.location.href = "play.html";
+            }
+        });
+    }
+
+    // Update Nama Live dari Lobby (Fitur Tambahan UI Lu)
+    function updateMyName() {
+        const newName = document.getElementById('playerNameInput').value.trim();
+        if (!newName) return alert("Nama tidak boleh kosong, bre!");
+
+        if (activePin && myPlayerKey) {
+            db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
+                name: newName
+            }).then(() => {
+                currentName = newName;
+                localStorage.setItem('star_battle_name', newName);
+                alert("Nama kamu berhasil diperbarui di server!");
+            }).catch(err => alert("Gagal update nama: " + err.message));
+        }
+    }
+
+    // Mengubah pilihan icon avatar murid
+    function selectAvatar(emoji, element) {
+        selectedAvatar = emoji;
+        
+        // Lepas class active dari semua item avatar
+        document.querySelectorAll('.avatar-item').forEach(el => el.classList.remove('active'));
+        // Pasang ke yang diklik
+        if (element) element.classList.add('active');
+
+        // Jika murid merubah avatar pas udah di dalem lobby, langsung update real-time ke database
+        if (activePin && myPlayerKey) {
+            db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
+                avatar: selectedAvatar
+            }).then(() => {
+                updateLobbyAvatarUI();
+            });
+        }
+    }
+
+    function updateLobbyAvatarUI() {
+        const lobbyBox = document.getElementById('lobbyAvatarBox');
+        if (lobbyBox) lobbyBox.innerHTML = selectedAvatar;
+        const avatarDisplay = document.getElementById('avatarDisplay');
+        if (avatarDisplay) avatarDisplay.innerHTML = selectedAvatar;
+    }
+
+    // ==========================================
+    // 4. TRIGGER EVENT LISTENER SAAT HALAMAN DIBUKA
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedPin = localStorage.getItem('star_battle_pin');
+        const savedKey = localStorage.getItem('star_battle_key');
+        const savedName = localStorage.getItem('star_battle_name');
+
+        // Balikin ke lobby otomatis kalau murid gak sengaja ke-refresh atau close browser sementara kuis belum dimulai
+        if (savedPin && savedKey && savedName) {
+            db.ref(`rooms/${savedPin}`).once('value').then((snapshot) => {
+                if (snapshot.exists()) {
+                    const room = snapshot.val();
+                    // Kalau gurunya belum mulai atau statusnya masih waiting, balikin ke lobby murid
+                    if (room.status === "waiting" && room.players && room.players[savedKey]) {
+                        activePin = savedPin;
+                        myPlayerKey = savedKey;
+                        currentName = savedName;
+                        selectedAvatar = room.players[savedKey].avatar || DEFAULT_AVATAR_SVG;
+                        initRoomLobby();
+                    } else {
+                        localStorage.clear();
+                    }
+                } else {
+                    localStorage.clear();
+                }
+            }).catch(() => localStorage.clear());
+        }
+
+        // Handler klik tombol Gabung Pertandingan
+        const btnJoin = document.getElementById('btnJoinRoom');
+        if (btnJoin) {
+            btnJoin.addEventListener('click', () => {
+                const pin = document.getElementById('pinInput').value.trim();
+                const name = document.getElementById('nameInput').value.trim();
+
+                if (pin.length !== 4 || isNaN(pin)) {
+                    return alert("PIN wajib berisi 4 digit nomor angka, bre!");
+                }
+                if (!name) {
+                    return alert("Silakan isi namamu dulu sebelum masuk arena!");
+                }
+
+                joinRoom(pin, name);
+            });
+        }
+
+        // Handler klik tombol Perbarui Nama di dalam lobby
+        const btnUpdate = document.getElementById('btnUpdateName');
+        if (btnUpdate) {
+            btnUpdate.addEventListener('click', updateMyName);
+        }
+    });
+</script>
+
+
+</body>
+</html>

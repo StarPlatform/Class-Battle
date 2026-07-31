@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Class Battle | Kelola Akun & Profil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header { 
+            background: #ffffff; 
+            border-bottom: 1px solid #e2e8f0; 
+        }
+        
+        .navbar { 
+            max-width: 1280px; 
+            margin: 0 auto; 
+            padding: 14px 24px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        
+        .logo { 
+            font-weight: 700; 
+            font-size: 1.2rem; 
+            color: #0f172a; 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            cursor: pointer;
+        }
+        
+        .logo i { 
+            color: #2563eb; 
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-right a {
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .nav-right a:hover {
+            color: #2563eb;
+        }
+
+        .nav-avatar-mini {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #2563eb;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(37,99,235,0.2);
+        }
+        .nav-avatar-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 30px auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 24px;
+        }
+
+        .sidebar {
+            flex: 1;
+            max-width: 260px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu-btn {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 14px 18px;
+            border-radius: 16px;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            width: 100%;
+        }
+        .menu-btn:hover {
+            background: #f8fafc;
+            color: #2563eb;
+        }
+        .menu-btn.active {
+            background: #2563eb;
+            color: #ffffff;
+            border-color: #2563eb;
+        }
+        .menu-btn.btn-logout-sidebar {
+            margin-top: 12px;
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.2);
+        }
+        .menu-btn.btn-logout-sidebar:hover {
+            background: #fef2f2;
+        }
+
+        .content-area {
+            flex: 3;
+            background: #ffffff;
+            border-radius: 24px;
+            border: 1px solid #e2e8f0;
+            padding: 32px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+        }
+
+        .profile-header-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 16px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 24px;
+        }
+        
+        .avatar-container {
+            position: relative;
+            width: 84px;
+            height: 84px;
+        }
+        
+        .profile-avatar-big {
+            width: 100%;
+            height: 100%;
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        
+        .profile-avatar-big img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .change-avatar-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #1e293b;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border: 2px solid #ffffff;
+            transition: background 0.2s;
+        }
+        .change-avatar-overlay:hover {
+            background: #2563eb;
+        }
+
+        .user-meta-info {
+            width: 100%;
+        }
+
+        .user-meta-info h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+            padding-right: 0; 
+            transition: padding 0.2s ease;
+        }
+
+        .user-meta-info h2.has-verified {
+            padding-right: 24px; 
+        }
+        
+        .verified-badge {
+            color: #2563eb;
+            font-size: 1.15rem;
+            display: none; 
+            position: absolute;
+            right: 0;
+        }
+        
+        .user-meta-info p { 
+            font-size: 0.85rem; 
+            color: #64748b; 
+            margin-top: 4px; 
+        }
+
+        .section-panel { 
+            display: none; 
+        }
+        .section-panel.active { 
+            display: block; 
+        }
+        .section-panel h3 { 
+            font-size: 1.15rem; 
+            font-weight: 700; 
+            color: #0f172a; 
+            margin-bottom: 20px; 
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        
+        .form-group { 
+            text-align: left; 
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.2s;
+        }
+        
+        .form-group textarea { 
+            resize: none; 
+            height: 84px; 
+        }
+        
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-save {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-save:hover { 
+            background: #1d4ed8; 
+        }
+
+        #avatarFileInput { 
+            display: none; 
+        }
+
+        .uid-info-box {
+            margin-top: 12px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.75rem;
+            color: #64748b;
+            word-break: break-all;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .container { 
+                flex-direction: column; 
+                margin: 15px auto;
+            }
+            .sidebar { 
+                max-width: 100%; 
+                flex-direction: row; 
+                overflow-x: auto; 
+                padding-bottom: 8px; 
+            }
+            .menu-btn { 
+                white-space: nowrap; 
+                padding: 10px 16px; 
+            }
+            .menu-btn.btn-logout-sidebar { 
+                margin-top: 0; 
+            }
+            .content-area { 
+                padding: 20px; 
+            }
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 8px; 
+            width: 100%; 
+            padding: 12px 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        @media (min-width: 768px) {
+            .btn {
+                width: max-content;
+                padding: 10px 24px;
+            }
+            .btn-danger {
+                width: 100%; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="navbar">
+        <div class="logo" onclick="location.href='index.html'">
+            <span>Class Battle</span>
+        </div>
+        <div class="nav-right">
+            <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+            <a href="friends.html"><i class="fas fa-user-group"></i> Teman</a>
+            <div class="nav-avatar-mini" id="miniNavbarAvatar">U</div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    <section class="sidebar">
+        <button class="menu-btn active" onclick="switchTab('profil', this)"><i class="fas fa-user-gear"></i> Kelola Profil</button>
+        <button class="menu-btn" onclick="switchTab('akun', this)"><i class="fas fa-shield-halved"></i> Kelola Akun</button>
+    </section>
+
+    <section class="content-area">
+        <div class="profile-header-box">
+            <div class="avatar-container">
+                <div class="profile-avatar-big" id="avatarDisplay">
+                    <span id="bigAvatarFallback">U</span>
+                </div>
+                <label class="change-avatar-overlay" for="avatarFileInput" title="Ubah Foto Profil">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="avatarFileInput" accept="image/*">
+            </div>
+            <div class="user-meta-info">
+                <h2 id="nameHeading">
+                    <span id="topProfileName">Memuat data...</span> 
+                    <i class="fas fa-check-circle verified-badge" id="verifiedIcon" title="Akun Terverifikasi Resmi"></i>
+                </h2>
+                <p id="topProfileRole">Member</p>
+                <div class="uid-info-box">UID Anda: <strong id="userUidDisplay" style="color:#334155;">-</strong></div>
+            </div>
+        </div>
+
+        <!-- PANEL 1: KELOLA PROFIL -->
+        <div class="section-panel active" id="panel-profil">
+            <h3>Kelola Informasi Profil</h3>
+            <form onsubmit="saveProfil(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="profNama">Nama Lengkap / Tampilan</label>
+                        <input type="text" id="profNama" required placeholder="Masukkan nama tampilan kamu">
+                    </div>
+                    <div class="form-group">
+                        <label for="profBio">Bio Singkat</label>
+                        <textarea id="profBio" placeholder="Tulis status kuis atau bio singkatmu di sini bre..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="profTglLahir">Tanggal Lahir</label>
+                        <input type="date" id="profTglLahir">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="btnSaveProfil"><i class="fas fa-floppy-disk"></i> Simpan Perubahan</button>
+            </form>
+        </div>
+
+        <!-- PANEL 2: KELOLA AKUN -->
+        <div class="section-panel" id="panel-akun">
+            <h3>Keamanan & Kredensial Akun</h3>
+            
+            <form onsubmit="saveEmail(event)" style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px dashed #e2e8f0;">
+                <h4 style="font-size: 0.95rem; margin-bottom: 12px; color: #475569; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-envelope" style="color: #2563eb;"></i> Perbarui Alamat Email
+                </h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="emailBaru">Email Baru</label>
+                        <input type="email" id="emailBaru" required placeholder="Masukkan alamat email baru">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="btnSaveEmail" style="background:#1e293b;"><i class="fas fa-rotate"></i> Ganti Email</button>
+            </form>
+
+            <form onsubmit="savePassword(event)">
+                <h4 style="font-size: 0.95rem; margin-bottom: 12px; color: #475569; display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-lock" style="color: #10b981;"></i> Perbarui Kata Sandi
+                </h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="pwBaru">Kata Sandi Baru</label>
+                        <input type="password" id="pwBaru" required placeholder="Masukkan sandi baru (min 6 karakter)">
+                    </div>
+                    <div class="form-group">
+                        <label for="pwKonfirmasi">Konfirmasi Kata Sandi Baru</label>
+                        <input type="password" id="pwKonfirmasi" required placeholder="Ulangi kata sandi baru">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="btnSavePassword" style="background:#10b981;"><i class="fas fa-shield-check"></i> Ganti Kata Sandi</button>     
+                <button class="btn btn-danger" id="btnLogoutAction"><i class="fas fa-power-off"></i> Keluar Akun</button> 
+            </form>
+        </div>
+    </section>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCBVjPohvfPZYs8DfGtzEdi5j4Svb3UvLI",
+        authDomain: "class-battle-19f8c.firebaseapp.com",
+        databaseURL: "https://class-battle-19f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "class-battle-19f8c",
+        storageBucket: "class-battle-19f8c.firebasestorage.app",
+        messagingSenderId: "586414902582",
+        appId: "1:586414902582:web:1fb3398c53c8d8e8d0b797",
+        measurementId: "G-ZKTK9S7LVS"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    
+    const auth = firebase.auth();
+    const db = firebase.database();
+    let currentUserUID = "";
+    let myCustomUid = "";
+
+    // =====================================================
+    //  AMBIL CUSTOM UID DARI DATABASE
+    // =====================================================
+    async function getMyCustomUid(firebaseUid) {
+        // Cek dari mapping dulu
+        const mappingSnap = await db.ref('uid_mapping/' + firebaseUid).once('value');
+        let customUid = mappingSnap.val();
+        
+        if (customUid) {
+            return customUid;
+        }
+
+        // Fallback: cari dari data user berdasarkan firebaseUID
+        const userSnap = await db.ref('users').orderByChild('firebaseUID').equalTo(firebaseUid).once('value');
+        if (userSnap.exists()) {
+            const entries = Object.entries(userSnap.val());
+            const userData = entries[0][1];
+            if (userData && userData.uid) {
+                // Simpen mapping biar next time lebih cepet
+                await db.ref('uid_mapping/' + firebaseUid).set(userData.uid);
+                return userData.uid;
+            }
+        }
+
+        return null;
+    }
+
+    window.switchTab = function(target, element) {
+        document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+        element.classList.add('active');
+        document.getElementById('panel-' + target).classList.add('active');
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                currentUserUID = user.uid;
+                
+                // Ambil Custom UID
+                myCustomUid = await getMyCustomUid(currentUserUID);
+                
+                if (!myCustomUid) {
+                    alert("Gagal mendapatkan UID. Coba login ulang.");
+                    return;
+                }
+
+                // TAMPILKAN CUSTOM UID (8 DIGIT ANGKA)
+                document.getElementById('userUidDisplay').innerText = myCustomUid;
+                
+                // Ambil data user berdasarkan custom UID
+                db.ref('users/' + myCustomUid).once('value').then((snapshot) => {
+                    if (snapshot.exists()) {
+                        const data = snapshot.val();
+                        
+                        document.getElementById('topProfileName').innerText = data.name;
+                        document.getElementById('profNama').value = data.name;
+                        document.getElementById('profBio').value = data.bio || '';
+                        document.getElementById('profTglLahir').value = data.tglLahir || '';
+
+                        const firstLetter = data.name.charAt(0).toUpperCase();
+                        if (data.avatarData) {
+                            document.getElementById('avatarDisplay').innerHTML = `<img src="${data.avatarData}" alt="Profil">`;
+                            document.getElementById('miniNavbarAvatar').innerHTML = `<img src="${data.avatarData}" alt="Mini">`;
+                        } else {
+                            document.getElementById('avatarDisplay').innerHTML = `<span id="bigAvatarFallback">${firstLetter}</span>`;
+                            document.getElementById('miniNavbarAvatar').innerText = firstLetter;
+                        }
+                    }
+                }).catch(err => console.error("Gagal load profile:", err));
+
+                // Ambil ROLE dari database
+                db.ref('users/' + myCustomUid + '/role').on('value', (snapshot) => {
+                    const role = snapshot.val() || 'Member';
+                    document.getElementById('topProfileRole').innerText = role;
+
+                    const badge = document.getElementById('verifiedIcon');
+                    const nameHeading = document.getElementById('nameHeading');
+
+                    nameHeading.style.display = "flex";
+                    nameHeading.style.alignItems = "center";
+                    nameHeading.style.justifyContent = "center";
+                    nameHeading.style.position = "relative";
+                    nameHeading.style.width = "max-content";
+                    nameHeading.style.margin = "0 auto";
+
+                    if (role === 'Admin') {
+                        badge.style.display = 'inline-block';
+                        badge.style.position = 'absolute';
+                        badge.style.right = '-24px'; 
+                        
+                        document.getElementById('topProfileRole').style.color = '#2563eb';
+                        document.getElementById('topProfileRole').style.fontWeight = '700';
+                    } else {
+                        badge.style.display = 'none';
+                        document.getElementById('topProfileRole').style.color = '#64748b';
+                        document.getElementById('topProfileRole').style.fontWeight = '400';
+                    }
+                });
+
+            } else {
+                alert("Akses ditolak. Harap Sign in atau Sign up terlebih dahulu!");
+                window.location.href = 'login.html';
+            }
+        });
+
+        // ==========================================
+        //  UPLOAD AVATAR
+        // ==========================================
+        const avatarInput = document.getElementById('avatarFileInput');
+        if (avatarInput) {
+            avatarInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    if (file.size > 500000) { 
+                        alert("File terlalu besar! Gunakan foto di bawah 500 KB.");
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const base64Image = e.target.result;
+                        db.ref('users/' + myCustomUid).update({
+                            avatarData: base64Image
+                        }).then(() => {
+                            alert("Foto profil berhasil diperbarui!");
+                            document.getElementById('avatarDisplay').innerHTML = `<img src="${base64Image}" alt="Profil">`;
+                            document.getElementById('miniNavbarAvatar').innerHTML = `<img src="${base64Image}" alt="Mini">`;
+                        }).catch((err) => {
+                            alert("Gagal mengunggah foto: " + err.message);
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // ==========================================
+        //  SAVE PROFIL
+        // ==========================================
+        window.saveProfil = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSaveProfil');
+            btn.disabled = true;
+            btn.innerText = "Menyimpan...";
+
+            const updatedData = {
+                name: document.getElementById('profNama').value.trim(),
+                bio: document.getElementById('profBio').value.trim(),
+                tglLahir: document.getElementById('profTglLahir').value
+            };
+
+            db.ref('users/' + myCustomUid).update(updatedData)
+                .then(() => {
+                    alert("Informasi Profil Berhasil Disimpan!");
+                    document.getElementById('topProfileName').innerText = updatedData.name;
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fas fa-floppy-disk"></i> Simpan Perubahan`;
+                })
+                .catch((error) => {
+                    alert("Gagal update profil: " + error.message);
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="fas fa-floppy-disk"></i> Simpan Perubahan`;
+                });
+        };
+
+        // ==========================================
+        //  SAVE EMAIL
+        // ==========================================
+        window.saveEmail = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSaveEmail');
+            const newEmail = document.getElementById('emailBaru').value.trim();
+            const user = auth.currentUser;
+
+            btn.disabled = true;
+            btn.innerText = "Memproses...";
+
+            if (user) {
+                user.updateEmail(newEmail)
+                    .then(() => {
+                        db.ref('users/' + myCustomUid).update({ email: newEmail })
+                            .then(() => {
+                                alert("Alamat email akun berhasil diubah!");
+                                document.getElementById('emailBaru').value = '';
+                                btn.disabled = false;
+                                btn.innerHTML = `<i class="fas fa-rotate"></i> Ganti Email`;
+                            });
+                    })
+                    .catch((error) => {
+                        alert("Gagal menganti email! Sesi sensitif harap login kembali.\nError: " + error.message);
+                        btn.disabled = false;
+                        btn.innerHTML = `<i class="fas fa-rotate"></i> Ganti Email`;
+                    });
+            }
+        };
+
+        // ==========================================
+        //  SAVE PASSWORD
+        // ==========================================
+        window.savePassword = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnSavePassword');
+            const newPw = document.getElementById('pwBaru').value;
+            const confirmPw = document.getElementById('pwKonfirmasi').value;
+            const user = auth.currentUser;
+
+            if (newPw !== confirmPw) {
+                alert("Sandi baru dan Konfirmasi Sandi tidak cocok!");
+                return;
+            }
+            if (newPw.length < 6) {
+                alert("Kata sandi terlalu pendek! Minimal 6 karakter.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Mengubah...";
+
+            if (user) {
+                user.updatePassword(newPw)
+                    .then(() => {
+                        alert("Kata sandi akun berhasil diperbarui!");
+                        document.getElementById('pwBaru').value = '';
+                        document.getElementById('pwKonfirmasi').value = '';
+                        btn.disabled = false;
+                        btn.innerHTML = `<i class="fas fa-shield-check"></i> Ganti Kata Sandi`;
+                    })
+                    .catch((error) => {
+                        alert("Gagal ubah sandi! Sesi sensitif harap login kembali.\nError: " + error.message);
+                        btn.disabled = false;
+                        btn.innerHTML = `<i class="fas fa-shield-check"></i> Ganti Kata Sandi`;
+                    });
+            }
+        };
+
+        // ==========================================
+        //  LOGOUT
+        // ==========================================
+        const logoutBtn = document.getElementById('btnLogoutAction');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                auth.signOut().then(() => {
+                    localStorage.removeItem('userSession');
+                    alert("Sesi berakhir. Keluar dari akun Class Battle.");
+                    window.location.href = 'index.html';
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

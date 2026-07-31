@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Star Tools | Autentikasi Akun</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .auth-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 24px;
+            padding: 36px 32px;
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        .auth-logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #0f172a;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            cursor: pointer;
+        }
+        .auth-logo i { color: #2563eb; }
+        .auth-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+        .auth-header p {
+            font-size: 0.88rem;
+            color: #64748b;
+            margin-bottom: 28px;
+        }
+        .auth-tabs {
+            display: flex;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 30px;
+            margin-bottom: 24px;
+        }
+        .auth-tab-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .auth-tab-btn.active {
+            background: #ffffff;
+            color: #2563eb;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+        .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        .input-wrapper input {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 12px 16px 12px 44px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: #0f172a;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .input-wrapper input:focus {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+        }
+        .btn-submit {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .btn-submit:hover { background: #1d4ed8; }
+        .divider {
+            margin: 24px 0;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .divider:not(:empty)::before { margin-right: .75em; }
+        .divider:not(:empty)::after { margin-left: .75em; }
+        .btn-guest {
+            width: 100%;
+            background: #ffffff;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            padding: 11px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 40px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn-guest:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+        .back-home {
+            margin-top: 24px;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+        .back-home:hover { color: #2563eb; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-logo" onclick="location.href='index.html'">
+            <i class="fas fa-layer-group"></i>
+            <span>Star Tools</span>
+        </div>
+        <div class="auth-header">
+            <h2 id="authTitle">Selamat Datang Kembali</h2>
+            <p id="authDesc">Masuk untuk mengakses room kuis dan track skor kelas.</p>
+        </div>
+        <div class="auth-tabs">
+            <button class="auth-tab-btn active" id="tabSignIn">Sign In</button>
+            <button class="auth-tab-btn" id="tabSignUp">Sign Up</button>
+        </div>
+        <form id="authForm" onsubmit="handleAuthSubmit(event)">
+            <div class="form-group" id="usernameField" style="display: none;">
+                <label for="inputUsername">Username</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="inputUsername" placeholder="Masukkan username unik">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail">Alamat Email</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="inputEmail" placeholder="nama@sekolah.com" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPassword">Kata Sandi</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="inputPassword" placeholder="••••••••" required>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit" id="btnSubmitForm">Masuk Sekarang</button>
+        </form>
+        <div class="divider">atau pakai akses cepat</div>
+        <button class="btn-guest" id="btnGuestAction"><i class="fas fa-user-ninja"></i> Masuk Sebagai Guest</button>
+        <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCBVjPohvfPZYs8DfGtzEdi5j4Svb3UvLI",
+            authDomain: "class-battle-19f8c.firebaseapp.com",
+            databaseURL: "https://class-battle-19f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "class-battle-19f8c",
+            storageBucket: "class-battle-19f8c.firebasestorage.app",
+            messagingSenderId: "586414902582",
+            appId: "1:586414902582:web:1fb3398c53c8d8e8d0b797",
+            measurementId: "G-ZKTK9S7LVS"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        const tabSignIn = document.getElementById('tabSignIn');
+        const tabSignUp = document.getElementById('tabSignUp');
+        const usernameField = document.getElementById('usernameField');
+        const authTitle = document.getElementById('authTitle');
+        const authDesc = document.getElementById('authDesc');
+        const btnSubmitForm = document.getElementById('btnSubmitForm');
+        const inputUsername = document.getElementById('inputUsername');
+
+        let isSignUpMode = false;
+
+        tabSignIn.addEventListener('click', () => {
+            isSignUpMode = false;
+            tabSignIn.classList.add('active');
+            tabSignUp.classList.remove('active');
+            usernameField.style.display = 'none';
+            inputUsername.removeAttribute('required');
+            authTitle.innerText = "Selamat Datang Kembali";
+            authDesc.innerText = "Masuk untuk mengakses room kuis dan track skor kelas.";
+            btnSubmitForm.innerText = "Masuk Sekarang";
+        });
+
+        tabSignUp.addEventListener('click', () => {
+            isSignUpMode = true;
+            tabSignUp.classList.add('active');
+            tabSignIn.classList.remove('active');
+            usernameField.style.display = 'block';
+            inputUsername.setAttribute('required', 'required');
+            authTitle.innerText = "Daftar Akun Baru";
+            authDesc.innerText = "Buat akun Star Tools milikmu secara gratis sekarang.";
+            btnSubmitForm.innerText = "Buat Akun Baru";
+        });
+
+        // =====================================================
+        //  GENERATE UID 8 DIGIT ANGKA ACAK (FIXED!)
+        // =====================================================
+        function generateNumericUID() {
+            let uid = '';
+            uid += Math.floor(Math.random() * 9) + 1;
+            for (let i = 0; i < 7; i++) {
+                uid += Math.floor(Math.random() * 10);
+            }
+            return uid;
+        }
+
+        // =====================================================
+        //  CEK APAKAH UID SUDAH TERPAKAI DI DATABASE
+        // =====================================================
+        function isUIDAvailable(uid) {
+            return new Promise((resolve) => {
+                db.ref('users').orderByChild('uid').equalTo(uid).once('value', (snapshot) => {
+                    resolve(!snapshot.exists());
+                });
+            });
+        }
+
+        // =====================================================
+        //  GENERATE UID UNIK YANG BELUM TERPAKAI
+        // =====================================================
+        async function generateUniqueUID() {
+            let uid;
+            let available = false;
+            let attempts = 0;
+            while (!available && attempts < 50) {
+                uid = generateNumericUID();
+                available = await isUIDAvailable(uid);
+                attempts++;
+            }
+            return uid;
+        }
+
+        // =====================================================
+        //  ENGINE UTAMA PROSES REGISTER & LOGIN REAL
+        // =====================================================
+        window.handleAuthSubmit = function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('inputEmail').value.trim();
+            const password = document.getElementById('inputPassword').value;
+
+            btnSubmitForm.disabled = true;
+            btnSubmitForm.innerText = "Memproses...";
+
+            if (isSignUpMode) {
+                const username = inputUsername.value.trim();
+
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then(async (userCredential) => {
+                        const user = userCredential.user;
+                        
+                        // Generate UID 8 digit angka UNIK
+                        const customUID = await generateUniqueUID();
+                        
+                        const userProfile = {
+                            uid: customUID,  // <-- PAKAI UID 8 DIGIT ANGKA!
+                            name: username,
+                            email: email,
+                            role: "Member",
+                            bio: "",
+                            tglLahir: "",
+                            firebaseUID: user.uid // simpan juga Firebase UID asli buat referensi
+                        };
+
+                        // Simpan ke path 'users/CUSTOM_UID' biar UID-nya angka 8 digit
+                        await db.ref('users/' + customUID).set(userProfile);
+                        
+                        // Simpen juga mapping dari firebaseUID ke customUID biar gampang dicari
+                        await db.ref('uid_mapping/' + user.uid).set(customUID);
+                        
+                        userProfile.isLogged = true;
+                        localStorage.setItem('userSession', JSON.stringify(userProfile));
+                        
+                        alert(`Akun @${username} Berhasil Dibuat! UID: ${customUID}`);
+                        window.location.href = 'index.html';
+                    })
+                    .catch((error) => {
+                        alert("Gagal membuat akun: " + error.message);
+                        resetSubmitButton();
+                    });
+
+            } else {
+                // ─── LOGIKA LOGIN AKUN (SIGN IN) ───
+                auth.signInWithEmailAndPassword(email, password)
+                    .then(async (userCredential) => {
+                        const user = userCredential.user;
+
+                        // Cari customUID dari mapping dulu
+                        const mappingSnap = await db.ref('uid_mapping/' + user.uid).once('value');
+                        let customUID = mappingSnap.val();
+                        
+                        let sessionPayload = {};
+                        
+                        if (customUID) {
+                            // Ambil data pake customUID
+                            const userSnap = await db.ref('users/' + customUID).once('value');
+                            if (userSnap.exists()) {
+                                sessionPayload = userSnap.val();
+                            }
+                        } else {
+                            // Fallback: cari berdasarkan email
+                            const userSnap = await db.ref('users').orderByChild('email').equalTo(email).once('value');
+                            if (userSnap.exists()) {
+                                const entries = Object.entries(userSnap.val());
+                                sessionPayload = entries[0][1];
+                            }
+                        }
+                        
+                        if (!sessionPayload || !sessionPayload.uid) {
+                            // Backup plan: bikin UID baru
+                            const newUID = await generateUniqueUID();
+                            sessionPayload = {
+                                uid: newUID,
+                                name: email.split('@')[0],
+                                email: email,
+                                role: "Member"
+                            };
+                            await db.ref('users/' + newUID).set(sessionPayload);
+                            await db.ref('uid_mapping/' + user.uid).set(newUID);
+                        }
+                        
+                        sessionPayload.isLogged = true;
+                        localStorage.setItem('userSession', JSON.stringify(sessionPayload));
+
+                        alert("Login Berhasil! Selamat datang, " + sessionPayload.name);
+                        window.location.href = 'index.html';
+                    })
+                    .catch((error) => {
+                        alert("Login Gagal! Periksa email dan password kembali.\nError: " + error.message);
+                        resetSubmitButton();
+                    });
+            }
+        };
+
+        function resetSubmitButton() {
+            btnSubmitForm.disabled = false;
+            btnSubmitForm.innerText = isSignUpMode ? "Buat Akun Baru" : "Masuk Sekarang";
+        }
+
+        // =====================================================
+        //  HANDLER MASUK SEBAGAI GUEST
+        // =====================================================
+        document.getElementById('btnGuestAction').addEventListener('click', async () => {
+            const guestUID = await generateUniqueUID();
+            const guestData = {
+                uid: guestUID,
+                name: "Guest_Star",
+                email: "guest@startools.net",
+                role: "Guest Player",
+                isLogged: true
+            };
+            localStorage.setItem('userSession', JSON.stringify(guestData));
+            alert("Masuk sebagai Penjelajah Sementara (Guest). UID: " + guestUID);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

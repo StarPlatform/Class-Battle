@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Class Battle | Arena Pertandingan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f5f7fb; color: #1e293b; min-height: 100vh; display: flex; flex-direction: column; padding: 16px; }
+        .quiz-card { background: white; max-width: 500px; width: 100%; margin: auto; border-radius: 24px; padding: 24px; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.85rem; font-weight: 600; color: #64748b; }
+        .score-live-badge { background: #eef2ff; color: #4f46e5; padding: 4px 12px; border-radius: 20px; }
+        
+        .progress-bar-bg { background: #e2e8f0; height: 6px; border-radius: 10px; width: 100%; margin-bottom: 24px; overflow: hidden; }
+        .progress-bar-fill { background: #4f46e5; height: 100%; width: 0%; transition: width 0.3s ease; }
+        
+        .question-text { font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 24px; line-height: 1.4; }
+        .options-container { display: flex; flex-direction: column; gap: 12px; }
+        
+        .option-btn { width: 100%; padding: 14px 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; text-align: left; font-size: 0.95rem; font-weight: 500; color: #334155; cursor: pointer; transition: all 0.15s ease; outline: none; }
+        .option-btn:hover { background: #eef2ff; border-color: #cbd5e1; color: #4f46e5; }
+        
+        .finish-view { text-align: center; padding: 20px 0; }
+        .finish-view i { font-size: 3.5rem; color: #10b981; margin-bottom: 16px; }
+        .finish-view h2 { font-size: 1.4rem; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-card">
+    <div id="gameView">
+        <div class="quiz-header">
+            <span id="questionNumberIndicator">Pertanyaan 1/5</span>
+            <span class="score-live-badge"><i class="fas fa-star"></i> <span id="liveScoreText">0</span> Pts</span>
+        </div>
+        
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+
+        <p class="question-text" id="questionField">Memuat pertanyaan arena pertarungan...</p>
+
+        <div class="options-container" id="optionsBox">
+            </div>
+    </div>
+
+    <div id="finishView" style="display: none;" class="finish-view">
+        <i class="fas fa-circle-check"></i>
+        <h2>Pertandingan Selesai!</h2>
+        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 20px;">Kerja bagus, jawabanmu berhasil direkam masuk server.</p>
+        
+        <div style="background: #f8fafc; padding: 16px; border-radius: 16px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+            <span style="font-size: 0.8rem; font-weight: 600; color: #64748b; text-transform: uppercase;">Skor Akhir Kamu</span>
+            <h1 style="font-size: 2.2rem; color: #4f46e5; font-weight: 800; margin-top: 4px;" id="finalScoreText">0</h1>
+        </div>
+        <p style="font-size: 0.85rem; color: #94a3b8;">Pantau layar proyektor laptop gurumu untuk melihat posisi peringkat akhir kelasmu.</p>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCBVjPohvfPZYs8DfPtzEdi5j4Svb3UvLI",
+        authDomain: "class-battle-19f8c.firebaseapp.com",
+        databaseURL: "https://class-battle-19f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "class-battle-19f8c"
+    };
+
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const activePin = localStorage.getItem('star_battle_pin');
+    const myPlayerKey = localStorage.getItem('star_battle_key');
+
+    let quizData = [];
+    let currentQuestionIdx = 0;
+    let currentScore = 0;
+
+    function fetchQuizBundle() {
+        if (!activePin || !myPlayerKey) {
+            alert("Sesi kamu hilang! Kembali ke halaman masuk.");
+            window.location.href = "player.html";
+            return;
+        }
+
+        // Ambil info Quiz ID dari room aktif
+        db.ref(`rooms/${activePin}`).once('value').then((roomSnap) => {
+            if (!roomSnap.exists()) return;
+            const quizId = roomSnap.val().quizId;
+
+            // Tarik bank soalnya dari hub utama
+            db.ref(`quiz_hub/${quizId}/questions`).once('value').then((quizSnap) => {
+                if (quizSnap.exists()) {
+                    quizData = quizSnap.val();
+                    showQuestion();
+                } else {
+                    alert("Gagal memuat bank soal kuis!");
+                }
+            });
+        });
+    }
+
+    function showQuestion() {
+        if (currentQuestionIdx >= quizData.length) {
+            finishQuizSession();
+            return;
+        }
+
+        const q = quizData[currentQuestionIdx];
+
+        // Render Teks Soal (BUG LAMA: nyari id 'questionText', padahal di HTML id-nya 'questionField')
+        const qTextEl = document.getElementById('questionField');
+        if (qTextEl) qTextEl.innerText = q.q;
+
+        // Render nomor soal & progress bar
+        const numIndicator = document.getElementById('questionNumberIndicator');
+        if (numIndicator) numIndicator.innerText = `Pertanyaan ${currentQuestionIdx + 1}/${quizData.length}`;
+
+        const progressFill = document.getElementById('progressFill');
+        if (progressFill) progressFill.style.width = `${(currentQuestionIdx / quizData.length) * 100}%`;
+
+        // Render Pilihan Jawaban (A, B, C, D)
+        // BUG LAMA: kode nyari elemen #opt0-#opt3 yang gak pernah dibikin di HTML, jadi soal keliatan kosong terus
+        const optionsBox = document.getElementById('optionsBox');
+        if (optionsBox) {
+            optionsBox.innerHTML = '';
+            q.options.forEach((optText, i) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'option-btn';
+                btn.innerText = optText;
+                btn.addEventListener('click', () => handleAnswerSelection(i, btn));
+                optionsBox.appendChild(btn);
+            });
+        }
+    }
+
+    function handleAnswerSelection(selectedIndex, clickedBtn) {
+        const q = quizData[currentQuestionIdx];
+        const isCorrect = selectedIndex === q.a;
+
+        // Kunci semua tombol biar gak bisa diklik dobel sambil nunggu update ke server
+        const allButtons = document.querySelectorAll('#optionsBox .option-btn');
+        allButtons.forEach(b => b.disabled = true);
+
+        // Kasih warna feedback: hijau kalau bener, merah kalau salah
+        if (clickedBtn) {
+            clickedBtn.style.background = isCorrect ? '#dcfce7' : '#fee2e2';
+            clickedBtn.style.borderColor = isCorrect ? '#22c55e' : '#ef4444';
+            clickedBtn.style.color = isCorrect ? '#15803d' : '#b91c1c';
+        }
+
+        // Aturan poin: Benar +100, Salah +0
+        if (isCorrect) {
+            currentScore += 100;
+            const liveScoreText = document.getElementById('liveScoreText');
+            if (liveScoreText) liveScoreText.innerText = currentScore;
+        }
+
+        // LOGIKA REALTIME SINKRONISASI: Suntik skor baru ke firebase saat itu juga
+        db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
+            score: currentScore
+        }).then(() => {
+            setTimeout(() => {
+                currentQuestionIdx++;
+                showQuestion();
+            }, 500);
+        }).catch(() => {
+            // Pengaman offline lokal tetap jalan
+            setTimeout(() => {
+                currentQuestionIdx++;
+                showQuestion();
+            }, 500);
+        });
+    }
+
+    function finishQuizSession() {
+        if (document.getElementById('gameView')) document.getElementById('gameView').style.display = 'none';
+        if (document.getElementById('finishView')) document.getElementById('finishView').style.display = 'block';
+        if (document.getElementById('finalScoreText')) document.getElementById('finalScoreText').innerText = currentScore;
+
+        // Laporkan ke database guru bahwa murid ini berstatus "Selesai"
+        db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
+            status: "Selesai"
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchQuizBundle);
+</script>
+
+</body>
+</html>

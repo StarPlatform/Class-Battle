@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Class Battle | Teman</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header { background: #ffffff; border-bottom: 1px solid #e2e8f0; }
+        .navbar { max-width: 1000px; margin: 0 auto; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 700; font-size: 1.2rem; color: #0f172a; display: flex; align-items: center; gap: 6px; cursor: pointer; text-decoration: none; }
+        .logo i { color: #2563eb; }
+        .nav-right a { text-decoration: none; font-size: 0.9rem; font-weight: 500; color: #475569; display: inline-flex; align-items: center; gap: 6px; }
+        .nav-right a:hover { color: #2563eb; }
+
+        main { max-width: 1000px; width: 100%; margin: 0 auto; padding: 32px 24px 60px; flex: 1; }
+
+        .page-title { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+        .page-subtitle { font-size: 0.9rem; color: #64748b; margin-bottom: 28px; }
+
+        .locked-box { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 48px 24px; text-align: center; }
+        .locked-box i { font-size: 2.2rem; color: #94a3b8; margin-bottom: 12px; }
+        .locked-box p { color: #475569; margin-bottom: 20px; }
+        .btn-primary { background: #2563eb; color: #fff; border: none; padding: 10px 24px; border-radius: 40px; font-weight: 600; font-size: 0.9rem; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: #1d4ed8; }
+
+        .grid-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
+        @media (max-width: 780px) { .grid-layout { grid-template-columns: 1fr; } }
+
+        .panel { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 22px; margin-bottom: 20px; }
+        .panel h2 { font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .panel h2 i { color: #2563eb; font-size: 0.95rem; }
+        .panel-desc { font-size: 0.82rem; color: #64748b; margin-bottom: 16px; }
+
+        .search-wrapper { position: relative; margin-bottom: 14px; }
+        .search-wrapper i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 0.9rem; }
+        .search-wrapper input {
+            width: 100%; padding: 10px 14px 10px 38px; border: 1px solid #e2e8f0; border-radius: 40px;
+            background: #f8fafc; font-family: inherit; font-size: 0.88rem; outline: none;
+        }
+        .search-wrapper input:focus { border-color: #2563eb; background: #fff; }
+
+        .person-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+        .person-row:last-child { border-bottom: none; }
+        .avatar-circle {
+            width: 38px; height: 38px; border-radius: 50%; background: #2563eb; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem;
+            flex-shrink: 0; overflow: hidden;
+        }
+        .avatar-circle img { width: 100%; height: 100%; object-fit: cover; }
+        .person-name { font-weight: 600; font-size: 0.9rem; color: #0f172a; }
+        .person-sub { font-size: 0.75rem; color: #94a3b8; }
+        .person-info { flex: 1; min-width: 0; }
+
+        .btn-sm { border: none; padding: 6px 14px; border-radius: 40px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .btn-add { background: #eef2ff; color: #1e40af; }
+        .btn-add:hover { background: #e0e7ff; }
+        .btn-add:disabled { background: #f1f5f9; color: #94a3b8; cursor: not-allowed; }
+        .btn-accept { background: #dcfce7; color: #15803d; margin-right: 6px; }
+        .btn-accept:hover { background: #bbf7d0; }
+        .btn-reject { background: #fee2e2; color: #b91c1c; }
+        .btn-reject:hover { background: #fecaca; }
+        .btn-remove { background: #f1f5f9; color: #64748b; }
+        .btn-remove:hover { background: #e2e8f0; }
+
+        .empty-hint { text-align: center; color: #94a3b8; font-size: 0.85rem; padding: 20px 0; }
+
+        .req-badge {
+            background: #ef4444; color: #fff; font-size: 0.65rem; font-weight: 700;
+            border-radius: 20px; padding: 1px 7px; margin-left: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <a href="index.html" class="logo"><i class="fas fa-layer-group"></i> Class Battle</a>
+        <div class="nav-right">
+            <a href="index.html"><i class="fas fa-home"></i> Beranda</a>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="page-title">Teman</div>
+    <div class="page-subtitle">Cari, tambah, dan kelola temanmu di Class Battle.</div>
+
+    <div id="lockedState" class="locked-box" style="display:none;">
+        <i class="fas fa-user-lock"></i>
+        <p>Fitur pertemanan cuma bisa dipakai kalau kamu login pakai akun terdaftar (bukan Guest).</p>
+        <a href="login.html" class="btn-primary">Login / Daftar Akun</a>
+    </div>
+
+    <div id="mainState" style="display:none;">
+        <div class="grid-layout">
+            <div>
+                <div class="panel">
+                    <h2><i class="fas fa-magnifying-glass"></i> Cari Teman</h2>
+                    <p class="panel-desc">Ketik nama untuk cari pengguna lain.</p>
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Cari nama teman...">
+                    </div>
+                    <div id="searchResults"><div class="empty-hint">Mulai ketik nama untuk mencari.</div></div>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <h2><i class="fas fa-user-plus"></i> Permintaan Masuk <span id="reqCountBadge"></span></h2>
+                    <p class="panel-desc">Terima atau tolak permintaan pertemanan.</p>
+                    <div id="requestList"><div class="empty-hint">Belum ada permintaan masuk.</div></div>
+                </div>
+
+                <div class="panel">
+                    <h2><i class="fas fa-user-group"></i> Daftar Teman</h2>
+                    <p class="panel-desc">Teman yang sudah kamu konfirmasi.</p>
+                    <div id="friendList"><div class="empty-hint">Belum ada teman. Yuk cari dan tambah teman dulu!</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCBVjPohvfPZYs8DfGtzEdi5j4Svb3UvLI",
+        authDomain: "class-battle-19f8c.firebaseapp.com",
+        databaseURL: "https://class-battle-19f8c-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "class-battle-19f8c",
+        storageBucket: "class-battle-19f8c.firebasestorage.app",
+        messagingSenderId: "586414902582",
+        appId: "1:586414902582:web:1fb3398c53c8d8e8d0b797",
+        measurementId: "G-ZKTK9S7LVS"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    function escapeHtml(str) {
+        return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
+    }
+
+    // =====================================================
+    //  VARIABEL UTAMA - PAKAI CUSTOM UID (8 DIGIT ANGKA)
+    // =====================================================
+    let myCustomUid = null;      // UID 8 digit angka dari database
+    let myFirebaseUid = null;   // UID dari Firebase Auth (buat fallback)
+    let myName = "";
+    let allUsersCache = {};
+    let myFriendsSet = new Set();
+    let pendingOutgoing = new Set();
+    let incomingRequests = {};
+
+    function avatarCircleHtml(name, avatarData) {
+        if (avatarData) {
+            return `<img src="${avatarData}" alt="avatar">`;
+        }
+        const initial = (name || "?").charAt(0).toUpperCase();
+        return initial;
+    }
+
+    // =====================================================
+    //  AMBIL CUSTOM UID DARI DATABASE
+    // =====================================================
+    async function getMyCustomUid(firebaseUid) {
+        // Cek dari mapping dulu
+        const mappingSnap = await db.ref('uid_mapping/' + firebaseUid).once('value');
+        let customUid = mappingSnap.val();
+        
+        if (customUid) {
+            return customUid;
+        }
+
+        // Fallback: cari dari data user berdasarkan firebaseUid
+        const userSnap = await db.ref('users').orderByChild('firebaseUID').equalTo(firebaseUid).once('value');
+        if (userSnap.exists()) {
+            const entries = Object.entries(userSnap.val());
+            const userData = entries[0][1];
+            if (userData && userData.uid) {
+                // Simpen mapping biar next time lebih cepet
+                await db.ref('uid_mapping/' + firebaseUid).set(userData.uid);
+                return userData.uid;
+            }
+        }
+
+        return null;
+    }
+
+    // =====================================================
+    //  AUTH STATE
+    // =====================================================
+    auth.onAuthStateChanged(async (user) => {
+        const locked = document.getElementById('lockedState');
+        const mainState = document.getElementById('mainState');
+
+        if (!user) {
+            locked.style.display = 'block';
+            mainState.style.display = 'none';
+            return;
+        }
+
+        myFirebaseUid = user.uid;
+        locked.style.display = 'none';
+        mainState.style.display = 'block';
+
+        // Ambil Custom UID
+        myCustomUid = await getMyCustomUid(myFirebaseUid);
+
+        if (!myCustomUid) {
+            alert("Gagal mendapatkan UID. Coba login ulang.");
+            return;
+        }
+
+        // Ambil nama user
+        const userSnap = await db.ref('users/' + myCustomUid).once('value');
+        const userData = userSnap.val() || {};
+        myName = userData.name || user.email.split('@')[0];
+
+        // Load semua user & listener
+        loadAllUsers();
+        listenIncomingRequests();
+        listenMyFriends();
+    });
+
+    // ==========================================
+    // 1. AMBIL SEMUA USER
+    // ==========================================
+    function loadAllUsers() {
+        db.ref('users').once('value').then((snap) => {
+            allUsersCache = snap.val() || {};
+        });
+    }
+
+    // ==========================================
+    // 2. PERMINTAAN MASUK (PAKAI CUSTOM UID)
+    // ==========================================
+    function listenIncomingRequests() {
+        if (!myCustomUid) return;
+        db.ref('friend_requests/' + myCustomUid).on('value', (snap) => {
+            incomingRequests = snap.val() || {};
+            renderRequestList();
+            renderSearchResults();
+        });
+    }
+
+    function renderRequestList() {
+        const box = document.getElementById('requestList');
+        const badge = document.getElementById('reqCountBadge');
+        const keys = Object.keys(incomingRequests);
+
+        badge.innerHTML = keys.length > 0 ? `<span class="req-badge">${keys.length}</span>` : '';
+
+        if (keys.length === 0) {
+            box.innerHTML = '<div class="empty-hint">Belum ada permintaan masuk.</div>';
+            return;
+        }
+
+        box.innerHTML = keys.map((fromUid) => {
+            const req = incomingRequests[fromUid];
+            return `
+                <div class="person-row">
+                    <div class="avatar-circle">${avatarCircleHtml(req.name, req.avatar)}</div>
+                    <div class="person-info">
+                        <div class="person-name">${escapeHtml(req.name)}</div>
+                        <div class="person-sub">Ingin berteman denganmu</div>
+                    </div>
+                    <button class="btn-sm btn-accept" data-uid="${fromUid}">Terima</button>
+                    <button class="btn-sm btn-reject" data-uid="${fromUid}">Tolak</button>
+                </div>
+            `;
+        }).join('');
+
+        box.querySelectorAll('.btn-accept').forEach(btn => {
+            btn.addEventListener('click', () => acceptRequest(btn.dataset.uid));
+        });
+        box.querySelectorAll('.btn-reject').forEach(btn => {
+            btn.addEventListener('click', () => rejectRequest(btn.dataset.uid));
+        });
+    }
+
+    function acceptRequest(fromUid) {
+        const req = incomingRequests[fromUid];
+        if (!req || !myCustomUid) return;
+
+        Promise.all([
+            db.ref(`friends/${myCustomUid}/${fromUid}`).set(true),
+            db.ref(`friends/${fromUid}/${myCustomUid}`).set(true)
+        ]).then(() => {
+            return db.ref(`friend_requests/${myCustomUid}/${fromUid}`).remove();
+        }).catch(err => alert("Gagal menerima permintaan: " + err.message));
+    }
+
+    function rejectRequest(fromUid) {
+        if (!myCustomUid) return;
+        db.ref(`friend_requests/${myCustomUid}/${fromUid}`).remove()
+            .catch(err => alert("Gagal menolak permintaan: " + err.message));
+    }
+
+    // ==========================================
+    // 3. DAFTAR TEMAN (PAKAI CUSTOM UID)
+    // ==========================================
+    function listenMyFriends() {
+        if (!myCustomUid) return;
+        db.ref('friends/' + myCustomUid).on('value', (snap) => {
+            const data = snap.val() || {};
+            myFriendsSet = new Set(Object.keys(data));
+            renderFriendList();
+            renderSearchResults();
+        });
+    }
+
+    function renderFriendList() {
+        const box = document.getElementById('friendList');
+        const uids = Array.from(myFriendsSet);
+
+        if (uids.length === 0) {
+            box.innerHTML = '<div class="empty-hint">Belum ada teman. Yuk cari dan tambah teman dulu!</div>';
+            return;
+        }
+
+        Promise.all(uids.map(uid => db.ref('users/' + uid).once('value'))).then((snaps) => {
+            box.innerHTML = snaps.map((s, i) => {
+                const uid = uids[i];
+                const data = s.val() || {};
+                const name = data.name || "Pengguna";
+                return `
+                    <div class="person-row">
+                        <div class="avatar-circle">${avatarCircleHtml(name, data.avatarData)}</div>
+                        <div class="person-info">
+                            <div class="person-name">${escapeHtml(name)}</div>
+                            <div class="person-sub">Teman</div>
+                        </div>
+                        <button class="btn-sm btn-remove" data-uid="${uid}">Hapus</button>
+                    </div>
+                `;
+            }).join('');
+
+            box.querySelectorAll('.btn-remove').forEach(btn => {
+                btn.addEventListener('click', () => removeFriend(btn.dataset.uid));
+            });
+        });
+    }
+
+    function removeFriend(friendUid) {
+        if (!myCustomUid) return;
+        if (!confirm("Hapus teman ini dari daftar?")) return;
+        Promise.all([
+            db.ref(`friends/${myCustomUid}/${friendUid}`).remove(),
+            db.ref(`friends/${friendUid}/${myCustomUid}`).remove()
+        ]).catch(err => alert("Gagal menghapus teman: " + err.message));
+    }
+
+    // ==========================================
+    // 4. PENCARIAN & KIRIM PERMINTAAN
+    // ==========================================
+    let lastSearchTerm = "";
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+        lastSearchTerm = e.target.value.trim().toLowerCase();
+        renderSearchResults();
+    });
+
+    function renderSearchResults() {
+        const box = document.getElementById('searchResults');
+
+        if (!lastSearchTerm) {
+            box.innerHTML = '<div class="empty-hint">Mulai ketik nama untuk mencari.</div>';
+            return;
+        }
+
+        const matches = Object.entries(allUsersCache).filter(([uid, data]) => {
+            if (uid === myCustomUid) return false;
+            const name = (data.name || "").toLowerCase();
+            return name.includes(lastSearchTerm);
+        }).slice(0, 20);
+
+        if (matches.length === 0) {
+            box.innerHTML = '<div class="empty-hint">Gak ketemu pengguna dengan nama itu.</div>';
+            return;
+        }
+
+        box.innerHTML = matches.map(([uid, data]) => {
+            const name = data.name || "Pengguna";
+            let btnHtml;
+            if (myFriendsSet.has(uid)) {
+                btnHtml = `<button class="btn-sm btn-add" disabled>Sudah Teman</button>`;
+            } else if (pendingOutgoing.has(uid)) {
+                btnHtml = `<button class="btn-sm btn-add" disabled>Terkirim</button>`;
+            } else {
+                btnHtml = `<button class="btn-sm btn-add" data-uid="${uid}" data-name="${escapeHtml(name)}">Tambah</button>`;
+            }
+            return `
+                <div class="person-row">
+                    <div class="avatar-circle">${avatarCircleHtml(name, data.avatarData)}</div>
+                    <div class="person-info">
+                        <div class="person-name">${escapeHtml(name)}</div>
+                        <div class="person-sub">${escapeHtml(data.role || 'Member')}</div>
+                    </div>
+                    ${btnHtml}
+                </div>
+            `;
+        }).join('');
+
+        box.querySelectorAll('.btn-add').forEach(btn => {
+            btn.addEventListener('click', () => sendFriendRequest(btn.dataset.uid, btn.dataset.name));
+        });
+    }
+
+    function sendFriendRequest(targetUid, targetName) {
+        if (!myCustomUid || !targetUid) return;
+
+        // Cek dulu apakah targetUid ini valid (ada di database)
+        db.ref('users/' + targetUid).once('value').then((snap) => {
+            if (!snap.exists()) {
+                alert("Pengguna tidak ditemukan!");
+                return;
+            }
+            const targetData = snap.val();
+            return db.ref(`friend_requests/${targetUid}/${myCustomUid}`).set({
+                name: myName,
+                avatar: null, // nanti bisa ditambahin avatarData
+                time: Date.now()
+            });
+        }).then(() => {
+            pendingOutgoing.add(targetUid);
+            renderSearchResults();
+        }).catch(err => alert("Gagal mengirim permintaan: " + err.message));
+    }
+</script>
+
+</body>
+</html>
