@@ -3,180 +3,729 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Class Battle | Live Leaderboard Admin (Responsive)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Class Battle | Live Leaderboard Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
             font-family: 'Inter', sans-serif; 
-            background: #f5f7fb; 
+            background: #f0f2f5; 
             color: #0f172a; 
             min-height: 100vh; 
-            padding: 16px; /* Mengecilkan padding luar agar pas di HP */
-            overflow-x: hidden; /* Mencegah seluruh halaman meluber ke samping */
+            padding: 12px;
+            overflow-x: hidden;
         }
         
-        /* Kontainer dibuat dinamis mengikuti lebar device */
-        .arena-container { 
-            width: 100%;
-            max-width: 900px; 
-            margin: 20px auto; 
+        .app-container { 
+            max-width: 1000px; 
+            margin: 0 auto; 
         }
         
-        .arena-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid #e2e8f0; 
-            padding-bottom: 16px; 
-            margin-bottom: 20px; 
+        /* ========== HEADER ========== */
+        .app-header {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e8ecf1;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
             gap: 12px;
         }
         
-        .arena-header h1 { 
-            font-size: 1.3rem; 
-            font-weight: 700; 
-            color: #4f46e5; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         
-        .pin-indicator { 
-            background: #eef2ff; 
-            color: #4f46e5; 
-            padding: 6px 14px; 
-            border-radius: 20px; 
-            font-weight: 700; 
-            font-size: 0.85rem; 
+        .header-left .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+        
+        .header-left h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .header-left h1 span {
+            font-weight: 400;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .pin-badge {
+            background: #eef2ff;
+            color: #4f46e5;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.8rem;
             border: 1px solid rgba(79, 70, 229, 0.15);
-            white-space: nowrap; /* Mencegah teks PIN terpotong jadi 2 baris */
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
-        /* Pembungkus Tabel Responsif Aman */
-        .table-responsive {
+        .pin-badge i {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        
+        .btn-back {
+            background: #f1f5f9;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        
+        .btn-back:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+        
+        .btn-stop {
+            background: #fee2e2;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #dc2626;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        
+        .btn-stop:hover {
+            background: #fecaca;
+            transform: scale(1.02);
+        }
+        
+        .btn-stop:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* ========== STATUS BAR ========== */
+        .status-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 12px 18px;
+            margin-bottom: 16px;
+            border: 1px solid #e8ecf1;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        
+        .status-item .num {
+            font-weight: 700;
+            color: #0f172a;
+            font-size: 1rem;
+        }
+        
+        .status-item .num.active {
+            color: #4f46e5;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .status-dot.live {
+            background: #22c55e;
+            animation: pulse-dot 1.5s infinite;
+        }
+        
+        .status-dot.ended {
+            background: #ef4444;
+        }
+        
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        
+        /* ========== TAB NAV ========== */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            background: white;
+            border-radius: 16px;
+            padding: 4px;
+            margin-bottom: 16px;
+            border: 1px solid #e8ecf1;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #94a3b8;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .tab-btn.active {
+            background: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        
+        /* ========== LEADERBOARD TABLE ========== */
+        .table-wrap {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e8ecf1;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .leaderboard-table {
             width: 100%;
-            overflow-x: hidden; /* Mematikan geser kanan-kiri */
-        }
-
-        .leaderboard-table { 
-            width: 100%; 
-            border-collapse: separate; 
-            border-spacing: 0 10px; 
-            margin-top: 5px; 
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.9rem;
         }
         
-        .leaderboard-table th { 
-            padding: 8px 12px; 
-            text-align: left; 
-            color: #64748b; 
-            font-size: 0.8rem; 
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
+        .leaderboard-table th {
+            padding: 14px 16px;
+            text-align: left;
+            color: #94a3b8;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            background: #f8fafc;
+            border-bottom: 1px solid #e8ecf1;
+            position: sticky;
+            top: 0;
+            z-index: 2;
         }
         
-        .leaderboard-row { 
-            background: #ffffff; 
-            border: 1px solid #e2e8f0; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
-            transition: all 0.2s ease; 
+        .leaderboard-table th:last-child {
+            text-align: right;
         }
         
-        .leaderboard-row td { 
-            padding: 12px 14px; 
-            font-size: 0.9rem; 
-            color: #334155; 
+        .leaderboard-table td {
+            padding: 12px 16px;
+            color: #334155;
+            border-bottom: 1px solid #f1f5f9;
             vertical-align: middle;
         }
         
-        .leaderboard-row td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; padding-left: 16px; }
-        .leaderboard-row td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; padding-right: 16px; text-align: right; }
-        
-        .leaderboard-row:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        .leaderboard-table td:last-child {
+            text-align: right;
+            font-weight: 700;
         }
         
-        /* Badge Posisi */
-        .rank-badge { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700; font-size: 0.85rem; }
+        .leaderboard-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .leaderboard-table tr:hover td {
+            background: #fafbfc;
+        }
+        
+        .rank-badge {
+            width: 30px;
+            height: 30px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+        
         .rank-1 { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
         .rank-2 { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
         .rank-3 { background: #ffedd5; color: #c2410c; border: 1px solid #fed7aa; }
         .rank-normal { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
-
-        /* Status Badge */
-        .status-done { 
-            background: #e6f7ec; 
-            color: #15803d; 
-            padding: 4px 10px; 
-            border-radius: 6px; 
-            font-size: 0.75rem; 
-            font-weight: 600; 
-            display: inline-flex;
+        
+        .player-cell {
+            display: flex;
             align-items: center;
-            gap: 4px;
-        }
-        .status-playing { 
-            background: #eff6ff; 
-            color: #1d4ed8; 
-            padding: 4px 10px; 
-            border-radius: 6px; 
-            font-size: 0.75rem; 
-            font-weight: 600; 
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            gap: 10px;
         }
         
-        .score-text { font-weight: 800; color: #0f172a; font-size: 1.05rem; }
-        .empty-state { text-align: center; padding: 50px 16px; color: #94a3b8; font-size: 0.9rem; }
-
-        /* MEDIA QUERY KHUSUS LAYAR HP (ANTI OVERFLOW) */
+        .player-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .player-avatar svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .player-name {
+            font-weight: 600;
+            color: #0f172a;
+        }
+        
+        .status-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+        
+        .status-tag.live {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+        
+        .status-tag.done {
+            background: #e6f7ec;
+            color: #15803d;
+        }
+        
+        .status-tag.waiting {
+            background: #fef3c7;
+            color: #b45309;
+        }
+        
+        .score-text {
+            font-weight: 800;
+            color: #4f46e5;
+            font-size: 1.05rem;
+        }
+        
+        /* ========== PLAYER DETAIL MODAL ========== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-card {
+            background: white;
+            border-radius: 28px;
+            max-width: 420px;
+            width: 100%;
+            padding: 32px 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #f1f5f9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+        
+        .modal-profile {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .modal-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #f1f5f9;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .modal-avatar svg {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .modal-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        
+        .modal-rank {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        
+        .modal-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        
+        .stat-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 14px 10px;
+            text-align: center;
+            border: 1px solid #e8ecf1;
+        }
+        
+        .stat-box .stat-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+        
+        .stat-box .stat-label {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        
+        .stat-box.green .stat-num { color: #22c55e; }
+        .stat-box.red .stat-num { color: #ef4444; }
+        .stat-box.blue .stat-num { color: #4f46e5; }
+        
+        /* ========== EMPTY STATE ========== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #94a3b8;
+        }
+        
+        .empty-state i {
+            font-size: 2.8rem;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+        
+        .empty-state p {
+            font-size: 0.95rem;
+        }
+        
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 600px) {
-            body { padding: 10px; }
-            .arena-container { margin: 10px auto; }
-            .arena-header { flex-direction: column; align-items: flex-start; gap: 8px; }
-            .arena-header h1 { font-size: 1.15rem; }
+            body { padding: 8px; }
             
-            /* Sempurnakan ukuran kolom agar hemat tempat di layar kecil */
-            .leaderboard-table th, .leaderboard-row td { padding: 10px 8px; font-size: 0.85rem; }
-            .leaderboard-row td:first-child { padding-left: 10px; }
-            .leaderboard-row td:last-child { padding-right: 10px; }
+            .app-header {
+                padding: 12px 16px;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
             
-            .score-text { font-size: 0.95rem; }
-            .status-done, .status-playing { padding: 4px 6px; font-size: 0.7rem; }
-            .status-done span, .status-playing span { display: none; } /* Menyembunyikan teks pelengkap jika terlalu sempit */
+            .header-left h1 {
+                font-size: 1rem;
+            }
+            
+            .header-left .icon {
+                width: 34px;
+                height: 34px;
+                font-size: 0.9rem;
+            }
+            
+            .header-right {
+                justify-content: space-between;
+            }
+            
+            .btn-back, .btn-stop {
+                font-size: 0.7rem;
+                padding: 6px 12px;
+            }
+            
+            .pin-badge {
+                font-size: 0.7rem;
+                padding: 4px 10px;
+            }
+            
+            .status-bar {
+                padding: 10px 14px;
+                gap: 4px;
+            }
+            
+            .status-item {
+                font-size: 0.75rem;
+            }
+            
+            .status-item .num {
+                font-size: 0.9rem;
+            }
+            
+            .tab-btn {
+                font-size: 0.7rem;
+                padding: 8px 6px;
+            }
+            
+            .tab-btn i {
+                font-size: 0.7rem;
+            }
+            
+            .leaderboard-table th,
+            .leaderboard-table td {
+                padding: 10px 10px;
+                font-size: 0.8rem;
+            }
+            
+            .player-name {
+                font-size: 0.8rem;
+            }
+            
+            .player-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
+            }
+            
+            .status-tag {
+                font-size: 0.6rem;
+                padding: 2px 8px;
+            }
+            
+            .score-text {
+                font-size: 0.9rem;
+            }
+            
+            .rank-badge {
+                width: 24px;
+                height: 24px;
+                font-size: 0.7rem;
+            }
+            
+            .modal-card {
+                padding: 24px 18px;
+            }
+            
+            .modal-stats {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+            
+            .stat-box .stat-num {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .status-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+            }
+            
+            .status-item {
+                justify-content: center;
+            }
+            
+            .header-right {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="arena-container">
-    <div class="arena-header">
-        <h1><i class="fas fa-trophy"></i> Monitor Pertandingan Live</h1>
-        <span class="pin-indicator" id="pinDisplay">PIN: ----</span>
+<div class="app-container">
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="icon"><i class="fas fa-trophy"></i></div>
+            <h1>Class Battle <span>| Live</span></h1>
+        </div>
+        <div class="header-right">
+            <span class="pin-badge"><i class="fas fa-key"></i> PIN: <span id="pinDisplay">----</span></span>
+            <button class="btn-back" id="btnBackHome"><i class="fas fa-arrow-left"></i> Kembali</button>
+            <button class="btn-stop" id="btnStopGame"><i class="fas fa-stop-circle"></i> Stop</button>
+        </div>
+    </header>
+
+    <!-- ===== STATUS BAR ===== -->
+    <div class="status-bar">
+        <span class="status-item">
+            <span class="status-dot live" id="statusDot"></span>
+            <span id="gameStatusText">Live</span>
+        </span>
+        <span class="status-item">
+            <i class="fas fa-users" style="color:#4f46e5;"></i>
+            <span class="num" id="totalPlayers">0</span> Pemain
+        </span>
+        <span class="status-item">
+            <i class="fas fa-check-circle" style="color:#22c55e;"></i>
+            <span class="num" id="doneCount">0</span> Selesai
+        </span>
+        <span class="status-item">
+            <i class="fas fa-spinner" style="color:#f59e0b;"></i>
+            <span class="num" id="liveCount">0</span> Aktif
+        </span>
     </div>
 
-    <div class="table-responsive">
-        <table class="leaderboard-table">
-            <thead>
-                <tr>
-                    <th style="width: 50px;">Pos</th>
-                    <th>Nama Pemain</th>
-                    <th style="width: 120px; text-align: center;">Status</th>
-                    <th style="width: 100px; text-align: right;">Skor</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboardLiveBody">
-                </tbody>
-        </table>
+    <!-- ===== TAB NAV ===== -->
+    <div class="tab-nav">
+        <button class="tab-btn active" data-tab="ranking"><i class="fas fa-list-ol"></i> Peringkat</button>
+        <button class="tab-btn" data-tab="players"><i class="fas fa-users"></i> Semua Pemain</button>
+        <button class="tab-btn" data-tab="stats"><i class="fas fa-chart-bar"></i> Statistik</button>
     </div>
-    
-    <div class="empty-state" id="noPlayersState" style="display: none;">
-        <i class="fas fa-user-clock" style="font-size: 2rem; margin-bottom: 12px; color: #cbd5e1;"></i>
-        <p>Menunggu murid mengirimkan data pergerakan nilai pertama mereka...</p>
+
+    <!-- ===== TABLE ===== -->
+    <div class="table-wrap">
+        <div class="table-scroll">
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th style="width:50px;">Rank</th>
+                        <th>Pemain</th>
+                        <th style="width:100px;text-align:center;">Status</th>
+                        <th style="width:80px;text-align:right;">Skor</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <i class="fas fa-user-clock"></i>
+                                <p>Menunggu data pemain masuk...</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODAL PLAYER DETAIL ===== -->
+<div class="modal-overlay" id="playerModal">
+    <div class="modal-card">
+        <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+        <div class="modal-profile">
+            <div class="modal-avatar" id="modalAvatar"></div>
+            <div class="modal-name" id="modalName">-</div>
+            <div class="modal-rank" id="modalRank">Peringkat #-</div>
+        </div>
+        <div class="modal-stats">
+            <div class="stat-box blue">
+                <div class="stat-num" id="modalScore">0</div>
+                <div class="stat-label">Skor</div>
+            </div>
+            <div class="stat-box green">
+                <div class="stat-num" id="modalCorrect">0</div>
+                <div class="stat-label">Benar</div>
+            </div>
+            <div class="stat-box red">
+                <div class="stat-num" id="modalWrong">0</div>
+                <div class="stat-label">Salah</div>
+            </div>
+        </div>
+        <div style="text-align:center;font-size:0.85rem;color:#94a3b8;">
+            Status: <span id="modalStatus" style="font-weight:600;">-</span>
+        </div>
     </div>
 </div>
 
@@ -184,6 +733,9 @@
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
 <script>
+    // ==========================================
+    // FIREBASE CONFIG
+    // ==========================================
     const firebaseConfig = {
         apiKey: "AIzaSyCBVjPohvfPZYs8DfGtzEdi5j4Svb3UvLI",
         authDomain: "class-battle-19f8c.firebaseapp.com",
@@ -194,79 +746,312 @@
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
+    // ==========================================
+    // STATE
+    // ==========================================
     const activePin = localStorage.getItem('star_battle_pin');
+    let playersData = [];
+    let gameActive = true;
+    let currentTab = 'ranking';
+    let selectedPlayerKey = null;
+
+    const DEFAULT_AVATAR_SVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>`;
 
     function escapeHtml(str) {
         return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
     }
 
-    // Ikon avatar default berbentuk SVG (pengganti avatar emoji lama)
-    const DEFAULT_AVATAR_SVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>';
-
-    // Avatar yang tersimpan di database berupa markup SVG, jadi harus dianggap HTML tepercaya, bukan teks polos
     function safeAvatarHtml(avatar) {
         return avatar && avatar.trim().startsWith('<svg') ? avatar : DEFAULT_AVATAR_SVG;
     }
 
-    function startLiveLeaderboardEngine() {
-        const tbody = document.getElementById('leaderboardLiveBody');
-        const pinBadge = document.getElementById('pinDisplay');
-        const emptyState = document.getElementById('noPlayersState');
+    // ==========================================
+    // DOM REFS
+    // ==========================================
+    const pinDisplay = document.getElementById('pinDisplay');
+    const tbody = document.getElementById('leaderboardBody');
+    const totalPlayersEl = document.getElementById('totalPlayers');
+    const doneCountEl = document.getElementById('doneCount');
+    const liveCountEl = document.getElementById('liveCount');
+    const statusDot = document.getElementById('statusDot');
+    const gameStatusText = document.getElementById('gameStatusText');
 
-        if (pinBadge) pinBadge.innerText = 'PIN: ' + (activePin || "----");
-        if (!activePin || !tbody) return;
+    const modal = document.getElementById('playerModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalAvatar = document.getElementById('modalAvatar');
+    const modalName = document.getElementById('modalName');
+    const modalRank = document.getElementById('modalRank');
+    const modalScore = document.getElementById('modalScore');
+    const modalCorrect = document.getElementById('modalCorrect');
+    const modalWrong = document.getElementById('modalWrong');
+    const modalStatus = document.getElementById('modalStatus');
 
-        // Pasang radar pemantau data perolehan skor murid secara realtime
+    const btnBack = document.getElementById('btnBackHome');
+    const btnStop = document.getElementById('btnStopGame');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+
+    // ==========================================
+    // INIT
+    // ==========================================
+    if (pinDisplay) pinDisplay.innerText = activePin || '----';
+
+    if (!activePin) {
+        tbody.innerHTML = `<tr><td colspan="4"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>PIN tidak ditemukan. Kembali ke halaman utama.</p></div></td></tr>`;
+    } else {
+        listenPlayers();
+        listenRoomStatus();
+    }
+
+    // ==========================================
+    // LISTEN PLAYERS
+    // ==========================================
+    function listenPlayers() {
         db.ref(`rooms/${activePin}/players`).on('value', (snapshot) => {
-            tbody.innerHTML = ""; // Wipe baris data lama biar gak numpuk ganda
-
             if (!snapshot.exists()) {
-                if (emptyState) emptyState.style.display = 'block';
+                playersData = [];
+                renderTable();
+                updateStats();
                 return;
             }
-            if (emptyState) emptyState.style.display = 'none';
 
-            let playersArray = [];
+            playersData = [];
             snapshot.forEach((child) => {
-                const p = child.val();
-                playersArray.push({
-                    name: p.name || "Anonim",
-                    avatar: safeAvatarHtml(p.avatar),
-                    score: parseInt(p.score) || 0,
-                    status: p.status || "Bertanding"
+                const val = child.val();
+                playersData.push({
+                    key: child.key,
+                    name: val.name || 'Anonim',
+                    avatar: val.avatar || DEFAULT_AVATAR_SVG,
+                    score: parseInt(val.score) || 0,
+                    status: val.status || 'Bertanding',
+                    correct: parseInt(val.correct) || 0,
+                    wrong: parseInt(val.wrong) || 0
                 });
             });
 
-            // LOGIKA SORTING UTAMA: Urutkan peringkat dari skor tertinggi ke terendah
-            playersArray.sort((a, b) => b.score - a.score);
+            renderTable();
+            updateStats();
+        });
+    }
 
-            // Cetak struktur visual baris tabel klasemen ke layar utama proyektor
-            playersArray.forEach((player, idx) => {
-                const rank = idx + 1;
-                let rankClass = "rank-normal";
-                if (rank === 1) rankClass = "rank-1";
-                else if (rank === 2) rankClass = "rank-2";
-                else if (rank === 3) rankClass = "rank-3";
+    // ==========================================
+    // LISTEN ROOM STATUS
+    // ==========================================
+    function listenRoomStatus() {
+        db.ref(`rooms/${activePin}/status`).on('value', (snap) => {
+            const status = snap.val();
+            if (status === 'ended') {
+                gameActive = false;
+                statusDot.className = 'status-dot ended';
+                gameStatusText.innerText = 'Selesai';
+                btnStop.disabled = true;
+                btnStop.innerHTML = '<i class="fas fa-check-circle"></i> Selesai';
+            } else if (status === 'playing') {
+                gameActive = true;
+                statusDot.className = 'status-dot live';
+                gameStatusText.innerText = 'Live';
+                btnStop.disabled = false;
+                btnStop.innerHTML = '<i class="fas fa-stop-circle"></i> Stop';
+            } else {
+                gameActive = false;
+                statusDot.className = 'status-dot ended';
+                gameStatusText.innerText = 'Menunggu';
+                btnStop.disabled = true;
+            }
+        });
+    }
 
-                let statusLabel = `<span class="status-playing"><i class="fas fa-spinner fa-spin"></i> <span>Live</span></span>`;
-                if (player.status === "Selesai") {
-                    statusLabel = `<span class="status-done"><i class="fas fa-check"></i> <span>Beres</span></span>`;
-                }
+    // ==========================================
+    // RENDER TABLE
+    // ==========================================
+    function renderTable() {
+        const sorted = [...playersData].sort((a, b) => b.score - a.score);
+        
+        if (sorted.length === 0) {
+            tbody.innerHTML = `
+                <tr><td colspan="4">
+                    <div class="empty-state">
+                        <i class="fas fa-user-clock"></i>
+                        <p>Belum ada pemain yang bergabung.</p>
+                    </div>
+                </td></tr>
+            `;
+            return;
+        }
 
-                const rowHtml = `
-                    <tr class="leaderboard-row">
-                        <td><span class="rank-badge ${rankClass}">${rank}</span></td>
-                        <td><span style="margin-right: 8px;">${player.avatar}</span> <strong>${escapeHtml(player.name)}</strong></td>
-                        <td style="text-align: center;">${statusLabel}</td>
-                        <td><span class="score-text" style="font-weight:700; color:#4f46e5;">${player.score.toLocaleString('id-ID')}</span></td>
-                    </tr>
-                `;
-                tbody.insertAdjacentHTML('beforeend', rowHtml);
+        let html = '';
+        sorted.forEach((p, idx) => {
+            const rank = idx + 1;
+            let rankClass = 'rank-normal';
+            if (rank === 1) rankClass = 'rank-1';
+            else if (rank === 2) rankClass = 'rank-2';
+            else if (rank === 3) rankClass = 'rank-3';
+
+            let statusClass = 'waiting';
+            let statusIcon = '<i class="fas fa-clock"></i>';
+            let statusLabel = 'Menunggu';
+            if (p.status === 'Bertanding' || p.status === 'Live') {
+                statusClass = 'live';
+                statusIcon = '<i class="fas fa-spinner fa-spin"></i>';
+                statusLabel = 'Live';
+            } else if (p.status === 'Selesai' || p.status === 'Done') {
+                statusClass = 'done';
+                statusIcon = '<i class="fas fa-check"></i>';
+                statusLabel = 'Selesai';
+            }
+
+            // Hanya tampilkan di tab ranking
+            if (currentTab === 'ranking' && idx >= 10) return;
+
+            html += `
+                <tr class="player-row" data-key="${p.key}" style="cursor:pointer;">
+                    <td><span class="rank-badge ${rankClass}">${rank}</span></td>
+                    <td>
+                        <div class="player-cell">
+                            <div class="player-avatar">${safeAvatarHtml(p.avatar)}</div>
+                            <span class="player-name">${escapeHtml(p.name)}</span>
+                        </div>
+                    </td>
+                    <td style="text-align:center;">
+                        <span class="status-tag ${statusClass}">${statusIcon} ${statusLabel}</span>
+                    </td>
+                    <td><span class="score-text">${p.score.toLocaleString('id-ID')}</span></td>
+                </tr>
+            `;
+        });
+
+        tbody.innerHTML = html;
+
+        // Click row -> show modal
+        document.querySelectorAll('.player-row').forEach(row => {
+            row.addEventListener('click', () => {
+                const key = row.dataset.key;
+                const player = playersData.find(p => p.key === key);
+                if (player) showModal(player, playersData.indexOf(player) + 1);
             });
         });
     }
 
-    document.addEventListener('DOMContentLoaded', startLiveLeaderboardEngine);
+    // ==========================================
+    // UPDATE STATS
+    // ==========================================
+    function updateStats() {
+        const total = playersData.length;
+        const done = playersData.filter(p => p.status === 'Selesai' || p.status === 'Done').length;
+        const live = playersData.filter(p => p.status === 'Bertanding' || p.status === 'Live').length;
+
+        totalPlayersEl.innerText = total;
+        doneCountEl.innerText = done;
+        liveCountEl.innerText = live;
+    }
+
+    // ==========================================
+    // MODAL
+    // ==========================================
+    function showModal(player, rank) {
+        modalAvatar.innerHTML = safeAvatarHtml(player.avatar);
+        modalName.innerText = player.name;
+        modalRank.innerText = `Peringkat #${rank}`;
+        modalScore.innerText = player.score;
+        modalCorrect.innerText = player.correct || 0;
+        modalWrong.innerText = player.wrong || 0;
+
+        let statusText = player.status || 'Bertanding';
+        if (statusText === 'Bertanding' || statusText === 'Live') statusText = '🟢 Aktif';
+        else if (statusText === 'Selesai' || statusText === 'Done') statusText = '✅ Selesai';
+        else statusText = '⏳ Menunggu';
+        modalStatus.innerText = statusText;
+
+        modal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+
+    // ==========================================
+    // TAB NAVIGATION
+    // ==========================================
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTab = btn.dataset.tab;
+            renderTable();
+        });
+    });
+
+    // ==========================================
+    // BUTTON: BACK TO INDEX
+    // ==========================================
+    btnBack.addEventListener('click', () => {
+        if (confirm('Yakin ingin kembali ke halaman utama?')) {
+            window.location.href = 'index.html';
+        }
+    });
+
+    // ==========================================
+    // BUTTON: STOP GAME
+    // ==========================================
+    btnStop.addEventListener('click', () => {
+        if (!activePin) return;
+        if (!confirm('Yakin ingin mengakhiri pertandingan? Semua pemain akan diarahkan ke halaman hasil.')) return;
+
+        btnStop.disabled = true;
+        btnStop.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghentikan...';
+
+        db.ref(`rooms/${activePin}`).update({
+            status: 'ended',
+            endedAt: firebase.database.ServerValue.TIMESTAMP
+        }).then(() => {
+            btnStop.innerHTML = '<i class="fas fa-check-circle"></i> Selesai';
+            gameActive = false;
+            statusDot.className = 'status-dot ended';
+            gameStatusText.innerText = 'Selesai';
+            
+            // Update semua player status ke Selesai
+            const updates = {};
+            playersData.forEach(p => {
+                updates[`rooms/${activePin}/players/${p.key}/status`] = 'Selesai';
+            });
+            if (Object.keys(updates).length > 0) {
+                db.ref().update(updates);
+            }
+        }).catch(err => {
+            alert('Gagal menghentikan game: ' + err.message);
+            btnStop.disabled = false;
+            btnStop.innerHTML = '<i class="fas fa-stop-circle"></i> Stop';
+        });
+    });
+
+    // ==========================================
+    // KEYBOARD SHORTCUT: ESC close modal
+    // ==========================================
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // ==========================================
+    // POLLING: cek jika room dihapus
+    // ==========================================
+    if (activePin) {
+        db.ref(`rooms/${activePin}`).on('value', (snap) => {
+            if (!snap.exists()) {
+                alert('Room sudah tidak tersedia. Kembali ke halaman utama.');
+                window.location.href = 'index.html';
+            }
+        });
+    }
+
+    console.log('🏆 Class Battle Leaderboard loaded');
+    console.log(`📌 PIN: ${activePin}`);
+    console.log(`👥 Players: ${playersData.length}`);
 </script>
 
 </body>
