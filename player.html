@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Class Battle | Arena Pertandingan</title>
+    <title>Class Battle | Mengerjakan Soal</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -115,78 +115,6 @@
             border: 1px solid #e8ecf1;
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             margin-bottom: 16px;
-        }
-        
-        /* ========== WAITING VIEW ========== */
-        .waiting-view {
-            text-align: center;
-            padding: 10px 0;
-        }
-        
-        .waiting-pulse {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 18px;
-            background: #eef2ff;
-            border: 2px dashed #4f46e5;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #4f46e5;
-            animation: pulseGlow 2s infinite;
-        }
-        
-        .waiting-pulse svg {
-            width: 36px;
-            height: 36px;
-        }
-        
-        @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.35); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(79, 70, 229, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
-        }
-        
-        .waiting-pin {
-            background: #eef2ff;
-            color: #4f46e5;
-            font-weight: 700;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            display: inline-block;
-            margin-bottom: 6px;
-        }
-        
-        .waiting-view h2 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 4px;
-        }
-        
-        .waiting-sub {
-            font-size: 0.85rem;
-            color: #64748b;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 4px;
-        }
-        
-        .loading-dots span {
-            animation: blink 1.4s infinite both;
-            font-size: 1.2rem;
-            line-height: 0;
-        }
-        .loading-dots span:nth-child(2) { animation-delay: .2s; }
-        .loading-dots span:nth-child(3) { animation-delay: .4s; }
-        
-        @keyframes blink {
-            0% { opacity: .2; }
-            20% { opacity: 1; }
-            100% { opacity: .2; }
         }
         
         /* ========== REACTION BAR ========== */
@@ -322,6 +250,10 @@
             margin-bottom: 12px;
         }
         
+        .finish-view .big-icon.ended {
+            color: #ef4444;
+        }
+        
         .finish-view h2 {
             font-size: 1.3rem;
             font-weight: 700;
@@ -408,7 +340,7 @@
             color: #0f172a;
         }
         
-        /* ========== PLAYERS LIST (Lihat Teman) ========== */
+        /* ========== PLAYERS LIST ========== */
         .players-list {
             margin-top: 16px;
             max-height: 300px;
@@ -529,6 +461,29 @@
             100% { transform: translateY(-380px) translateX(var(--drift, 0px)) scale(1); opacity: 0; }
         }
         
+        /* ========== LOADING ========== */
+        .loading-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+        
+        .loading-state .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #4f46e5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* ========== RESPONSIVE ========== */
         @media (max-width: 500px) {
             body { padding: 8px; }
@@ -539,8 +494,6 @@
             .question-text { font-size: 1rem; }
             .option-btn { padding: 12px 14px; font-size: 0.85rem; }
             .score-box .value { font-size: 2rem; }
-            .waiting-pulse { width: 64px; height: 64px; }
-            .waiting-pulse svg { width: 28px; height: 28px; }
             .reaction-btn { width: 40px; height: 40px; font-size: 1.1rem; }
         }
     </style>
@@ -552,7 +505,7 @@
     <header class="app-header">
         <div class="header-left">
             <div class="icon"><i class="fas fa-gamepad"></i></div>
-            <h1>Class Battle <span>| Player</span></h1>
+            <h1>Class Battle <span>| Mengerjakan</span></h1>
         </div>
         <div class="header-right">
             <span class="pin-badge"><i class="fas fa-key"></i> <span id="headerPin">----</span></span>
@@ -560,21 +513,10 @@
         </div>
     </header>
 
-    <!-- ===== WAITING VIEW ===== -->
-    <div id="waitingView" class="card waiting-view">
-        <div class="waiting-pulse">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/>
-                <path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/>
-            </svg>
-        </div>
-        <span class="waiting-pin">PIN Arena: <span id="waitingPinText">----</span></span>
-        <h2 id="waitingPlayerName">Halo, Pemain!</h2>
-        <p class="waiting-sub">
-            Menunggu guru mulai pertandingan 
-            <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
-        </p>
-        <div class="reaction-bar" id="reactionBar"></div>
+    <!-- ===== LOADING ===== -->
+    <div id="loadingView" class="card loading-state">
+        <div class="spinner"></div>
+        <p>Memuat soal...</p>
     </div>
 
     <!-- ===== GAME VIEW ===== -->
@@ -591,13 +533,15 @@
         <p class="question-text" id="questionField">Memuat pertanyaan...</p>
 
         <div class="options-container" id="optionsBox"></div>
+
+        <div class="reaction-bar" id="reactionBar"></div>
     </div>
 
     <!-- ===== FINISH VIEW ===== -->
     <div id="finishView" class="card finish-view" style="display:none;">
-        <div class="big-icon"><i class="fas fa-circle-check"></i></div>
-        <h2>Pertandingan Selesai!</h2>
-        <p class="sub-text">Kerja bagus! Jawabanmu sudah direkam.</p>
+        <div class="big-icon" id="finishIcon"><i class="fas fa-circle-check"></i></div>
+        <h2 id="finishTitle">Pertandingan Selesai!</h2>
+        <p class="sub-text" id="finishSubText">Kerja bagus! Jawabanmu sudah direkam.</p>
         
         <div class="score-box">
             <div class="label">Skor Akhir Kamu</div>
@@ -613,7 +557,7 @@
             </button>
         </div>
 
-        <!-- ===== PLAYERS LIST (tampil setelah klik Lihat Teman) ===== -->
+        <!-- ===== PLAYERS LIST ===== -->
         <div class="players-list" id="playersList" style="display:none;">
             <div class="players-list-title">
                 <span><i class="fas fa-users"></i> Pemain Lain</span>
@@ -657,6 +601,8 @@
     let correctCount = 0;
     let wrongCount = 0;
     let isFinished = false;
+    let isGameEnded = false;
+    let roomStatusListener = null;
 
     const DEFAULT_AVATAR_SVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>`;
     const REACTION_EMOJIS = ['😂', '🔥', '👍', '❤️', '🎉', '😮'];
@@ -672,12 +618,10 @@
     // ==========================================
     // DOM REFS
     // ==========================================
-    const waitingView = document.getElementById('waitingView');
+    const loadingView = document.getElementById('loadingView');
     const gameView = document.getElementById('gameView');
     const finishView = document.getElementById('finishView');
     const headerPin = document.getElementById('headerPin');
-    const waitingPinText = document.getElementById('waitingPinText');
-    const waitingPlayerName = document.getElementById('waitingPlayerName');
     const questionField = document.getElementById('questionField');
     const optionsBox = document.getElementById('optionsBox');
     const questionNumberIndicator = document.getElementById('questionNumberIndicator');
@@ -687,52 +631,66 @@
     const playersList = document.getElementById('playersList');
     const playersListContainer = document.getElementById('playersListContainer');
     const playerCountBadge = document.getElementById('playerCountBadge');
+    const finishIcon = document.getElementById('finishIcon');
+    const finishTitle = document.getElementById('finishTitle');
+    const finishSubText = document.getElementById('finishSubText');
 
     // ==========================================
     // INIT
     // ==========================================
     if (headerPin) headerPin.innerText = activePin || '----';
-    if (waitingPinText) waitingPinText.innerText = activePin || '----';
-    if (waitingPlayerName) waitingPlayerName.innerText = `Halo, ${myName}!`;
 
     if (!activePin || !myPlayerKey) {
         alert('Sesi kamu hilang! Kembali ke halaman masuk.');
-        window.location.href = 'player.html';
+        window.location.href = 'play.html';
     }
 
-    // Cek status room
-    db.ref(`rooms/${activePin}`).once('value').then((snap) => {
-        if (!snap.exists()) {
-            alert('Room sudah tidak tersedia.');
-            window.location.href = 'player.html';
-            return;
-        }
-        const room = snap.val();
-        if (room.status === 'playing') {
-            showGameView();
-            fetchQuiz();
-        } else if (room.status === 'ended') {
-            showFinishView();
-            fetchFinalScore();
-        } else {
-            showWaitingView();
-            listenRoomStatus();
-        }
-    });
-
     // ==========================================
-    // LISTEN ROOM STATUS
+    // CEK STATUS ROOM
     // ==========================================
-    function listenRoomStatus() {
-        db.ref(`rooms/${activePin}/status`).on('value', (snap) => {
-            const status = snap.val();
-            if (status === 'playing') {
-                db.ref(`rooms/${activePin}/status`).off();
+    function checkRoomStatus() {
+        db.ref(`rooms/${activePin}`).once('value').then((snap) => {
+            if (!snap.exists()) {
+                alert('Room sudah tidak tersedia.');
+                window.location.href = 'index.html';
+                return;
+            }
+            const room = snap.val();
+            
+            if (room.status === 'ended') {
+                isGameEnded = true;
+                showFinishView(true);
+                fetchFinalScore();
+                return;
+            }
+            
+            if (room.status === 'playing') {
                 showGameView();
                 fetchQuiz();
-            } else if (status === 'ended') {
-                db.ref(`rooms/${activePin}/status`).off();
-                showFinishView();
+                listenRoomStatus();
+            } else {
+                // Status waiting - seharusnya tidak sampai sini
+                alert('Guru belum memulai pertandingan!');
+                window.location.href = 'play.html';
+            }
+        });
+    }
+
+    // ==========================================
+    // LISTEN ROOM STATUS (REALTIME)
+    // ==========================================
+    function listenRoomStatus() {
+        if (roomStatusListener) {
+            db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
+        }
+        
+        roomStatusListener = db.ref(`rooms/${activePin}/status`).on('value', (snap) => {
+            const status = snap.val();
+            
+            if (status === 'ended' && !isFinished) {
+                isGameEnded = true;
+                db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
+                showFinishView(true);
                 fetchFinalScore();
             }
         });
@@ -741,27 +699,37 @@
     // ==========================================
     // VIEW SWITCHING
     // ==========================================
-    function showWaitingView() {
-        waitingView.style.display = 'block';
+    function showLoadingView() {
+        loadingView.style.display = 'block';
         gameView.style.display = 'none';
         finishView.style.display = 'none';
-        renderReactionBar();
-        setupReactionListener();
     }
 
     function showGameView() {
-        waitingView.style.display = 'none';
+        loadingView.style.display = 'none';
         gameView.style.display = 'block';
         finishView.style.display = 'none';
         renderReactionBar();
         setupReactionListener();
     }
 
-    function showFinishView() {
-        waitingView.style.display = 'none';
+    function showFinishView(isEndedByTeacher = false) {
+        loadingView.style.display = 'none';
         gameView.style.display = 'none';
         finishView.style.display = 'block';
         playersList.style.display = 'none';
+        
+        if (isEndedByTeacher) {
+            finishIcon.innerHTML = '<i class="fas fa-flag-checkered"></i>';
+            finishIcon.style.color = '#ef4444';
+            finishTitle.innerText = 'Pertandingan Dihentikan!';
+            finishSubText.innerText = 'Guru telah mengakhiri pertandingan. Lihat hasilmu di bawah ini.';
+        } else {
+            finishIcon.innerHTML = '<i class="fas fa-circle-check"></i>';
+            finishIcon.style.color = '#10b981';
+            finishTitle.innerText = 'Pertandingan Selesai!';
+            finishSubText.innerText = 'Kerja bagus! Jawabanmu sudah direkam.';
+        }
     }
 
     // ==========================================
@@ -839,7 +807,11 @@
     // SHOW QUESTION
     // ==========================================
     function showQuestion() {
-        if (currentQuestionIdx >= quizData.length || isFinished) {
+        if (isGameEnded || isFinished) {
+            return;
+        }
+        
+        if (currentQuestionIdx >= quizData.length) {
             finishQuiz();
             return;
         }
@@ -866,14 +838,16 @@
     // HANDLE ANSWER
     // ==========================================
     function handleAnswer(selectedIndex, clickedBtn) {
+        if (isGameEnded) {
+            return;
+        }
+        
         const q = quizData[currentQuestionIdx];
         const isCorrect = selectedIndex === q.a;
 
-        // Disable all buttons
         const allBtns = document.querySelectorAll('#optionsBox .option-btn');
         allBtns.forEach(b => b.disabled = true);
 
-        // Highlight selected
         if (isCorrect) {
             clickedBtn.classList.add('correct');
             currentScore += 100;
@@ -881,7 +855,6 @@
         } else {
             clickedBtn.classList.add('wrong');
             wrongCount++;
-            // Show correct answer
             allBtns.forEach((b, idx) => {
                 if (idx === q.a) b.classList.add('correct');
             });
@@ -889,7 +862,6 @@
 
         liveScoreText.innerText = currentScore;
 
-        // Update to Firebase
         db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
             score: currentScore,
             correct: correctCount,
@@ -911,8 +883,10 @@
     // FINISH QUIZ
     // ==========================================
     function finishQuiz() {
+        if (isFinished) return;
         isFinished = true;
-        showFinishView();
+        
+        showFinishView(false);
         finalScoreText.innerText = currentScore;
 
         db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
@@ -924,7 +898,7 @@
     }
 
     // ==========================================
-    // FETCH FINAL SCORE (jika game sudah ended)
+    // FETCH FINAL SCORE
     // ==========================================
     function fetchFinalScore() {
         db.ref(`rooms/${activePin}/players/${myPlayerKey}`).once('value').then((snap) => {
@@ -970,13 +944,12 @@
                 });
             });
 
-            // Sort by score
             players.sort((a, b) => b.score - a.score);
 
             playerCountBadge.innerText = `${players.length} orang`;
 
             let html = '';
-            players.forEach((p, idx) => {
+            players.forEach((p) => {
                 const isMe = p.key === myPlayerKey;
                 const statusClass = p.status === 'Selesai' ? 'done' : 'live';
                 const statusLabel = p.status === 'Selesai' ? '✅ Selesai' : '🟢 Aktif';
@@ -1012,19 +985,13 @@
     document.getElementById('btnBackFromFinish').addEventListener('click', goHome);
 
     // ==========================================
-    // LISTEN ROOM ENDED (jika guru stop tiba-tiba)
+    // START
     // ==========================================
-    db.ref(`rooms/${activePin}/status`).on('value', (snap) => {
-        const status = snap.val();
-        if (status === 'ended' && !isFinished) {
-            isFinished = true;
-            showFinishView();
-            fetchFinalScore();
-            db.ref(`rooms/${activePin}/status`).off();
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        checkRoomStatus();
     });
 
-    console.log('🎮 Class Battle Player loaded');
+    console.log('🎮 Class Battle Player (Mengerjakan) loaded');
     console.log(`📌 PIN: ${activePin}`);
     console.log(`👤 Player: ${myName} (${myPlayerKey})`);
 </script>

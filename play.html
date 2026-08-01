@@ -73,19 +73,6 @@
             gap: 8px;
         }
         
-        .pin-badge {
-            background: #eef2ff;
-            color: #4f46e5;
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            border: 1px solid rgba(79, 70, 229, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
         .btn-back {
             background: #f1f5f9;
             border: none;
@@ -189,6 +176,64 @@
             100% { opacity: .2; }
         }
         
+        /* ========== PIN INPUT ========== */
+        .pin-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .pin-input-group input {
+            padding: 12px 18px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            outline: none;
+            width: 160px;
+            text-align: center;
+            letter-spacing: 4px;
+            background: #f8fafc;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .pin-input-group input:focus {
+            border-color: #4f46e5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+        
+        .pin-input-group .btn-join {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        }
+        
+        .pin-input-group .btn-join:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+        
+        .pin-input-group .btn-join:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
         /* ========== REACTION BAR ========== */
         .reaction-bar {
             display: flex;
@@ -220,298 +265,6 @@
         
         .reaction-btn:active {
             transform: scale(0.9);
-        }
-        
-        /* ========== GAME VIEW ========== */
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #64748b;
-        }
-        
-        .score-live-badge {
-            background: #eef2ff;
-            color: #4f46e5;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        
-        .progress-bar-bg {
-            background: #e2e8f0;
-            height: 6px;
-            border-radius: 10px;
-            width: 100%;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-        
-        .progress-bar-fill {
-            background: #4f46e5;
-            height: 100%;
-            width: 0%;
-            transition: width 0.4s ease;
-        }
-        
-        .question-text {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        
-        .options-container {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .option-btn {
-            width: 100%;
-            padding: 14px 18px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            text-align: left;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #334155;
-            cursor: pointer;
-            transition: all 0.15s ease;
-            outline: none;
-            font-family: inherit;
-        }
-        
-        .option-btn:hover:not(:disabled) {
-            background: #eef2ff;
-            border-color: #cbd5e1;
-            color: #4f46e5;
-        }
-        
-        .option-btn:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        
-        .option-btn.correct {
-            background: #dcfce7;
-            border-color: #22c55e;
-            color: #15803d;
-        }
-        
-        .option-btn.wrong {
-            background: #fee2e2;
-            border-color: #ef4444;
-            color: #b91c1c;
-        }
-        
-        /* ========== FINISH VIEW ========== */
-        .finish-view {
-            text-align: center;
-            padding: 10px 0;
-        }
-        
-        .finish-view .big-icon {
-            font-size: 3.5rem;
-            color: #10b981;
-            margin-bottom: 12px;
-        }
-        
-        .finish-view .big-icon.ended {
-            color: #ef4444;
-        }
-        
-        .finish-view h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 4px;
-        }
-        
-        .finish-view .sub-text {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-        
-        .score-box {
-            background: #f8fafc;
-            padding: 16px;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 20px;
-        }
-        
-        .score-box .label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .score-box .value {
-            font-size: 2.5rem;
-            color: #4f46e5;
-            font-weight: 800;
-            margin-top: 4px;
-        }
-        
-        .finish-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 16px;
-        }
-        
-        .btn-primary {
-            background: #4f46e5;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-        }
-        
-        .btn-primary:hover {
-            background: #4338ca;
-            transform: translateY(-1px);
-        }
-        
-        .btn-secondary {
-            background: #f1f5f9;
-            color: #475569;
-            border: none;
-            padding: 14px;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        
-        .btn-secondary:hover {
-            background: #e2e8f0;
-            color: #0f172a;
-        }
-        
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s;
-        }
-        
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-        
-        /* ========== PLAYERS LIST ========== */
-        .players-list {
-            margin-top: 16px;
-            max-height: 300px;
-            overflow-y: auto;
-            border-top: 1px solid #e8ecf1;
-            padding-top: 16px;
-        }
-        
-        .players-list-title {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .player-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 12px;
-            background: #f8fafc;
-            border-radius: 12px;
-            margin-bottom: 6px;
-            border: 1px solid #e8ecf1;
-            transition: all 0.2s;
-        }
-        
-        .player-item:hover {
-            background: #f1f5f9;
-        }
-        
-        .player-item .avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #eef2ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .player-item .avatar svg {
-            width: 16px;
-            height: 16px;
-        }
-        
-        .player-item .info {
-            flex: 1;
-        }
-        
-        .player-item .info .name {
-            font-weight: 600;
-            font-size: 0.85rem;
-            color: #0f172a;
-        }
-        
-        .player-item .info .status {
-            font-size: 0.7rem;
-            color: #94a3b8;
-        }
-        
-        .player-item .info .status.done {
-            color: #22c55e;
-        }
-        
-        .player-item .info .status.live {
-            color: #4f46e5;
-        }
-        
-        .player-item .p-score {
-            font-weight: 700;
-            color: #4f46e5;
-            font-size: 0.9rem;
         }
         
         /* ========== REACTION FLOATING ========== */
@@ -560,12 +313,11 @@
             .header-left h1 { font-size: 0.9rem; }
             .header-left .icon { width: 30px; height: 30px; font-size: 0.8rem; }
             .card { padding: 18px 16px; }
-            .question-text { font-size: 1rem; }
-            .option-btn { padding: 12px 14px; font-size: 0.85rem; }
-            .score-box .value { font-size: 2rem; }
             .waiting-pulse { width: 64px; height: 64px; }
             .waiting-pulse svg { width: 28px; height: 28px; }
             .reaction-btn { width: 40px; height: 40px; font-size: 1.1rem; }
+            .pin-input-group input { width: 130px; font-size: 1rem; padding: 10px 14px; }
+            .pin-input-group .btn-join { padding: 10px 20px; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -575,12 +327,11 @@
     <!-- ===== HEADER ===== -->
     <header class="app-header">
         <div class="header-left">
-            <div class="icon"><i class="fas fa-gamepad"></i></div>
-            <h1>Class Battle <span>| Play</span></h1>
+            <div class="icon"><i class="fas fa-door-open"></i></div>
+            <h1>Class Battle <span>| Join Arena</span></h1>
         </div>
         <div class="header-right">
-            <span class="pin-badge"><i class="fas fa-key"></i> <span id="headerPin">----</span></span>
-            <button class="btn-back" id="btnBackHome"><i class="fas fa-arrow-left"></i> Keluar</button>
+            <button class="btn-back" id="btnBackHome"><i class="fas fa-arrow-left"></i> Kembali</button>
         </div>
     </header>
 
@@ -592,59 +343,39 @@
                 <path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/>
             </svg>
         </div>
-        <span class="waiting-pin">PIN Arena: <span id="waitingPinText">----</span></span>
-        <h2 id="waitingPlayerName">Halo, Pemain!</h2>
-        <p class="waiting-sub">
-            Menunggu guru mulai pertandingan 
-            <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
-        </p>
-        <div class="reaction-bar" id="reactionBar"></div>
-    </div>
 
-    <!-- ===== GAME VIEW ===== -->
-    <div id="gameView" class="card" style="display:none;">
-        <div class="quiz-header">
-            <span id="questionNumberIndicator">Pertanyaan 1/5</span>
-            <span class="score-live-badge"><i class="fas fa-star"></i> <span id="liveScoreText">0</span> Pts</span>
-        </div>
-        
-        <div class="progress-bar-bg">
-            <div class="progress-bar-fill" id="progressFill"></div>
+        <!-- PIN INPUT -->
+        <div class="pin-input-group">
+            <input type="text" id="pinInputField" placeholder="PIN Arena" maxlength="6" inputmode="numeric">
+            <button class="btn-join" id="btnJoinRoom"><i class="fas fa-arrow-right"></i> Masuk</button>
         </div>
 
-        <p class="question-text" id="questionField">Memuat pertanyaan...</p>
-
-        <div class="options-container" id="optionsBox"></div>
-    </div>
-
-    <!-- ===== FINISH VIEW ===== -->
-    <div id="finishView" class="card finish-view" style="display:none;">
-        <div class="big-icon" id="finishIcon"><i class="fas fa-circle-check"></i></div>
-        <h2 id="finishTitle">Pertandingan Selesai!</h2>
-        <p class="sub-text" id="finishSubText">Kerja bagus! Jawabanmu sudah direkam.</p>
-        
-        <div class="score-box">
-            <div class="label">Skor Akhir Kamu</div>
-            <div class="value" id="finalScoreText">0</div>
+        <div style="margin-top: 16px; font-size:0.8rem; color:#94a3b8;">
+            <i class="fas fa-info-circle"></i> Masukkan PIN yang diberikan gurumu
         </div>
 
-        <div class="finish-actions">
-            <button class="btn-primary" id="btnViewPlayers">
-                <i class="fas fa-users"></i> Lihat Teman-Teman
-            </button>
-            <button class="btn-secondary" id="btnBackFromFinish">
-                <i class="fas fa-home"></i> Kembali ke Halaman Utama
-            </button>
-        </div>
-
-        <!-- ===== PLAYERS LIST ===== -->
-        <div class="players-list" id="playersList" style="display:none;">
-            <div class="players-list-title">
-                <span><i class="fas fa-users"></i> Pemain Lain</span>
-                <span style="font-weight:400;color:#94a3b8;" id="playerCountBadge">0 orang</span>
+        <div id="waitingStatus" style="margin-top: 16px; display:none;">
+            <div style="display:flex; align-items:center; justify-content:center; gap:8px; color:#4f46e5; font-weight:600; font-size:0.9rem;">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Menghubungkan ke arena...</span>
             </div>
-            <div id="playersListContainer"></div>
         </div>
+
+        <div id="waitingForGame" style="margin-top: 16px; display:none;">
+            <div style="background:#eef2ff; border-radius:16px; padding:16px; border:1px solid #c7d2fe;">
+                <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:6px;">
+                    <span style="font-size:1.2rem;">⏳</span>
+                    <span style="font-weight:700; color:#4f46e5; font-size:1rem;">Menunggu Guru Mulai</span>
+                </div>
+                <p style="font-size:0.85rem; color:#64748b;" id="waitingPlayerName">Halo, <strong id="playerNameDisplay">Pemain</strong>!</p>
+                <p class="waiting-sub">
+                    Guru akan memulai pertandingan sebentar lagi 
+                    <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+                </p>
+            </div>
+        </div>
+
+        <div class="reaction-bar" id="reactionBar"></div>
     </div>
 </div>
 
@@ -671,18 +402,12 @@
     // ==========================================
     // STATE
     // ==========================================
-    const activePin = localStorage.getItem('star_battle_pin');
-    const myPlayerKey = localStorage.getItem('star_battle_key');
-    const myName = localStorage.getItem('star_battle_name') || 'Pemain';
-
-    let quizData = [];
-    let currentQuestionIdx = 0;
-    let currentScore = 0;
-    let correctCount = 0;
-    let wrongCount = 0;
-    let isFinished = false;
-    let isGameEnded = false;
+    let activePin = null;
+    let myPlayerKey = null;
+    let myName = '';
     let roomStatusListener = null;
+    let isJoining = false;
+    let isWaitingForGame = false;
 
     const DEFAULT_AVATAR_SVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>`;
     const REACTION_EMOJIS = ['😂', '🔥', '👍', '❤️', '🎉', '😮'];
@@ -691,139 +416,177 @@
         return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
     }
 
-    function safeAvatarHtml(avatar) {
-        return avatar && avatar.trim().startsWith('<svg') ? avatar : DEFAULT_AVATAR_SVG;
-    }
-
     // ==========================================
     // DOM REFS
     // ==========================================
-    const waitingView = document.getElementById('waitingView');
-    const gameView = document.getElementById('gameView');
-    const finishView = document.getElementById('finishView');
-    const headerPin = document.getElementById('headerPin');
-    const waitingPinText = document.getElementById('waitingPinText');
-    const waitingPlayerName = document.getElementById('waitingPlayerName');
-    const questionField = document.getElementById('questionField');
-    const optionsBox = document.getElementById('optionsBox');
-    const questionNumberIndicator = document.getElementById('questionNumberIndicator');
-    const progressFill = document.getElementById('progressFill');
-    const liveScoreText = document.getElementById('liveScoreText');
-    const finalScoreText = document.getElementById('finalScoreText');
-    const playersList = document.getElementById('playersList');
-    const playersListContainer = document.getElementById('playersListContainer');
-    const playerCountBadge = document.getElementById('playerCountBadge');
-    const finishIcon = document.getElementById('finishIcon');
-    const finishTitle = document.getElementById('finishTitle');
-    const finishSubText = document.getElementById('finishSubText');
+    const pinInput = document.getElementById('pinInputField');
+    const btnJoin = document.getElementById('btnJoinRoom');
+    const waitingStatus = document.getElementById('waitingStatus');
+    const waitingForGame = document.getElementById('waitingForGame');
+    const playerNameDisplay = document.getElementById('playerNameDisplay');
 
     // ==========================================
-    // INIT
+    // CEK SESSION TERSIMPAN
     // ==========================================
-    if (headerPin) headerPin.innerText = activePin || '----';
-    if (waitingPinText) waitingPinText.innerText = activePin || '----';
-    if (waitingPlayerName) waitingPlayerName.innerText = `Halo, ${myName}!`;
+    function checkSavedSession() {
+        const savedPin = localStorage.getItem('star_battle_pin');
+        const savedKey = localStorage.getItem('star_battle_key');
+        const savedName = localStorage.getItem('star_battle_name');
 
-    if (!activePin || !myPlayerKey) {
-        alert('Sesi kamu hilang! Kembali ke halaman masuk.');
-        window.location.href = 'player.html';
+        if (savedPin && savedKey && savedName) {
+            // Cek apakah room masih ada
+            db.ref(`rooms/${savedPin}`).once('value').then((snap) => {
+                if (!snap.exists()) {
+                    localStorage.removeItem('star_battle_pin');
+                    localStorage.removeItem('star_battle_key');
+                    localStorage.removeItem('star_battle_name');
+                    return;
+                }
+
+                const room = snap.val();
+                // Cek apakah player masih ada di room
+                if (room.players && room.players[savedKey]) {
+                    activePin = savedPin;
+                    myPlayerKey = savedKey;
+                    myName = savedName;
+                    playerNameDisplay.innerText = myName;
+
+                    // Cek status room
+                    if (room.status === 'playing') {
+                        // Langsung redirect ke player.html (halaman ngerjain)
+                        window.location.href = 'player.html';
+                    } else if (room.status === 'ended') {
+                        alert('Pertandingan sudah selesai!');
+                        localStorage.removeItem('star_battle_pin');
+                        localStorage.removeItem('star_battle_key');
+                        localStorage.removeItem('star_battle_name');
+                        window.location.href = 'index.html';
+                    } else {
+                        // status waiting - tampilkan tunggu
+                        showWaitingForGame();
+                        listenRoomStatus();
+                    }
+                } else {
+                    localStorage.removeItem('star_battle_pin');
+                    localStorage.removeItem('star_battle_key');
+                    localStorage.removeItem('star_battle_name');
+                }
+            }).catch(() => {
+                localStorage.removeItem('star_battle_pin');
+                localStorage.removeItem('star_battle_key');
+                localStorage.removeItem('star_battle_name');
+            });
+        }
     }
 
     // ==========================================
-    // CEK STATUS ROOM
+    // JOIN ROOM
     // ==========================================
-    function checkRoomStatus() {
-        db.ref(`rooms/${activePin}`).once('value').then((snap) => {
+    function joinRoom(pin, name) {
+        if (isJoining) return;
+        isJoining = true;
+        btnJoin.disabled = true;
+        btnJoin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Masuk...';
+        waitingStatus.style.display = 'block';
+
+        db.ref(`rooms/${pin}`).once('value').then((snap) => {
             if (!snap.exists()) {
-                alert('Room sudah tidak tersedia.');
-                window.location.href = 'index.html';
+                alert('PIN Arena tidak ditemukan! Cek lagi kode dari gurumu.');
+                resetJoinButton();
                 return;
             }
-            const room = snap.val();
-            
-            // Cek apakah game sudah ended
-            if (room.status === 'ended') {
-                isGameEnded = true;
-                showFinishView(true);
-                fetchFinalScore();
+
+            const roomData = snap.val();
+
+            if (roomData.status === 'ended') {
+                alert('Pertandingan di arena ini sudah selesai!');
+                resetJoinButton();
                 return;
             }
-            
-            if (room.status === 'playing') {
-                showGameView();
-                fetchQuiz();
-            } else {
-                showWaitingView();
-                listenRoomStatus();
-            }
+
+            // Push player ke room
+            const playerRef = db.ref(`rooms/${pin}/players`).push();
+            const playerData = {
+                name: name,
+                avatar: DEFAULT_AVATAR_SVG,
+                score: 0,
+                correct: 0,
+                wrong: 0,
+                status: 'Bertanding'
+            };
+
+            playerRef.set(playerData).then(() => {
+                activePin = pin;
+                myPlayerKey = playerRef.key;
+                myName = name;
+
+                localStorage.setItem('star_battle_pin', pin);
+                localStorage.setItem('star_battle_key', myPlayerKey);
+                localStorage.setItem('star_battle_name', name);
+
+                playerNameDisplay.innerText = myName;
+                waitingStatus.style.display = 'none';
+
+                // Cek status room
+                if (roomData.status === 'playing') {
+                    window.location.href = 'player.html';
+                } else {
+                    showWaitingForGame();
+                    listenRoomStatus();
+                }
+            }).catch(err => {
+                alert('Gagal masuk arena: ' + err.message);
+                resetJoinButton();
+            });
+        }).catch(err => {
+            alert('Koneksi gagal: ' + err.message);
+            resetJoinButton();
         });
     }
 
     // ==========================================
-    // LISTEN ROOM STATUS (REALTIME)
+    // LISTEN ROOM STATUS
     // ==========================================
     function listenRoomStatus() {
-        // Hapus listener lama jika ada
         if (roomStatusListener) {
             db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
         }
-        
+
         roomStatusListener = db.ref(`rooms/${activePin}/status`).on('value', (snap) => {
             const status = snap.val();
-            
-            // Jika game di-stop oleh guru
-            if (status === 'ended') {
-                isGameEnded = true;
+            if (status === 'playing') {
                 db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
-                showFinishView(true);
-                fetchFinalScore();
-                return;
-            }
-            
-            if (status === 'playing' && !isFinished) {
+                window.location.href = 'player.html';
+            } else if (status === 'ended') {
                 db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
-                showGameView();
-                fetchQuiz();
+                alert('Pertandingan telah dihentikan oleh guru!');
+                localStorage.removeItem('star_battle_pin');
+                localStorage.removeItem('star_battle_key');
+                localStorage.removeItem('star_battle_name');
+                window.location.href = 'index.html';
             }
         });
     }
 
     // ==========================================
-    // VIEW SWITCHING
+    // SHOW WAITING FOR GAME
     // ==========================================
-    function showWaitingView() {
-        waitingView.style.display = 'block';
-        gameView.style.display = 'none';
-        finishView.style.display = 'none';
-        renderReactionBar();
-        setupReactionListener();
+    function showWaitingForGame() {
+        isWaitingForGame = true;
+        waitingForGame.style.display = 'block';
+        btnJoin.style.display = 'none';
+        pinInput.style.display = 'none';
+        document.querySelector('.pin-input-group .fa-info-circle')?.parentElement?.remove();
     }
 
-    function showGameView() {
-        waitingView.style.display = 'none';
-        gameView.style.display = 'block';
-        finishView.style.display = 'none';
-        renderReactionBar();
-        setupReactionListener();
-    }
-
-    function showFinishView(isEndedByTeacher = false) {
-        waitingView.style.display = 'none';
-        gameView.style.display = 'none';
-        finishView.style.display = 'block';
-        playersList.style.display = 'none';
-        
-        if (isEndedByTeacher) {
-            finishIcon.innerHTML = '<i class="fas fa-flag-checkered"></i>';
-            finishIcon.style.color = '#ef4444';
-            finishTitle.innerText = 'Pertandingan Dihentikan!';
-            finishSubText.innerText = 'Guru telah mengakhiri pertandingan. Lihat hasilmu di bawah ini.';
-        } else {
-            finishIcon.innerHTML = '<i class="fas fa-circle-check"></i>';
-            finishIcon.style.color = '#10b981';
-            finishTitle.innerText = 'Pertandingan Selesai!';
-            finishSubText.innerText = 'Kerja bagus! Jawabanmu sudah direkam.';
-        }
+    // ==========================================
+    // RESET JOIN BUTTON
+    // ==========================================
+    function resetJoinButton() {
+        isJoining = false;
+        btnJoin.disabled = false;
+        btnJoin.innerHTML = '<i class="fas fa-arrow-right"></i> Masuk';
+        waitingStatus.style.display = 'none';
     }
 
     // ==========================================
@@ -848,7 +611,7 @@
         const reactionRef = db.ref(`rooms/${activePin}/reactions`).push();
         reactionRef.set({
             emoji: emoji,
-            name: myName,
+            name: myName || 'Pemain',
             time: firebase.database.ServerValue.TIMESTAMP
         }).then(() => {
             setTimeout(() => reactionRef.remove(), 4000);
@@ -856,6 +619,7 @@
     }
 
     function setupReactionListener() {
+        if (!activePin) return;
         db.ref(`rooms/${activePin}/reactions`).on('child_added', (snap) => {
             const data = snap.val();
             if (data && data.emoji) spawnReactionBubble(data.emoji, data.name);
@@ -879,217 +643,64 @@
     }
 
     // ==========================================
-    // FETCH QUIZ
+    // BACK BUTTON
     // ==========================================
-    function fetchQuiz() {
-        db.ref(`rooms/${activePin}`).once('value').then((roomSnap) => {
-            if (!roomSnap.exists()) return;
-            const quizId = roomSnap.val().quizId;
-
-            db.ref(`quiz_hub/${quizId}/questions`).once('value').then((quizSnap) => {
-                if (quizSnap.exists()) {
-                    quizData = quizSnap.val();
-                    showQuestion();
-                } else {
-                    alert('Gagal memuat soal kuis!');
-                }
-            });
-        });
-    }
-
-    // ==========================================
-    // SHOW QUESTION
-    // ==========================================
-    function showQuestion() {
-        // Cek jika game sudah di-ended saat sedang mengerjakan
-        if (isGameEnded || isFinished) {
-            return;
-        }
-        
-        if (currentQuestionIdx >= quizData.length) {
-            finishQuiz();
-            return;
-        }
-
-        const q = quizData[currentQuestionIdx];
-        questionField.innerText = q.q;
-        questionNumberIndicator.innerText = `Pertanyaan ${currentQuestionIdx + 1}/${quizData.length}`;
-        progressFill.style.width = `${(currentQuestionIdx / quizData.length) * 100}%`;
-
-        optionsBox.innerHTML = '';
-        const labels = ['A', 'B', 'C', 'D'];
-        q.options.forEach((optText, i) => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'option-btn';
-            btn.dataset.index = i;
-            btn.innerText = `${labels[i]}. ${optText}`;
-            btn.addEventListener('click', () => handleAnswer(i, btn));
-            optionsBox.appendChild(btn);
-        });
-    }
-
-    // ==========================================
-    // HANDLE ANSWER
-    // ==========================================
-    function handleAnswer(selectedIndex, clickedBtn) {
-        // Cek jika game sudah di-ended
-        if (isGameEnded) {
-            return;
-        }
-        
-        const q = quizData[currentQuestionIdx];
-        const isCorrect = selectedIndex === q.a;
-
-        const allBtns = document.querySelectorAll('#optionsBox .option-btn');
-        allBtns.forEach(b => b.disabled = true);
-
-        if (isCorrect) {
-            clickedBtn.classList.add('correct');
-            currentScore += 100;
-            correctCount++;
+    document.getElementById('btnBackHome').addEventListener('click', () => {
+        if (isWaitingForGame) {
+            if (confirm('Yakin ingin keluar dari arena? Kamu harus masuk ulang dengan PIN.')) {
+                localStorage.removeItem('star_battle_pin');
+                localStorage.removeItem('star_battle_key');
+                localStorage.removeItem('star_battle_name');
+                window.location.href = 'index.html';
+            }
         } else {
-            clickedBtn.classList.add('wrong');
-            wrongCount++;
-            allBtns.forEach((b, idx) => {
-                if (idx === q.a) b.classList.add('correct');
-            });
-        }
-
-        liveScoreText.innerText = currentScore;
-
-        db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
-            score: currentScore,
-            correct: correctCount,
-            wrong: wrongCount
-        }).then(() => {
-            setTimeout(() => {
-                currentQuestionIdx++;
-                showQuestion();
-            }, 600);
-        }).catch(() => {
-            setTimeout(() => {
-                currentQuestionIdx++;
-                showQuestion();
-            }, 600);
-        });
-    }
-
-    // ==========================================
-    // FINISH QUIZ
-    // ==========================================
-    function finishQuiz() {
-        if (isFinished) return;
-        isFinished = true;
-        
-        showFinishView(false);
-        finalScoreText.innerText = currentScore;
-
-        db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
-            status: 'Selesai',
-            score: currentScore,
-            correct: correctCount,
-            wrong: wrongCount
-        });
-    }
-
-    // ==========================================
-    // FETCH FINAL SCORE
-    // ==========================================
-    function fetchFinalScore() {
-        db.ref(`rooms/${activePin}/players/${myPlayerKey}`).once('value').then((snap) => {
-            if (snap.exists()) {
-                const data = snap.val();
-                currentScore = data.score || 0;
-                correctCount = data.correct || 0;
-                wrongCount = data.wrong || 0;
-                finalScoreText.innerText = currentScore;
-            }
-        });
-    }
-
-    // ==========================================
-    // VIEW PLAYERS (Lihat Teman)
-    // ==========================================
-    document.getElementById('btnViewPlayers').addEventListener('click', () => {
-        if (playersList.style.display === 'block') {
-            playersList.style.display = 'none';
-            document.getElementById('btnViewPlayers').innerHTML = '<i class="fas fa-users"></i> Lihat Teman-Teman';
-            return;
-        }
-
-        playersList.style.display = 'block';
-        document.getElementById('btnViewPlayers').innerHTML = '<i class="fas fa-chevron-up"></i> Sembunyikan';
-
-        db.ref(`rooms/${activePin}/players`).once('value').then((snap) => {
-            if (!snap.exists()) {
-                playersListContainer.innerHTML = '<p style="text-align:center;color:#94a3b8;font-size:0.85rem;">Belum ada pemain lain.</p>';
-                playerCountBadge.innerText = '0 orang';
-                return;
-            }
-
-            let players = [];
-            snap.forEach((child) => {
-                const val = child.val();
-                players.push({
-                    key: child.key,
-                    name: val.name || 'Anonim',
-                    avatar: val.avatar || DEFAULT_AVATAR_SVG,
-                    score: parseInt(val.score) || 0,
-                    status: val.status || 'Bertanding'
-                });
-            });
-
-            players.sort((a, b) => b.score - a.score);
-
-            playerCountBadge.innerText = `${players.length} orang`;
-
-            let html = '';
-            players.forEach((p, idx) => {
-                const isMe = p.key === myPlayerKey;
-                const statusClass = p.status === 'Selesai' ? 'done' : 'live';
-                const statusLabel = p.status === 'Selesai' ? '✅ Selesai' : '🟢 Aktif';
-
-                html += `
-                    <div class="player-item" style="${isMe ? 'border-color:#4f46e5;background:#eef2ff;' : ''}">
-                        <div class="avatar">${safeAvatarHtml(p.avatar)}</div>
-                        <div class="info">
-                            <div class="name">${escapeHtml(p.name)} ${isMe ? '⭐' : ''}</div>
-                            <div class="status ${statusClass}">${statusLabel}</div>
-                        </div>
-                        <div class="p-score">${p.score.toLocaleString('id-ID')}</div>
-                    </div>
-                `;
-            });
-
-            playersListContainer.innerHTML = html;
-        });
-    });
-
-    // ==========================================
-    // BACK BUTTONS
-    // ==========================================
-    function goHome() {
-        if (confirm('Yakin ingin keluar dari arena?')) {
-            localStorage.removeItem('star_battle_pin');
-            localStorage.removeItem('star_battle_key');
             window.location.href = 'index.html';
         }
-    }
-
-    document.getElementById('btnBackHome').addEventListener('click', goHome);
-    document.getElementById('btnBackFromFinish').addEventListener('click', goHome);
-
-    // ==========================================
-    // START
-    // ==========================================
-    document.addEventListener('DOMContentLoaded', () => {
-        checkRoomStatus();
     });
 
-    console.log('🎮 Class Battle Play loaded');
-    console.log(`📌 PIN: ${activePin}`);
-    console.log(`👤 Player: ${myName} (${myPlayerKey})`);
+    // ==========================================
+    // JOIN BUTTON
+    // ==========================================
+    btnJoin.addEventListener('click', () => {
+        const pin = pinInput.value.trim();
+        const name = localStorage.getItem('star_battle_name') || prompt('Masukkan nama kamu:');
+
+        if (!name || name.trim() === '') {
+            alert('Nama tidak boleh kosong!');
+            return;
+        }
+
+        if (pin.length < 4) {
+            alert('PIN minimal 4 digit!');
+            return;
+        }
+
+        joinRoom(pin, name.trim());
+    });
+
+    // Enter pada input PIN
+    pinInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            btnJoin.click();
+        }
+    });
+
+    // ==========================================
+    // INIT
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', () => {
+        renderReactionBar();
+        
+        // Cek session tersimpan
+        checkSavedSession();
+
+        // Setup reaction listener jika sudah ada PIN
+        if (activePin) {
+            setupReactionListener();
+        }
+    });
+
+    console.log('🎮 Class Battle Play (Join) loaded');
 </script>
 
 </body>
