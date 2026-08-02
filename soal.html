@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #f5f7fb; color: #1e293b; min-height: 100vh; padding: 16px; }
+        body { font-family: 'Inter', sans-serif; background: #f0f2f5; color: #1e293b; min-height: 100vh; padding: 16px; }
+
         .creator-container { max-width: 650px; margin: 20px auto; width: 100%; }
         
-        .header-box { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
-        .header-box h1 { font-size: 1.3rem; font-weight: 700; color: #4f46e5; display: flex; align-items: center; gap: 8px; }
+        .header-box { background: white; border: 1px solid #e8ecf1; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); display: flex; align-items: flex-start; gap: 12px; }
+        .header-box .icon-box { width: 36px; height: 36px; background: linear-gradient(135deg, #4f46e5, #7c3aed); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.95rem; flex-shrink: 0; }
+        .header-box h1 { font-size: 1.2rem; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 8px; }
         .header-box p { font-size: 0.85rem; color: #64748b; margin-top: 4px; }
         .mode-badge { display: inline-block; background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; margin-top: 10px; }
 
-        .question-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); position: relative; }
-        .q-number { background: #f1f5f9; color: #475569; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 700; font-size: 0.85rem; margin-bottom: 12px; }
+        .question-card { background: white; border: 1px solid #e8ecf1; border-radius: 20px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); position: relative; }
+        .q-number { background: #f1f5f9; color: #475569; width: 100px; height: 28px; display: inline-flex; align-items: center; justify-content: center;  font-weight: 700; font-size: 0.85rem; margin-bottom: 12px; }
         
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #475569; margin-bottom: 6px; text-transform: uppercase; }
@@ -51,9 +53,11 @@
 
 <div class="creator-container">
     <div class="header-box">
-        <h1><i class="fas fa-folder-plus"></i> Buat Soal Kompetisi</h1>
-        <p>Tulis pertanyaan kuis manual untuk dimainkan bersama di arena battle kelas.</p>
-        <div id="authStatusBadge" class="mode-badge"><i class="fas fa-user-slash"></i> Mode Guest: Pembuatan Manual Aktif</div>
+        <span class="icon-box"><i class="fas fa-folder-plus"></i></span>
+        <div>
+            <h1>Buat Soal Kompetisi</h1>
+            <p>Tulis pertanyaan kuis manual untuk dimainkan bersama di arena battle kelas.</p>
+        </div>
     </div>
 
     <div id="questionsContainer"></div>
@@ -105,7 +109,7 @@
 
         card.innerHTML = `
             <div class="q-header">
-                <span class="q-number"><i class="fas fa-feather-alt"></i> Soal No. ${questionCount}</span>
+                <span class="q-number">Soal No. ${questionCount}</span>
                 ${questionCount > 1 ? `<button type="button" class="btn-delete-q" onclick="removeQuestionCard(${questionCount})"><i class="fas fa-trash-alt"></i></button>` : ''}
             </div>
             <div class="form-group">
@@ -131,9 +135,9 @@
                 </div>
             </div>
             <div class="form-group" style="margin-top: 15px; margin-bottom: 0;">
-                <label><i class="fas fa-check-circle" style="color: #10b981;"></i> Kunci Jawaban Benar</label>
+                <label>Kunci Jawaban Benar</label>
                 <select class="select-correct-ans" required>
-                    <option value="" disabled selected>-- Pilih Opsi Jawaban Yang Benar --</option>
+                    <option value="" disabled selected>Pilih Opsi Jawaban Yang Benar</option>
                     <option value="0">Pilihan A</option>
                     <option value="1">Pilihan B</option>
                     <option value="2">Pilihan C</option>
@@ -162,7 +166,7 @@
             questionCount++;
             card.id = `qCard_${questionCount}`;
             const numLabel = card.querySelector('.q-number');
-            if (numLabel) numLabel.innerHTML = `<i class="fas fa-feather-alt"></i> Soal No. ${questionCount}`;
+            if (numLabel) numLabel.innerHTML = `Soal No. ${questionCount}`;
             
             const deleteBtn = card.querySelector('.btn-delete-q');
             if (deleteBtn) {
