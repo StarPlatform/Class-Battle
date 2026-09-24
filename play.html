@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Class Battle | Arena Pertandingan</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -16,12 +15,10 @@
             min-height: 100vh; 
             padding: 12px;
             overflow-x: hidden;
+            transition: background 0.3s;
         }
         
-        .app-container { 
-            max-width: 600px; 
-            margin: 0 auto; 
-        }
+        .app-container { max-width: 600px; margin: 0 auto; }
         
         /* ========== HEADER ========== */
         .app-header {
@@ -37,62 +34,44 @@
             gap: 12px;
         }
         
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .header-left { display: flex; align-items: center; gap: 10px; }
         
         .header-left .icon {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             background: linear-gradient(135deg, #4f46e5, #7c3aed);
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             color: white;
-            font-size: 0.9rem;
+            transition: all 0.3s;
         }
+        .header-left .icon.monster {
+            background: linear-gradient(135deg, #10b981, #f59e0b);
+        }
+        .header-left .icon svg { width: 18px; height: 18px; }
         
         .header-left h1 {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #0f172a;
+            font-size: 1rem; font-weight: 700; color: #0f172a;
         }
-        
         .header-left h1 span {
-            font-weight: 400;
-            color: #94a3b8;
-            font-size: 0.75rem;
+            font-weight: 400; color: #94a3b8; font-size: 0.75rem;
         }
         
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .header-right { display: flex; align-items: center; gap: 8px; }
         
         .btn-back {
             background: #f1f5f9;
             border: none;
             padding: 6px 14px;
             border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 600;
+            font-size: 0.7rem; font-weight: 600;
             color: #475569;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            display: flex; align-items: center; gap: 4px;
             transition: all 0.2s;
-            text-decoration: none;
+            font-family: inherit;
         }
-        
-        .btn-back:hover {
-            background: #e2e8f0;
-            color: #0f172a;
-        }
+        .btn-back:hover { background: #e2e8f0; color: #0f172a; }
+        .btn-back svg { width: 12px; height: 12px; }
         
         /* ========== CARD ========== */
         .card {
@@ -105,90 +84,68 @@
         }
         
         /* ========== WAITING VIEW ========== */
-        .waiting-view {
-            text-align: center;
-            padding: 10px 0;
-        }
+        .waiting-view { text-align: center; padding: 10px 0; }
         
         .waiting-pulse {
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             margin: 0 auto 18px;
             background: #eef2ff;
             border: 2px dashed #4f46e5;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             color: #4f46e5;
             animation: pulseGlow 2s infinite;
+            transition: all 0.3s;
         }
-        
-        .waiting-pulse svg {
-            width: 36px;
-            height: 36px;
+        .waiting-pulse.monster {
+            background: #ecfdf5;
+            border-color: #10b981;
+            color: #10b981;
+            animation: pulseGlowMonster 2s infinite;
         }
+        .waiting-pulse svg { width: 36px; height: 36px; }
         
         @keyframes pulseGlow {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.35); }
             70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(79, 70, 229, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
         }
-        
-        .waiting-pin {
-            background: #eef2ff;
-            color: #4f46e5;
-            font-weight: 700;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            display: inline-block;
-            margin-bottom: 6px;
+        @keyframes pulseGlowMonster {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
         
         .waiting-view h2 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 4px;
+            font-size: 1.2rem; font-weight: 700;
+            color: #0f172a; margin-bottom: 4px;
         }
-        
         .waiting-sub {
-            font-size: 0.85rem;
-            color: #64748b;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 0.85rem; color: #64748b;
+            display: inline-flex; align-items: center; gap: 4px;
             margin-top: 4px;
         }
         
         .loading-dots span {
             animation: blink 1.4s infinite both;
-            font-size: 1.2rem;
-            line-height: 0;
+            font-size: 1.2rem; line-height: 0;
         }
         .loading-dots span:nth-child(2) { animation-delay: .2s; }
         .loading-dots span:nth-child(3) { animation-delay: .4s; }
-        
         @keyframes blink {
-            0% { opacity: .2; }
-            20% { opacity: 1; }
-            100% { opacity: .2; }
+            0% { opacity: .2; } 20% { opacity: 1; } 100% { opacity: .2; }
         }
         
         /* ========== PIN INPUT ========== */
         .pin-input-group {
-            display: flex;
-            gap: 10px;
+            display: flex; gap: 10px;
             margin-top: 16px;
             justify-content: center;
             flex-wrap: wrap;
         }
-        
         .pin-input-group input {
             padding: 12px 18px;
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.1rem; font-weight: 700;
             border: 2px solid #e2e8f0;
             border-radius: 14px;
             outline: none;
@@ -198,12 +155,16 @@
             background: #f8fafc;
             transition: all 0.2s;
             font-family: 'Inter', sans-serif;
+            color: #0f172a;
         }
-        
         .pin-input-group input:focus {
             border-color: #4f46e5;
             background: white;
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+        .pin-input-group input.monster-focus:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
         }
         
         .pin-input-group .btn-join {
@@ -212,175 +173,644 @@
             border: none;
             padding: 12px 28px;
             border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.9rem; font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+            font-family: inherit;
+        }
+        .pin-input-group .btn-join:hover { background: #4338ca; transform: translateY(-1px); }
+        .pin-input-group .btn-join.monster-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+        }
+        .pin-input-group .btn-join.monster-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+        .pin-input-group .btn-join:disabled {
+            background: #cbd5e1; cursor: not-allowed;
+            transform: none; box-shadow: none;
+        }
+        .pin-input-group .btn-join svg { width: 14px; height: 14px; }
+        
+        /* ========== MODE PREVIEW ========== */
+        .mode-preview {
+            display: none;
+            margin-top: 18px;
+            padding: 16px;
+            border-radius: 16px;
+            animation: slideDown 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: left;
+        }
+        .mode-preview.show { display: block; }
+        .mode-preview.klasik {
+            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+            border: 1px solid #c7d2fe;
+        }
+        .mode-preview.monster {
+            background: linear-gradient(135deg, #ecfdf5, #fef3c7);
+            border: 1px solid #a7f3d0;
+        }
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .mode-preview-header {
+            display: flex; align-items: center; gap: 10px;
+            margin-bottom: 8px;
+        }
+        .mode-preview-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+        .mode-preview-icon svg { width: 18px; height: 18px; }
+        .mode-preview.klasik .mode-preview-icon {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+        .mode-preview.monster .mode-preview-icon {
+            background: linear-gradient(135deg, #10b981, #f59e0b);
+        }
+        .mode-preview-title {
+            font-size: 0.9rem; font-weight: 800; color: #0f172a;
+        }
+        .mode-preview-desc {
+            font-size: 0.78rem; color: #475569; line-height: 1.5;
+        }
+        
+        /* ========== MONSTER PICKER ========== */
+        .monster-picker {
+            display: none;
+            margin-top: 16px;
+            text-align: left;
+        }
+        .monster-picker.show {
+            display: block;
+            animation: slideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .picker-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 8px;
+        }
+        .picker-title {
+            font-size: 0.85rem; font-weight: 800;
+            color: #065f46;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .picker-title svg { width: 16px; height: 16px; }
+        
+        .picker-badge {
+            background: #d1fae5;
+            color: #047857;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        
+        .monster-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        
+        .monster-choice {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 10px 6px 8px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        .monster-choice:hover {
+            border-color: #10b981;
+            background: white;
+            transform: translateY(-3px);
+        }
+        .monster-choice.selected {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+        .monster-choice.selected::after {
+            content: '';
+            position: absolute;
+            top: 4px; right: 4px;
+            width: 14px; height: 14px;
+            background: #10b981;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .monster-icon-wrap {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s;
+        }
+        .monster-choice:hover .monster-icon-wrap { transform: scale(1.08); }
+        .monster-choice.selected .monster-icon-wrap { transform: scale(1.1); }
+        
+        .monster-choice[data-id="dragon"]  .monster-icon-wrap { background: radial-gradient(circle, rgba(239,68,68,0.16), transparent 72%); }
+        .monster-choice[data-id="wolf"]    .monster-icon-wrap { background: radial-gradient(circle, rgba(100,116,139,0.16), transparent 72%); }
+        .monster-choice[data-id="phoenix"] .monster-icon-wrap { background: radial-gradient(circle, rgba(245,158,11,0.16), transparent 72%); }
+        .monster-choice[data-id="turtle"]  .monster-icon-wrap { background: radial-gradient(circle, rgba(16,185,129,0.16), transparent 72%); }
+        .monster-choice[data-id="fox"]     .monster-icon-wrap { background: radial-gradient(circle, rgba(249,115,22,0.16), transparent 72%); }
+        .monster-choice[data-id="tiger"]   .monster-icon-wrap { background: radial-gradient(circle, rgba(234,179,8,0.16), transparent 72%); }
+        .monster-choice[data-id="shark"]   .monster-icon-wrap { background: radial-gradient(circle, rgba(8,145,178,0.16), transparent 72%); }
+        .monster-choice[data-id="owl"]     .monster-icon-wrap { background: radial-gradient(circle, rgba(139,92,246,0.16), transparent 72%); }
+        
+        .monster-svg {
+            width: 34px; height: 34px;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.12));
+        }
+        
+        .monster-choice-name {
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            text-align: center;
+        }
+        
+        /* ========== MONSTER PREVIEW (BESAR) ========== */
+        .monster-preview-box {
+            position: relative;
+            border-radius: 18px;
+            padding: 18px 16px;
+            margin-bottom: 14px;
+            text-align: center;
+            background: linear-gradient(160deg, #f8fafc, #eef2f7);
+            border: 2px dashed #cbd5e1;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+        .monster-preview-box.active {
+            border-style: solid;
+            border-color: var(--mon-solid, #10b981);
+            background: linear-gradient(160deg, var(--mon-soft, #ecfdf5), #ffffff);
+        }
+        .monster-preview-glow {
+            width: 96px; height: 96px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            background: var(--mon-soft, #f1f5f9);
+            position: relative;
+            transition: all 0.3s;
+        }
+        .monster-preview-box.active .monster-preview-glow {
+            animation: previewPulse 2.2s infinite;
+        }
+        @keyframes previewPulse {
+            0% { box-shadow: 0 0 0 0 var(--mon-glow, rgba(16,185,129,0.3)); }
+            70% { box-shadow: 0 0 0 14px rgba(0,0,0,0); }
+            100% { box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+        }
+        .monster-preview-icon svg.monster-svg {
+            width: 74px; height: 74px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.18));
+        }
+        .monster-preview-icon .preview-placeholder {
+            font-size: 2.2rem;
+            color: #cbd5e1;
+        }
+        .monster-preview-name {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 2px;
+        }
+        .monster-preview-sub {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        .monster-preview-box.active .monster-preview-sub {
+            color: var(--mon-solid, #10b981);
+        }
+        .monster-preview-lv {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            background: var(--mon-soft, #ecfdf5);
+            color: var(--mon-solid, #059669);
+        }
+        
+        .custom-name-group {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 4px 4px 4px 12px;
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+            transition: border 0.2s;
+        }
+        .custom-name-group:focus-within {
+            border-color: #10b981;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        .custom-name-group svg {
+            width: 14px; height: 14px;
+            color: #94a3b8;
+            flex-shrink: 0;
+        }
+        .custom-name-group input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 10px 12px 10px 0;
+            font-size: 0.85rem;
+            font-family: inherit;
+            color: #0f172a;
+            font-weight: 600;
+        }
+        .custom-name-group input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
         }
         
-        .pin-input-group .btn-join:hover {
-            background: #4338ca;
+        .save-monster-btn {
+            margin-top: 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 11px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .save-monster-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
             transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
         }
-        
-        .pin-input-group .btn-join:disabled {
+        .save-monster-btn:disabled {
             background: #cbd5e1;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
+        .save-monster-btn svg { width: 14px; height: 14px; }
         
-        /* ========== REACTION BAR ========== */
-        .reaction-bar {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .reaction-btn {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            font-size: 1.3rem;
-            width: 48px;
-            height: 48px;
-            cursor: pointer;
+        .saved-indicator {
+            margin-top: 10px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 12px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: all 0.15s ease;
+            gap: 10px;
+            animation: slideDown 0.3s ease;
         }
-        
-        .reaction-btn:hover {
-            background: #eef2ff;
-            border-color: #c7d2fe;
-            transform: translateY(-2px);
+        .saved-indicator svg {
+            width: 18px; height: 18px;
+            color: #10b981;
+            flex-shrink: 0;
         }
-        
-        .reaction-btn:active {
-            transform: scale(0.9);
-        }
-        
-        /* ========== REACTION FLOATING ========== */
-        .reaction-float-container {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 9999;
-        }
-        
-        .reaction-bubble {
-            position: absolute;
-            bottom: 40px;
-            text-align: center;
-            animation: floatUp 3s ease-out forwards;
-        }
-        
-        .reaction-bubble .emoji-face {
-            font-size: 2rem;
-            display: block;
-        }
-        
-        .reaction-bubble .emoji-owner {
-            font-size: 0.65rem;
+        .saved-indicator-text {
+            font-size: 0.78rem;
+            color: #065f46;
             font-weight: 600;
-            color: #4f46e5;
-            background: white;
-            border-radius: 10px;
-            padding: 1px 8px;
-            margin-top: 2px;
-            display: inline-block;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            line-height: 1.4;
         }
+        .saved-indicator-text strong { font-weight: 800; }
         
-        @keyframes floatUp {
-            0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
-            15% { opacity: 1; transform: translateY(-20px) translateX(var(--drift, 0px)) scale(1.1); }
-            100% { transform: translateY(-380px) translateX(var(--drift, 0px)) scale(1); opacity: 0; }
+        /* ========== WAITING GAME BOX ========== */
+        .waiting-game-box {
+            margin-top: 16px;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid #c7d2fe;
+            background: #eef2ff;
+            text-align: center;
         }
+        .waiting-game-box.monster {
+            background: #ecfdf5;
+            border-color: #a7f3d0;
+        }
+        .waiting-game-header {
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        .waiting-game-header svg {
+            width: 20px; height: 20px;
+            color: #4f46e5;
+        }
+        .waiting-game-box.monster .waiting-game-header svg { color: #047857; }
+        .waiting-game-title {
+            font-weight: 700; color: #4f46e5; font-size: 1rem;
+        }
+        .waiting-game-box.monster .waiting-game-title { color: #047857; }
+        
+        /* ========== ANIMATIONS ========== */
+        @keyframes spin { to { transform: rotate(360deg); } }
         
         /* ========== RESPONSIVE ========== */
         @media (max-width: 500px) {
             body { padding: 8px; }
             .app-header { padding: 10px 14px; }
             .header-left h1 { font-size: 0.9rem; }
-            .header-left .icon { width: 30px; height: 30px; font-size: 0.8rem; }
+            .header-left .icon { width: 30px; height: 30px; }
+            .header-left .icon svg { width: 16px; height: 16px; }
             .card { padding: 18px 16px; }
             .waiting-pulse { width: 64px; height: 64px; }
             .waiting-pulse svg { width: 28px; height: 28px; }
-            .reaction-btn { width: 40px; height: 40px; font-size: 1.1rem; }
             .pin-input-group input { width: 130px; font-size: 1rem; padding: 10px 14px; }
             .pin-input-group .btn-join { padding: 10px 20px; font-size: 0.85rem; }
+            .mode-preview { padding: 14px; }
+            .monster-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+            .monster-choice { padding: 8px 4px; }
+            .monster-icon-wrap { width: 38px; height: 38px; }
+            .monster-svg { width: 28px; height: 28px; }
+            .monster-choice-name { font-size: 0.55rem; }
+            .monster-preview-glow { width: 78px; height: 78px; }
+            .monster-preview-icon svg.monster-svg { width: 58px; height: 58px; }
+            .monster-preview-name { font-size: 0.95rem; }
+        }
+
+        /* ========== MULTIPLAYER / NOTIFICATION UPGRADES ========== */
+        .saved-indicator{
+            position:fixed !important;
+            top:18px;
+            left:50%;
+            transform:translate(-50%,-14px);
+            width:min(92vw,430px);
+            z-index:10000;
+            box-shadow:0 12px 30px rgba(15,23,42,.16);
+            opacity:0;
+            pointer-events:none;
+            transition:opacity .25s ease, transform .25s ease;
+        }
+        .saved-indicator.toast-show{
+            opacity:1;
+            transform:translate(-50%,0);
+        }
+        .arena-players{
+            display:none;
+            margin:0 0 16px;
+            padding:16px;
+            border-radius:18px;
+            background:#fff;
+            border:1px solid #e8ecf1;
+            box-shadow:0 2px 8px rgba(0,0,0,.03);
+            text-align:left;
+        }
+        .arena-players.show{display:block;animation:slideDown .3s ease;}
+        .arena-players-head{
+            display:flex;align-items:center;justify-content:space-between;
+            gap:10px;margin-bottom:12px;
+        }
+        .arena-players-title{font-size:.92rem;font-weight:800;color:#0f172a;}
+        .arena-players-count{
+            font-size:.68rem;font-weight:700;color:#047857;
+            background:#ecfdf5;border:1px solid #a7f3d0;
+            padding:4px 9px;border-radius:20px;
+        }
+        .arena-player-list{display:grid;gap:9px;}
+        .arena-player{
+            display:flex;align-items:center;gap:10px;
+            padding:10px;border-radius:14px;
+            background:#f8fafc;border:1px solid #e2e8f0;
+        }
+        .arena-player.me{border-color:#a7f3d0;background:#f0fdf4;}
+        .arena-player-info{min-width:0;flex:1;}
+        .arena-player-name{
+            font-size:.8rem;font-weight:800;color:#0f172a;
+            white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        }
+        .arena-player-name .you{
+            color:#059669;font-size:.62rem;margin-left:4px;
+        }
+        .arena-player-status{font-size:.66rem;color:#64748b;margin-top:2px;}
+        .arena-player-monster{
+            width:52px;min-width:52px;text-align:center;
+            border-radius:11px;padding:5px;background:#fff;
+            border:1px solid #e2e8f0;
+        }
+        .arena-player-monster svg{width:30px;height:30px;display:block;margin:auto;}
+        .arena-player-monster small{
+            display:block;font-size:.5rem;font-weight:800;
+            color:#475569;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        }
+        .arena-empty{
+            padding:12px;text-align:center;font-size:.75rem;color:#94a3b8;
+            border:1px dashed #cbd5e1;border-radius:12px;
+        }
+        html[data-theme="dark"] body{background:#0f1115;color:#f3f4f6;}
+        html[data-theme="dark"] .app-header,
+        html[data-theme="dark"] .card,
+        html[data-theme="dark"] .arena-players{background:#171b23;border-color:#2a303c;color:#f3f4f6;}
+        html[data-theme="dark"] .header-left h1,
+        html[data-theme="dark"] .waiting-view h2,
+        html[data-theme="dark"] .monster-preview-name,
+        html[data-theme="dark"] .arena-players-title,
+        html[data-theme="dark"] .arena-player-name{color:#f3f4f6;}
+        html[data-theme="dark"] .btn-back,
+        html[data-theme="dark"] .monster-choice,
+        html[data-theme="dark"] .custom-name-group,
+        html[data-theme="dark"] .arena-player{background:#202631;border-color:#374151;color:#f3f4f6;}
+        html[data-theme="dark"] .monster-choice-name,
+        html[data-theme="dark"] .waiting-sub,
+        html[data-theme="dark"] .mode-preview-desc,
+        html[data-theme="dark"] .arena-player-status{color:#a7b0bf;}
+        html[data-theme="dark"] .arena-player.me{background:#123027;border-color:#17664f;}
+        html[data-theme="dark"] .arena-player-monster{background:#171b23;border-color:#374151;}
+        html[data-theme="dark"] .arena-player-monster small{color:#cbd5e1;}
+        @media (max-width:500px){
+            .arena-players{padding:14px;}
+            .saved-indicator{top:10px;}
         }
     </style>
+
+<style id="play-v3-polish">
+.arena-player{gap:10px;}
+.arena-player-info{padding-left:2px;}
+.arena-player-monster{margin-left:auto;}
+</style>
+
+<style id="play-v4-spacing">
+/* Jarak antara tombol Simpan Monster dan daftar pemain */
+.monster-picker {
+    margin-bottom: 28px !important;
+}
+
+/* Ikon topi pada panel menunggu sudah dihapus */
+.waiting-game-header {
+    gap: 0 !important;
+}
+
+/* Notifikasi monster tetap ringan dan tidak mengambil ruang permanen */
+.saved-indicator {
+    margin-top: 10px;
+}
+</style>
 </head>
 <body>
 
 <div class="app-container">
-    <!-- ===== HEADER ===== -->
     <header class="app-header">
         <div class="header-left">
-            <div class="icon"><i class="fas fa-door-open"></i></div>
-            <h1>Class Battle <span>| Join Arena</span></h1>
+            <div class="icon" id="headerIcon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/>
+                    <path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/>
+                </svg>
+            </div>
+            <h1>Class Battle <span id="headerSubtitle">| Join Arena</span></h1>
         </div>
         <div class="header-right">
-            <button class="btn-back" id="btnBackHome"><i class="fas fa-arrow-left"></i> Kembali</button>
+            <button class="btn-back" id="btnBackHome">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Kembali
+            </button>
         </div>
     </header>
 
-    <!-- ===== WAITING VIEW ===== -->
     <div id="waitingView" class="card waiting-view">
-        <div class="waiting-pulse">
+        <div class="waiting-pulse" id="waitingPulse">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/>
                 <path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/>
             </svg>
         </div>
-
-        <!-- PIN INPUT -->
-        <div class="pin-input-group">
+<div class="pin-input-group" id="pinInputGroup">
             <input type="text" id="pinInputField" placeholder="PIN Arena" maxlength="6" inputmode="numeric">
-            <button class="btn-join" id="btnJoinRoom"><i class="fas fa-arrow-right"></i> Masuk</button>
+            <button class="btn-join" id="btnJoinRoom">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Masuk
+            </button>
         </div>
 
-        <div style="margin-top: 16px; font-size:0.8rem; color:#94a3b8;">
-            <i class="fas fa-info-circle"></i> Masukkan PIN yang diberikan gurumu
+        <div class="mode-preview" id="modePreview">
+            <div class="mode-preview-header">
+                <div class="mode-preview-icon" id="modePreviewIcon"></div>
+                <div class="mode-preview-title" id="modePreviewTitle">Mode Klasik</div>
+            </div>
+            <div class="mode-preview-desc" id="modePreviewDesc"></div>
+        </div>
+
+        <div style="margin-top: 16px; font-size:0.8rem; color:#94a3b8;" id="pinHint">
+            Masukkan PIN yang diberikan gurumu
         </div>
 
         <div id="waitingStatus" style="margin-top: 16px; display:none;">
             <div style="display:flex; align-items:center; justify-content:center; gap:8px; color:#4f46e5; font-weight:600; font-size:0.9rem;">
-                <i class="fas fa-spinner fa-spin"></i>
+                <svg viewBox="0 0 24 24" fill="none" style="width:16px;height:16px;animation:spin 1s linear infinite;">
+                    <path d="M21 12a9 9 0 1 1-6.219-8.56" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
                 <span>Menghubungkan ke arena...</span>
             </div>
         </div>
 
-        <div id="waitingForGame" style="margin-top: 16px; display:none;">
-            <div style="background:#eef2ff; border-radius:16px; padding:16px; border:1px solid #c7d2fe;">
-                <div style="display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:6px;">
-                    <span style="font-size:1.2rem;">⏳</span>
-                    <span style="font-weight:700; color:#4f46e5; font-size:1rem;">Menunggu Guru Mulai</span>
+        <!-- MONSTER PICKER -->
+        <div class="monster-picker" id="monsterPicker">
+            <div class="picker-header">
+                <div class="picker-title">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 1.5.5 2.9 1.3 4.1L3 20h5l1-3h6l1 3h5l-3.3-6.9c.8-1.2 1.3-2.6 1.3-4.1 0-3.87-3.13-7-7-7zm-3 8.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="currentColor"/>
+                    </svg>
+                    Pilih Monstermu
+                </div>
+                <span class="picker-badge">Wajib</span>
+            </div>
+            <div class="monster-grid" id="monsterGrid"></div>
+
+            <div class="monster-preview-box" id="monsterPreviewBox">
+                <div class="monster-preview-glow" id="monsterPreviewGlow">
+                    <div class="monster-preview-icon" id="monsterPreviewIcon">
+                        <span class="preview-placeholder">?</span>
+                    </div>
+                </div>
+                <div class="monster-preview-name" id="monsterPreviewName">Belum Dipilih</div>
+                <div class="monster-preview-sub" id="monsterPreviewSub">Ketuk salah satu monster di atas untuk lihat preview-nya</div>
+            </div>
+<button class="save-monster-btn" id="btnSaveMonster">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Simpan Monster
+            </button>
+
+            <div class="saved-indicator" id="savedIndicator" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M22 4L12 14.01l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="saved-indicator-text">
+                    Monster <strong id="savedMonsterName">Dragon</strong> siap bertarung!
+                </div>
+            </div>
+        </div>
+
+        <div class="arena-players" id="arenaPlayers">
+            <div class="arena-players-head">
+                <div class="arena-players-title">Pemain di Arena</div>
+                <span class="arena-players-count" id="arenaPlayersCount">0 pemain</span>
+            </div>
+            <div class="arena-player-list" id="arenaPlayerList">
+                <div class="arena-empty">Menunggu pemain lain...</div>
+            </div>
+        </div>
+
+        <div id="waitingForGame" style="display:none;">
+            <div class="waiting-game-box" id="waitingGameBox">
+                <div class="waiting-game-header">
+                    <svg viewBox="0 0 24 24" fill="none" id="waitingIcon">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span class="waiting-game-title" id="waitingTitleText">Menunggu Guru Mulai</span>
                 </div>
                 <p style="font-size:0.85rem; color:#64748b;" id="waitingPlayerName">Halo, <strong id="playerNameDisplay">Pemain</strong>!</p>
-                <p class="waiting-sub">
+                <p class="waiting-sub" id="waitingSubText">
                     Guru akan memulai pertandingan sebentar lagi 
                     <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
                 </p>
             </div>
         </div>
-
-        <div class="reaction-bar" id="reactionBar"></div>
     </div>
 </div>
-
-<!-- ===== REACTION FLOATING ===== -->
-<div class="reaction-float-container" id="reactionFloatContainer"></div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -400,6 +830,159 @@
     const db = firebase.database();
 
     // ==========================================
+    // SVG MONSTER LIBRARY (WAJIB SVG) — versi keren, detail & bergradasi
+    // ==========================================
+    const MONSTER_SVGS = {
+        dragon: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradDragon" cx="35%" cy="28%" r="75%"><stop offset="0%" stop-color="#fca5a5"/><stop offset="55%" stop-color="#ef4444"/><stop offset="100%" stop-color="#a91c1c"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <path d="M20 14 L14 4 L24 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="0.6"/>
+            <path d="M44 14 L50 4 L40 10 Z" fill="#fbbf24" stroke="#b45309" stroke-width="0.6"/>
+            <path d="M14 26 L4 22 L13 34 Z" fill="#c2410c"/>
+            <path d="M50 26 L60 22 L51 34 Z" fill="#c2410c"/>
+            <ellipse cx="32" cy="34" rx="18" ry="17" fill="url(#gradDragon)" stroke="#7f1d1d" stroke-width="1" stroke-opacity="0.4"/>
+            <path d="M20 42a14 10 0 0 0 24 0 15 8 0 0 1 -24 0z" fill="#7f1d1d" opacity="0.28"/>
+            <path d="M28 6 L32 14 L36 6 L32 2 Z" fill="#fbbf24" stroke="#b45309" stroke-width="0.6"/>
+            <ellipse cx="25" cy="25" rx="7" ry="4.5" fill="#fff" opacity="0.25"/>
+            <circle cx="25" cy="32" r="3.6" fill="#fef08a"/>
+            <circle cx="39" cy="32" r="3.6" fill="#fef08a"/>
+            <ellipse cx="25" cy="32" rx="1.2" ry="2.4" fill="#1e293b"/>
+            <ellipse cx="39" cy="32" rx="1.2" ry="2.4" fill="#1e293b"/>
+            <circle cx="24.3" cy="30.5" r="0.7" fill="#fff" opacity="0.9"/>
+            <circle cx="38.3" cy="30.5" r="0.7" fill="#fff" opacity="0.9"/>
+            <path d="M22 44c3 4 7 6 10 6s7-2 10-6c-2 3-6 4-10 4s-8-1-10-4z" fill="#7f1d1d"/>
+            <path d="M27 44l1 3 2-3M34 44l1 3 2-3" fill="#fff"/>
+        </svg>`,
+        wolf: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradWolf" cx="35%" cy="28%" r="75%"><stop offset="0%" stop-color="#f1f5f9"/><stop offset="55%" stop-color="#94a3b8"/><stop offset="100%" stop-color="#3f4c5f"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <path d="M16 10 L26 22 L18 28 Z" fill="#334155"/>
+            <path d="M48 10 L38 22 L46 28 Z" fill="#334155"/>
+            <path d="M18 13 L25 22 L20 26 Z" fill="#64748b"/>
+            <path d="M46 13 L39 22 L44 26 Z" fill="#64748b"/>
+            <ellipse cx="32" cy="34" rx="18" ry="17" fill="url(#gradWolf)" stroke="#334155" stroke-width="1" stroke-opacity="0.35"/>
+            <path d="M20 30l4 1.5-2 2zM44 30l-4 1.5 2 2z" fill="#e2e8f0" opacity="0.6"/>
+            <path d="M22 40 Q32 52 42 40 Q38 48 32 48 Q26 48 22 40Z" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.5"/>
+            <ellipse cx="26" cy="25" rx="7" ry="4.5" fill="#fff" opacity="0.28"/>
+            <circle cx="25" cy="32" r="3.2" fill="#f87171"/>
+            <circle cx="39" cy="32" r="3.2" fill="#f87171"/>
+            <circle cx="25" cy="32" r="1.3" fill="#1e293b"/>
+            <circle cx="39" cy="32" r="1.3" fill="#1e293b"/>
+            <circle cx="24.4" cy="30.8" r="0.6" fill="#fff" opacity="0.9"/>
+            <circle cx="38.4" cy="30.8" r="0.6" fill="#fff" opacity="0.9"/>
+            <path d="M32 40 L34 44 L30 44 Z" fill="#1e293b"/>
+        </svg>`,
+        phoenix: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradPhoenix" cx="40%" cy="30%" r="80%"><stop offset="0%" stop-color="#fef08a"/><stop offset="45%" stop-color="#f97316"/><stop offset="100%" stop-color="#b91c1c"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <path d="M32 2 C30 10 26 12 20 12 C26 14 30 18 30 24 C24 22 18 24 14 30 C22 28 27 32 28 38 L36 38 C37 32 42 28 50 30 C46 24 40 22 34 24 C34 18 38 14 44 12 C38 12 34 10 32 2Z" fill="url(#gradPhoenix)" stroke="#9a3412" stroke-width="0.6" stroke-opacity="0.4"/>
+            <ellipse cx="32" cy="34" rx="13" ry="13" fill="url(#gradPhoenix)" stroke="#9a3412" stroke-width="1" stroke-opacity="0.35"/>
+            <path d="M22 40a10 7 0 0 0 20 0 11 5 0 0 1 -20 0z" fill="#9a3412" opacity="0.25"/>
+            <ellipse cx="27" cy="28" rx="5" ry="3.5" fill="#fff" opacity="0.3"/>
+            <circle cx="32" cy="33" r="2.6" fill="#7c2d12"/>
+            <circle cx="31.5" cy="32.3" r="0.6" fill="#fff" opacity="0.9"/>
+            <path d="M32 37 L28 42 L36 42 Z" fill="#facc15" stroke="#b45309" stroke-width="0.4"/>
+        </svg>`,
+        turtle: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradTurtle" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#a7f3d0"/><stop offset="55%" stop-color="#10b981"/><stop offset="100%" stop-color="#065f46"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <ellipse cx="32" cy="34" rx="19" ry="17" fill="url(#gradTurtle)" stroke="#064e3b" stroke-width="1" stroke-opacity="0.4"/>
+            <path d="M32 17 L38 24 L32 30 L26 24 Z" fill="#047857" stroke="#064e3b" stroke-width="0.5"/>
+            <path d="M18 30 L24 24 L26 34 L20 40Z" fill="#047857" opacity="0.85" stroke="#064e3b" stroke-width="0.4"/>
+            <path d="M46 30 L40 24 L38 34 L44 40Z" fill="#047857" opacity="0.85" stroke="#064e3b" stroke-width="0.4"/>
+            <path d="M32 38 L38 32 L44 38 L38 46Z" fill="#047857" opacity="0.85" stroke="#064e3b" stroke-width="0.4"/>
+            <path d="M32 38 L26 32 L20 38 L26 46Z" fill="#047857" opacity="0.85" stroke="#064e3b" stroke-width="0.4"/>
+            <ellipse cx="26" cy="24" rx="5" ry="3.2" fill="#fff" opacity="0.2"/>
+            <circle cx="24" cy="14" r="4.5" fill="url(#gradTurtle)" stroke="#064e3b" stroke-width="0.6"/>
+            <circle cx="40" cy="14" r="4.5" fill="url(#gradTurtle)" stroke="#064e3b" stroke-width="0.6"/>
+            <circle cx="24" cy="14" r="1" fill="#064e3b"/>
+            <circle cx="40" cy="14" r="1" fill="#064e3b"/>
+            <circle cx="23.6" cy="13.5" r="0.4" fill="#fff" opacity="0.8"/>
+            <circle cx="39.6" cy="13.5" r="0.4" fill="#fff" opacity="0.8"/>
+        </svg>`,
+        fox: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradFox" cx="35%" cy="28%" r="78%"><stop offset="0%" stop-color="#fed7aa"/><stop offset="55%" stop-color="#f97316"/><stop offset="100%" stop-color="#9a3412"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <path d="M14 8 L26 20 L16 24 Z" fill="#1e293b"/>
+            <path d="M50 8 L38 20 L48 24 Z" fill="#1e293b"/>
+            <path d="M16 14 L26 22 L18 26 Z" fill="url(#gradFox)"/>
+            <path d="M48 14 L38 22 L46 26 Z" fill="url(#gradFox)"/>
+            <ellipse cx="32" cy="34" rx="18" ry="16" fill="url(#gradFox)" stroke="#7c2d12" stroke-width="1" stroke-opacity="0.35"/>
+            <path d="M20 38a12 9 0 0 0 24 0 13 6 0 0 1 -24 0z" fill="#7c2d12" opacity="0.22"/>
+            <path d="M24 38 Q32 50 40 38 Q36 44 32 44 Q28 44 24 38Z" fill="#fff7ed" stroke="#fdba74" stroke-width="0.4"/>
+            <ellipse cx="26" cy="27" rx="6.5" ry="4.2" fill="#fff" opacity="0.26"/>
+            <path d="M18 31l7 1.5-2.5 3.2z" fill="#1e293b"/>
+            <path d="M46 31l-7 1.5 2.5 3.2z" fill="#1e293b"/>
+            <path d="M32 40 L29 44 L35 44 Z" fill="#1e293b"/>
+        </svg>`,
+        tiger: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradTiger" cx="35%" cy="28%" r="78%"><stop offset="0%" stop-color="#fef08a"/><stop offset="55%" stop-color="#eab308"/><stop offset="100%" stop-color="#854d0e"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <circle cx="16" cy="16" r="7" fill="url(#gradTiger)" stroke="#78350f" stroke-width="0.6" stroke-opacity="0.4"/>
+            <circle cx="48" cy="16" r="7" fill="url(#gradTiger)" stroke="#78350f" stroke-width="0.6" stroke-opacity="0.4"/>
+            <circle cx="16" cy="17" r="3.4" fill="#7c2d12"/>
+            <circle cx="48" cy="17" r="3.4" fill="#7c2d12"/>
+            <ellipse cx="32" cy="34" rx="19" ry="17" fill="url(#gradTiger)" stroke="#78350f" stroke-width="1" stroke-opacity="0.4"/>
+            <path d="M20 40a12 8 0 0 0 24 0 13 5 0 0 1 -24 0z" fill="#78350f" opacity="0.2"/>
+            <path d="M18 24l6 4M46 24l-6 4M16 34l7 1M48 34l-7 1M20 43l6-2M44 43l-6-2" stroke="#1e293b" stroke-width="2.4" stroke-linecap="round"/>
+            <ellipse cx="25" cy="27" rx="5.5" ry="3.5" fill="#fff" opacity="0.25"/>
+            <circle cx="25" cy="31" r="3.2" fill="#fff7ed"/>
+            <circle cx="39" cy="31" r="3.2" fill="#fff7ed"/>
+            <circle cx="25" cy="31" r="1.4" fill="#1e293b"/>
+            <circle cx="39" cy="31" r="1.4" fill="#1e293b"/>
+            <circle cx="24.4" cy="30.2" r="0.6" fill="#fff" opacity="0.9"/>
+            <circle cx="38.4" cy="30.2" r="0.6" fill="#fff" opacity="0.9"/>
+            <path d="M30 40h4v3l-2 2-2-2z" fill="#fca5a5" stroke="#78350f" stroke-width="0.4"/>
+        </svg>`,
+        shark: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradShark" cx="35%" cy="25%" r="80%"><stop offset="0%" stop-color="#cffafe"/><stop offset="55%" stop-color="#22d3ee"/><stop offset="100%" stop-color="#0e7490"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <path d="M32 4 L40 20 L24 20 Z" fill="#0e7490" stroke="#0c4a6e" stroke-width="0.5"/>
+            <path d="M12 30 Q32 12 52 30 Q46 44 32 48 Q18 44 12 30Z" fill="url(#gradShark)" stroke="#0c4a6e" stroke-width="1" stroke-opacity="0.4"/>
+            <path d="M18 34a16 8 0 0 0 28 0 17 5 0 0 1 -28 0z" fill="#0c4a6e" opacity="0.18"/>
+            <path d="M20 42 L26 46 L22 50Z" fill="#0e7490"/>
+            <path d="M44 42 L38 46 L42 50Z" fill="#0e7490"/>
+            <ellipse cx="22" cy="26" rx="5" ry="3.2" fill="#fff" opacity="0.3"/>
+            <path d="M16 32c1 2 1 4 0 6M18 31c1 2.4 1 4.8 0 7" stroke="#0c4a6e" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+            <circle cx="24" cy="28" r="2.6" fill="#fff"/>
+            <circle cx="24" cy="28" r="1.1" fill="#0c4a6e"/>
+            <circle cx="23.5" cy="27.4" r="0.4" fill="#fff"/>
+            <path d="M18 40 L46 40 L42 46 L22 46Z" fill="#f0fdff"/>
+            <path d="M22 40l2 5M28 40l0 5M34 40l0 5M40 40l-2 5" stroke="#0c4a6e" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>`,
+        owl: `<svg class="monster-svg" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs><radialGradient id="gradOwl" cx="35%" cy="28%" r="80%"><stop offset="0%" stop-color="#ddd6fe"/><stop offset="55%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#4c1d95"/></radialGradient></defs>
+            <ellipse cx="32" cy="57" rx="15" ry="3" fill="#000" opacity="0.15"/>
+            <path d="M20 12 L26 22 L16 22Z" fill="#6d28d9" stroke="#4c1d95" stroke-width="0.5"/>
+            <path d="M44 12 L38 22 L48 22Z" fill="#6d28d9" stroke="#4c1d95" stroke-width="0.5"/>
+            <ellipse cx="32" cy="35" rx="19" ry="18" fill="url(#gradOwl)" stroke="#4c1d95" stroke-width="1" stroke-opacity="0.4"/>
+            <path d="M20 42a12 8 0 0 0 24 0 13 5 0 0 1 -24 0z" fill="#4c1d95" opacity="0.22"/>
+            <path d="M18 48l3-3 3 3-3 3zM26 50l3-3 3 3-3 3zM34 50l3-3 3 3-3 3zM42 48l3-3 3 3-3 3z" fill="#5b21b6" opacity="0.5"/>
+            <circle cx="24" cy="32" r="8" fill="#fff"/>
+            <circle cx="40" cy="32" r="8" fill="#fff"/>
+            <circle cx="24" cy="32" r="3.6" fill="#fbbf24"/>
+            <circle cx="40" cy="32" r="3.6" fill="#fbbf24"/>
+            <circle cx="24" cy="32" r="1.6" fill="#1e293b"/>
+            <circle cx="40" cy="32" r="1.6" fill="#1e293b"/>
+            <circle cx="23.2" cy="30.8" r="0.6" fill="#fff" opacity="0.9"/>
+            <circle cx="39.2" cy="30.8" r="0.6" fill="#fff" opacity="0.9"/>
+            <path d="M32 38l-3 5h6z" fill="#fbbf24" stroke="#b45309" stroke-width="0.3"/>
+            <path d="M20 46q12 8 24 0" stroke="#4c1d95" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+        </svg>`
+    };
+
+    const MONSTERS = [
+        { id: 'dragon',  name: 'Drako',  solid: '#dc2626', soft: '#fee2e2' },
+        { id: 'wolf',    name: 'Luno',    solid: '#475569', soft: '#e2e8f0' },
+        { id: 'phoenix', name: 'Pyra', solid: '#f97316', soft: '#ffedd5' },
+        { id: 'turtle',  name: 'Tiko',  solid: '#059669', soft: '#d1fae5' },
+        { id: 'fox',     name: 'Fiko',     solid: '#ea580c', soft: '#ffedd5' },
+        { id: 'tiger',   name: 'Taro',   solid: '#ca8a04', soft: '#fef9c3' },
+        { id: 'shark',   name: 'Kairo',   solid: '#0e7490', soft: '#cffafe' },
+        { id: 'owl',     name: 'Nori',     solid: '#6d28d9', soft: '#ede9fe' }
+    ];
+
+    // ==========================================
     // STATE
     // ==========================================
     let activePin = null;
@@ -408,9 +991,13 @@
     let roomStatusListener = null;
     let isJoining = false;
     let isWaitingForGame = false;
+    let currentRoomMode = 'klasik';
+    let selectedMonsterId = null;
+    let monsterSaved = false;
+    let playersListener = null;
+    let savedToastTimer = null;
 
-    const DEFAULT_AVATAR_SVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>`;
-    const REACTION_EMOJIS = ['😂', '🔥', '👍', '❤️', '🎉', '😮'];
+    const DEFAULT_AVATAR_SVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>`;
 
     function escapeHtml(str) {
         return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
@@ -424,9 +1011,200 @@
     const waitingStatus = document.getElementById('waitingStatus');
     const waitingForGame = document.getElementById('waitingForGame');
     const playerNameDisplay = document.getElementById('playerNameDisplay');
+    const headerIcon = document.getElementById('headerIcon');
+    const headerSubtitle = document.getElementById('headerSubtitle');
+    const waitingPulse = document.getElementById('waitingPulse');
+    const waitingGameBox = document.getElementById('waitingGameBox');
+    const modePreview = document.getElementById('modePreview');
+    const modePreviewIcon = document.getElementById('modePreviewIcon');
+    const modePreviewTitle = document.getElementById('modePreviewTitle');
+    const modePreviewDesc = document.getElementById('modePreviewDesc');
+    const monsterPicker = document.getElementById('monsterPicker');
+    const monsterGrid = document.getElementById('monsterGrid');
+    const monsterPreviewBox = document.getElementById('monsterPreviewBox');
+    const monsterPreviewIcon = document.getElementById('monsterPreviewIcon');
+    const monsterPreviewName = document.getElementById('monsterPreviewName');
+    const monsterPreviewSub = document.getElementById('monsterPreviewSub');
+    const btnSaveMonster = document.getElementById('btnSaveMonster');
+    const savedIndicator = document.getElementById('savedIndicator');
+    const savedMonsterName = document.getElementById('savedMonsterName');
+    const pinHint = document.getElementById('pinHint');
+    const btnEditMonster = document.getElementById('btnEditMonster');
+    const arenaPlayers = document.getElementById('arenaPlayers');
+    const arenaPlayerList = document.getElementById('arenaPlayerList');
+    const arenaPlayersCount = document.getElementById('arenaPlayersCount');
 
     // ==========================================
-    // CEK SESSION TERSIMPAN
+    // SVG ICONS untuk mode preview
+    // ==========================================
+    const ICON_KLASIK = `<svg viewBox="0 0 24 24" fill="none"><path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l2.5 6.5L22 12l-6.5 2.5L13 21l-2.5-6.5L4 12l6.5-2.5L13 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const ICON_MONSTER = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 1.5.5 2.9 1.3 4.1L3 20h5l1-3h6l1 3h5l-3.3-6.9c.8-1.2 1.3-2.6 1.3-4.1 0-3.87-3.13-7-7-7zm-3 8.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="currentColor"/></svg>`;
+
+    // ==========================================
+    // APPLY MODE UI
+    // ==========================================
+    function applyModeUI(mode) {
+        currentRoomMode = mode;
+
+        if (mode === 'monster') {
+            headerIcon.classList.add('monster');
+            headerIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 1.5.5 2.9 1.3 4.1L3 20h5l1-3h6l1 3h5l-3.3-6.9c.8-1.2 1.3-2.6 1.3-4.1 0-3.87-3.13-7-7-7zm-3 8.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm6 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="currentColor"/></svg>`;
+            headerSubtitle.innerText = '| Monster Arena';
+            waitingPulse.classList.add('monster');
+            pinInput.classList.add('monster-focus');
+            btnJoin.classList.add('monster-btn');
+            waitingGameBox.classList.add('monster');
+
+            modePreview.className = 'mode-preview monster show';
+            modePreviewIcon.innerHTML = ICON_MONSTER;
+            modePreviewTitle.innerText = 'Mode Monster Battle';
+            modePreviewDesc.innerText = 'Pilih monster, jawab soal dengan benar buat naikin level, salah jawab = monster kena damage!';
+        } else {
+            headerIcon.classList.remove('monster');
+            headerIcon.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 3L1 8l11 5 9-4.09V17h2V8L12 3z" fill="currentColor"/><path d="M5 10.18v4.32c0 2 3.13 4.5 7 4.5s7-2.5 7-4.5v-4.32l-7 3.18-7-3.18z" fill="currentColor"/></svg>`;
+            headerSubtitle.innerText = '| Join Arena';
+            waitingPulse.classList.remove('monster');
+            pinInput.classList.remove('monster-focus');
+            btnJoin.classList.remove('monster-btn');
+            waitingGameBox.classList.remove('monster');
+
+            modePreview.className = 'mode-preview klasik show';
+            modePreviewIcon.innerHTML = ICON_KLASIK;
+            modePreviewTitle.innerText = 'Mode Klasik';
+            modePreviewDesc.innerText = 'Jawab soal pilihan ganda, skor masuk ke leaderboard real-time.';
+        }
+    }
+
+    // ==========================================
+    // RENDER MONSTER GRID
+    // ==========================================
+    function renderMonsterGrid() {
+        if (!monsterGrid) return;
+        monsterGrid.innerHTML = '';
+        MONSTERS.forEach(m => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'monster-choice';
+            btn.dataset.id = m.id;
+            btn.innerHTML = `
+                <div class="monster-icon-wrap">${MONSTER_SVGS[m.id]}</div>
+                <span class="monster-choice-name">${m.name}</span>
+            `;
+            btn.addEventListener('click', () => selectMonster(m.id));
+            monsterGrid.appendChild(btn);
+        });
+    }
+
+    function updateMonsterPreview(id, displayName) {
+        const m = MONSTERS.find(x => x.id === id);
+        if (!m || !monsterPreviewBox) return;
+        monsterPreviewBox.classList.add('active');
+        monsterPreviewBox.style.setProperty('--mon-solid', m.solid);
+        monsterPreviewBox.style.setProperty('--mon-soft', m.soft);
+        monsterPreviewIcon.innerHTML = MONSTER_SVGS[id];
+        monsterPreviewName.innerText = displayName || m.name;
+        monsterPreviewSub.innerText = `Siap bertarung sebagai ${m.name}`;
+    }
+
+    function selectMonster(id) {
+        selectedMonsterId = id;
+        monsterGrid.querySelectorAll('.monster-choice').forEach(btn => {
+            btn.classList.toggle('selected', btn.dataset.id === id);
+        });
+
+        const m = MONSTERS.find(x => x.id === id);
+        if (!m) return;
+
+        updateMonsterPreview(id, m.name);
+
+        // Cukup pilih monster lain, lalu tekan Simpan Monster lagi.
+        const savedId = myPlayerKey && window.__savedMonsterId ? window.__savedMonsterId : null;
+        if (!monsterSaved || id !== savedId) {
+            btnSaveMonster.disabled = false;
+            btnSaveMonster.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Simpan Monster`;
+        }
+    }
+
+    // ==========================================
+    // SAVE MONSTER
+    // ==========================================
+    function showSavedMonsterToast(name) {
+        if (!savedIndicator) return;
+        savedMonsterName.innerText = name || 'Monster';
+        savedIndicator.style.display = 'flex';
+        requestAnimationFrame(() => savedIndicator.classList.add('toast-show'));
+        clearTimeout(savedToastTimer);
+        savedToastTimer = setTimeout(() => {
+            savedIndicator.classList.remove('toast-show');
+            setTimeout(() => { savedIndicator.style.display = 'none'; }, 250);
+        }, 3200);
+    }
+
+    btnSaveMonster?.addEventListener('click', () => {
+        if (!selectedMonsterId) {
+            alert('Pilih monster kamu terlebih dahulu.');
+            return;
+        }
+        if (!activePin || !myPlayerKey) {
+            alert('Anda belum bergabung ke arena.');
+            return;
+        }
+
+        const monsterData = MONSTERS.find(m => m.id === selectedMonsterId);
+        const customName = monsterData.name;
+
+        btnSaveMonster.disabled = true;
+        btnSaveMonster.innerHTML = `<svg viewBox="0 0 24 24" fill="none" style="width:14px;height:14px;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Menyimpan...`;
+
+        db.ref(`rooms/${activePin}/players/${myPlayerKey}`).update({
+            monster: selectedMonsterId,
+            monsterEmoji: selectedMonsterId,
+            monsterName: customName,
+            monsterSvg: MONSTER_SVGS[selectedMonsterId],
+            monsterLevel: 1,
+            monsterHp: 20,
+            monsterMaxHp: 20,
+            monsterXp: 0,
+            monsterDead: false,
+            monsterReady: true
+        }).then(() => {
+            monsterSaved = true;
+            window.__savedMonsterId = selectedMonsterId;
+            window.__savedMonsterName = customName;
+            showSavedMonsterToast(customName);
+            btnSaveMonster.innerHTML = `<svg viewBox="0 0 24 24" fill="none" style="width:14px;height:14px;"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Tersimpan!`;
+            btnSaveMonster.disabled = true;
+        }).catch(err => {
+            alert('Gagal menyimpan monster: ' + err.message);
+            btnSaveMonster.disabled = false;
+            btnSaveMonster.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Simpan Monster`;
+        });
+    });
+
+    // ==========================================
+    // CHECK PIN MODE
+    // ==========================================
+    let pinCheckTimeout = null;
+    function checkPinMode(pin) {
+        if (!pin || pin.length < 4) {
+            modePreview.classList.remove('show');
+            return;
+        }
+        clearTimeout(pinCheckTimeout);
+        pinCheckTimeout = setTimeout(() => {
+            db.ref(`rooms/${pin}/mode`).once('value').then((snap) => {
+                if (snap.exists()) {
+                    const mode = snap.val() || 'klasik';
+                    applyModeUI(mode);
+                } else {
+                    modePreview.classList.remove('show');
+                }
+            }).catch(() => modePreview.classList.remove('show'));
+        }, 400);
+    }
+
+    // ==========================================
+    // CHECK SAVED SESSION
     // ==========================================
     function checkSavedSession() {
         const savedPin = localStorage.getItem('star_battle_pin');
@@ -434,7 +1212,6 @@
         const savedName = localStorage.getItem('star_battle_name');
 
         if (savedPin && savedKey && savedName) {
-            // Cek apakah room masih ada
             db.ref(`rooms/${savedPin}`).once('value').then((snap) => {
                 if (!snap.exists()) {
                     localStorage.removeItem('star_battle_pin');
@@ -444,17 +1221,20 @@
                 }
 
                 const room = snap.val();
-                // Cek apakah player masih ada di room
+                const mode = room.mode || 'klasik';
+                applyModeUI(mode);
+
                 if (room.players && room.players[savedKey]) {
                     activePin = savedPin;
                     myPlayerKey = savedKey;
                     myName = savedName;
                     playerNameDisplay.innerText = myName;
+                    setupPlayersListener();
 
-                    // Cek status room
+                    const myPlayerData = room.players[savedKey];
+
                     if (room.status === 'playing') {
-                        // Langsung redirect ke player.html (halaman ngerjain)
-                        window.location.href = 'player.html';
+                        redirectToPlayer(mode);
                     } else if (room.status === 'ended') {
                         alert('Pertandingan sudah selesai!');
                         localStorage.removeItem('star_battle_pin');
@@ -462,8 +1242,30 @@
                         localStorage.removeItem('star_battle_name');
                         window.location.href = 'index.html';
                     } else {
-                        // status waiting - tampilkan tunggu
                         showWaitingForGame();
+                        if (mode === 'monster') {
+                            if (myPlayerData.monster && myPlayerData.monsterReady) {
+                                monsterSaved = true;
+                                savedIndicator.style.display = 'none';
+                                savedMonsterName.innerText = myPlayerData.monsterName || 'Monster';
+                                                    monsterPicker.classList.add('show');
+                                selectedMonsterId = myPlayerData.monster;
+                                window.__savedMonsterId = myPlayerData.monster;
+                                window.__savedMonsterName = myPlayerData.monsterName || '';
+                                renderMonsterGrid();
+                                setTimeout(() => {
+                                    monsterGrid.querySelectorAll('.monster-choice').forEach(btn => {
+                                        btn.classList.toggle('selected', btn.dataset.id === selectedMonsterId);
+                                    });
+                                    updateMonsterPreview(selectedMonsterId, myPlayerData.monsterName);
+                                    btnSaveMonster.disabled = true;
+                                    btnSaveMonster.innerHTML = `<svg viewBox="0 0 24 24" fill="none" style="width:14px;height:14px;"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Tersimpan!`;
+                                }, 50);
+                            } else {
+                                monsterPicker.classList.add('show');
+                                renderMonsterGrid();
+                            }
+                        }
                         listenRoomStatus();
                     }
                 } else {
@@ -480,13 +1282,24 @@
     }
 
     // ==========================================
+    // REDIRECT
+    // ==========================================
+    function redirectToPlayer(mode) {
+        if (mode === 'monster') {
+            window.location.href = 'player-monster.html';
+        } else {
+            window.location.href = 'player.html';
+        }
+    }
+
+    // ==========================================
     // JOIN ROOM
     // ==========================================
     function joinRoom(pin, name) {
         if (isJoining) return;
         isJoining = true;
         btnJoin.disabled = true;
-        btnJoin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Masuk...';
+        btnJoin.innerHTML = `<svg viewBox="0 0 24 24" fill="none" style="width:14px;height:14px;animation:spin 1s linear infinite;"><path d="M21 12a9 9 0 1 1-6.219-8.56" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Masuk...`;
         waitingStatus.style.display = 'block';
 
         db.ref(`rooms/${pin}`).once('value').then((snap) => {
@@ -497,6 +1310,8 @@
             }
 
             const roomData = snap.val();
+            const mode = roomData.mode || 'klasik';
+            applyModeUI(mode);
 
             if (roomData.status === 'ended') {
                 alert('Pertandingan di arena ini sudah selesai!');
@@ -504,7 +1319,6 @@
                 return;
             }
 
-            // Push player ke room
             const playerRef = db.ref(`rooms/${pin}/players`).push();
             const playerData = {
                 name: name,
@@ -515,23 +1329,40 @@
                 status: 'Bertanding'
             };
 
+            if (mode === 'monster') {
+                playerData.monster = null;
+                playerData.monsterEmoji = null;
+                playerData.monsterName = null;
+                playerData.monsterLevel = 1;
+                playerData.monsterHp = 20;
+                playerData.monsterMaxHp = 20;
+                playerData.monsterXp = 0;
+                playerData.monsterDead = false;
+                playerData.monsterReady = false;
+            }
+
             playerRef.set(playerData).then(() => {
                 activePin = pin;
                 myPlayerKey = playerRef.key;
                 myName = name;
+                setupPlayersListener();
 
                 localStorage.setItem('star_battle_pin', pin);
                 localStorage.setItem('star_battle_key', myPlayerKey);
                 localStorage.setItem('star_battle_name', name);
+                localStorage.setItem('star_game_mode', mode);
 
                 playerNameDisplay.innerText = myName;
                 waitingStatus.style.display = 'none';
 
-                // Cek status room
                 if (roomData.status === 'playing') {
-                    window.location.href = 'player.html';
+                    redirectToPlayer(mode);
                 } else {
                     showWaitingForGame();
+                    if (mode === 'monster') {
+                        monsterPicker.classList.add('show');
+                        renderMonsterGrid();
+                    }
                     listenRoomStatus();
                 }
             }).catch(err => {
@@ -551,12 +1382,16 @@
         if (roomStatusListener) {
             db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
         }
-
         roomStatusListener = db.ref(`rooms/${activePin}/status`).on('value', (snap) => {
             const status = snap.val();
             if (status === 'playing') {
                 db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
-                window.location.href = 'player.html';
+                if (currentRoomMode === 'monster' && !monsterSaved) {
+                    if (!confirm('Kamu belum pilih monster! Tetap lanjut bertarung dengan monster default?')) {
+                        return;
+                    }
+                }
+                redirectToPlayer(currentRoomMode);
             } else if (status === 'ended') {
                 db.ref(`rooms/${activePin}/status`).off('value', roomStatusListener);
                 alert('Pertandingan telah dihentikan oleh guru!');
@@ -569,77 +1404,74 @@
     }
 
     // ==========================================
-    // SHOW WAITING FOR GAME
+    // SHOW WAITING
     // ==========================================
     function showWaitingForGame() {
         isWaitingForGame = true;
+        // Urutan setelah bergabung: daftar pemain -> status menunggu guru -> pilih/edit monster.
+        if (arenaPlayers && waitingForGame && waitingForGame.parentNode) {
+            waitingForGame.parentNode.insertBefore(waitingForGame, monsterPicker);
+            arenaPlayers.classList.add('show');
+        }
         waitingForGame.style.display = 'block';
         btnJoin.style.display = 'none';
         pinInput.style.display = 'none';
-        document.querySelector('.pin-input-group .fa-info-circle')?.parentElement?.remove();
+        modePreview.classList.remove('show');
+        if (pinHint) pinHint.style.display = 'none';
+        if (waitingPulse) waitingPulse.style.display = 'none';
     }
 
-    // ==========================================
-    // RESET JOIN BUTTON
-    // ==========================================
     function resetJoinButton() {
         isJoining = false;
         btnJoin.disabled = false;
-        btnJoin.innerHTML = '<i class="fas fa-arrow-right"></i> Masuk';
+        btnJoin.innerHTML = `<svg viewBox="0 0 24 24" fill="none" style="width:14px;height:14px;"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Masuk`;
         waitingStatus.style.display = 'none';
     }
 
     // ==========================================
-    // REACTION
+    // LIVE PLAYER LIST + MONSTER STATUS
     // ==========================================
-    function renderReactionBar() {
-        const bar = document.getElementById('reactionBar');
-        if (!bar) return;
-        bar.innerHTML = '';
-        REACTION_EMOJIS.forEach((emoji) => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'reaction-btn';
-            btn.innerText = emoji;
-            btn.addEventListener('click', () => sendReaction(emoji));
-            bar.appendChild(btn);
+    function renderPlayers(players) {
+        if (!arenaPlayerList) return;
+        const entries = Object.entries(players || {}).sort((a,b) => {
+            if (a[0] === myPlayerKey) return -1;
+            if (b[0] === myPlayerKey) return 1;
+            return String(a[1]?.name || '').localeCompare(String(b[1]?.name || ''));
         });
+
+        arenaPlayersCount.innerText = `${entries.length} pemain`;
+        if (!entries.length) {
+            arenaPlayerList.innerHTML = '<div class="arena-empty">Belum ada pemain lain di arena.</div>';
+            return;
+        }
+
+        arenaPlayerList.innerHTML = entries.map(([key, p]) => {
+            const monster = MONSTERS.find(m => m.id === p.monster);
+            const monsterHtml = monster
+                ? `${MONSTER_SVGS[monster.id]}<small>${escapeHtml(p.monsterName || monster.name)}</small>`
+                : `<span style="font-size:1.15rem;">?</span><small>Belum pilih</small>`;
+            const status = p.monsterReady ? `Lv. ${p.monsterLevel || 1} • HP ${p.monsterHp ?? 20}/${p.monsterMaxHp || 20}` : 'Memilih monster...';
+            return `
+                <div class="arena-player ${key === myPlayerKey ? 'me' : ''}">
+                    <div class="arena-player-info">
+                        <div class="arena-player-name">${escapeHtml(p.name || 'Pemain')}${key === myPlayerKey ? '<span class="you">(Anda)</span>' : ''}</div>
+                        <div class="arena-player-status">${escapeHtml(status)}</div>
+                    </div>
+                    <div class="arena-player-monster">${monsterHtml}</div>
+                </div>
+            `;
+        }).join('');
     }
 
-    function sendReaction(emoji) {
+    function setupPlayersListener() {
         if (!activePin) return;
-        const reactionRef = db.ref(`rooms/${activePin}/reactions`).push();
-        reactionRef.set({
-            emoji: emoji,
-            name: myName || 'Pemain',
-            time: firebase.database.ServerValue.TIMESTAMP
-        }).then(() => {
-            setTimeout(() => reactionRef.remove(), 4000);
-        });
-    }
-
-    function setupReactionListener() {
-        if (!activePin) return;
-        db.ref(`rooms/${activePin}/reactions`).on('child_added', (snap) => {
-            const data = snap.val();
-            if (data && data.emoji) spawnReactionBubble(data.emoji, data.name);
-        });
-    }
-
-    function spawnReactionBubble(emoji, name) {
-        const container = document.getElementById('reactionFloatContainer');
-        if (!container) return;
-
-        const bubble = document.createElement('div');
-        bubble.className = 'reaction-bubble';
-        bubble.style.left = `${10 + Math.random() * 80}%`;
-        bubble.style.setProperty('--drift', `${(Math.random() * 60) - 30}px`);
-        bubble.innerHTML = `
-            <span class="emoji-face">${emoji}</span>
-            ${name ? `<span class="emoji-owner">${escapeHtml(name)}</span>` : ''}
-        `;
-        container.appendChild(bubble);
-        bubble.addEventListener('animationend', () => bubble.remove());
+        if (playersListener) db.ref(`rooms/${activePin}/players`).off('value', playersListener);
+        playersListener = snap => {
+            const players = snap.val() || {};
+            renderPlayers(players);
+        };
+        db.ref(`rooms/${activePin}/players`).on('value', playersListener);
+        arenaPlayers?.classList.add('show');
     }
 
     // ==========================================
@@ -669,39 +1501,42 @@
             alert('Nama tidak boleh kosong!');
             return;
         }
-
         if (pin.length < 4) {
             alert('PIN minimal 4 digit!');
             return;
         }
-
         joinRoom(pin, name.trim());
     });
 
-    // Enter pada input PIN
+    pinInput.addEventListener('input', (e) => {
+        checkPinMode(e.target.value.trim());
+    });
+
     pinInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            btnJoin.click();
-        }
+        if (e.key === 'Enter') btnJoin.click();
     });
 
     // ==========================================
     // INIT
     // ==========================================
     document.addEventListener('DOMContentLoaded', () => {
-        renderReactionBar();
-        
-        // Cek session tersimpan
         checkSavedSession();
-
-        // Setup reaction listener jika sudah ada PIN
-        if (activePin) {
-            setupReactionListener();
-        }
     });
 
-    console.log('🎮 Class Battle Play (Join) loaded');
+    console.log('Class Battle Play (2 modes) loaded');
 </script>
 
+
+<script>
+(function(){
+    const savedTheme = localStorage.getItem('nita-theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    window.addEventListener('storage', e => {
+        if (e.key === 'nita-theme') {
+            document.documentElement.setAttribute('data-theme', e.newValue || 'light');
+        }
+    });
+})();
+</script>
 </body>
 </html>

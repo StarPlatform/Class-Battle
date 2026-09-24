@@ -93,7 +93,9 @@
         }
         .input-wrapper i {
             position: absolute;
+            top: 50%;
             left: 16px;
+            transform: translateY(-50%);
             color: #94a3b8;
             font-size: 0.95rem;
         }
@@ -114,6 +116,40 @@
             background: #ffffff;
             box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
         }
+        .input-wrapper input.has-toggle { padding-right: 42px; }
+        .toggle-pass {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-tap-highlight-color: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.9rem;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        .toggle-pass:active { background: rgba(148,163,184,0.18); }
+        .toggle-pass:hover { color: #475569; }
+        .field-hint {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            margin-top: 5px;
+            display: block;
+        }
+        .field-hint.error { color: #dc2626; font-weight: 600; }
+        .input-wrapper input.invalid { border-color: #dc2626; background: #fef2f2; }
+        .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
         .btn-submit {
             width: 100%;
             background: #2563eb;
@@ -172,48 +208,124 @@
             font-weight: 500;
         }
         .back-home:hover { color: #2563eb; }
+
+        /* ========== CUSTOM MODAL (pengganti alert bawaan browser) ========== */
+        .modal-overlay-custom {
+            position: fixed; inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(4px);
+            z-index: 20000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s;
+        }
+        .modal-overlay-custom.show { opacity: 1; pointer-events: auto; }
+        .modal-card-custom {
+            background: white;
+            border-radius: 22px;
+            padding: 26px 22px 22px;
+            max-width: 320px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+            transform: scale(0.85) translateY(10px);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-overlay-custom.show .modal-card-custom { transform: scale(1) translateY(0); }
+        .modal-icon-custom {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .modal-icon-custom svg { width: 26px; height: 26px; }
+        .modal-icon-custom.info { background: #eef2ff; color: #4f46e5; }
+        .modal-icon-custom.warning { background: #fef3c7; color: #d97706; }
+        .modal-icon-custom.danger { background: #fee2e2; color: #dc2626; }
+        .modal-title-custom { font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+        .modal-msg-custom { font-size: 0.85rem; color: #64748b; line-height: 1.5; margin-bottom: 20px; white-space: pre-line; }
+        .modal-actions-custom { display: flex; gap: 10px; }
+        .modal-btn-custom {
+            flex: 1;
+            border: none;
+            padding: 11px 14px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .modal-btn-custom.primary { background: #4f46e5; color: white; }
+        .modal-btn-custom.primary:hover { background: #4338ca; }
+        .modal-btn-custom.danger { background: #dc2626; color: white; }
+        .modal-btn-custom.danger:hover { background: #b91c1c; }
+        .modal-btn-custom.secondary { background: #f1f5f9; color: #475569; }
+        .modal-btn-custom.secondary:hover { background: #e2e8f0; }
     </style>
 </head>
 <body>
     <div class="auth-container">
         <div class="auth-logo">
-            <span>Class Battle X STools</span>
         </div>
         <div class="auth-header">
             <h2 id="authTitle">Selamat Datang Kembali</h2>
-            <p id="authDesc">Masuk untuk mengakses room kuis dan track skor kelas.</p>
+            <p id="authDesc">Masuk untuk mengakses room kuis dan mainkan kuis.</p>
         </div>
         <div class="auth-tabs">
-            <button class="auth-tab-btn active" id="tabSignIn">Sign In</button>
-            <button class="auth-tab-btn" id="tabSignUp">Sign Up</button>
+            <button class="auth-tab-btn active" id="tabSignIn">Masuk</button>
+            <button class="auth-tab-btn" id="tabSignUp">Buat</button>
         </div>
         <form id="authForm" onsubmit="handleAuthSubmit(event)">
             <div class="form-group" id="usernameField" style="display: none;">
                 <label for="inputUsername">Username</label>
                 <div class="input-wrapper">
                     <i class="fas fa-user"></i>
-                    <input type="text" id="inputUsername" placeholder="Masukkan username unik">
+                    <input type="text" id="inputUsername" placeholder="Masukkan username unik" maxlength="20" autocomplete="username">
                 </div>
+                <span class="field-hint">3-20 karakter, tanpa spasi atau simbol.</span>
             </div>
             <div class="form-group">
                 <label for="inputEmail">Alamat Email</label>
                 <div class="input-wrapper">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" id="inputEmail" placeholder="nama@sekolah.com" required>
+                    <input type="email" id="inputEmail" placeholder="nama@gmail.com" required autocomplete="email">
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputPassword">Kata Sandi</label>
                 <div class="input-wrapper">
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="inputPassword" placeholder="••••••••" required>
+                    <input type="password" id="inputPassword" class="has-toggle" placeholder="••••••••" required minlength="6" autocomplete="current-password">
+                    <button type="button" class="toggle-pass" data-target="inputPassword" tabindex="-1"><i class="fas fa-eye"></i></button>
+                </div>
+                <span class="field-hint">Minimal 6 karakter.</span>
+            </div>
+            <div class="form-group" id="confirmPasswordField" style="display: none;">
+                <label for="inputConfirmPassword">Konfirmasi Kata Sandi</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="inputConfirmPassword" class="has-toggle" placeholder="••••••••" autocomplete="new-password">
+                    <button type="button" class="toggle-pass" data-target="inputConfirmPassword" tabindex="-1"><i class="fas fa-eye"></i></button>
                 </div>
             </div>
             <button type="submit" class="btn-submit" id="btnSubmitForm">Masuk Sekarang</button>
         </form>
-        <div class="divider">atau pakai akses cepat</div>
+        <div class="divider">Atau</div>
         <button class="btn-guest" id="btnGuestAction"><i class="fas fa-user-ninja"></i> Masuk Sebagai Guest</button>
         <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Kembali ke Beranda</a>
+    </div>
+
+    <!-- ===== CUSTOM MODAL (alert) ===== -->
+    <div class="modal-overlay-custom" id="customModalOverlay">
+        <div class="modal-card-custom">
+            <div class="modal-icon-custom" id="customModalIcon"></div>
+            <div class="modal-title-custom" id="customModalTitle">Judul</div>
+            <div class="modal-msg-custom" id="customModalMsg">Pesan.</div>
+            <div class="modal-actions-custom" id="customModalActions"></div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -239,24 +351,74 @@
         const auth = firebase.auth();
         const db = firebase.database();
 
+        // ==========================================
+        // CUSTOM ALERT (pengganti alert() bawaan browser)
+        // ==========================================
+        const customModalOverlay = document.getElementById('customModalOverlay');
+        const customModalIcon = document.getElementById('customModalIcon');
+        const customModalTitle = document.getElementById('customModalTitle');
+        const customModalMsg = document.getElementById('customModalMsg');
+        const customModalActions = document.getElementById('customModalActions');
+
+        const MODAL_ICONS = {
+            info: `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+            warning: `<svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+            danger: `<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M15 9l-6 6M9 9l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`
+        };
+
+        function showCustomAlert(message, opts = {}) {
+            return new Promise(resolve => {
+                if (!customModalOverlay) { resolve(); return; }
+                const type = opts.type || 'info';
+                customModalIcon.className = `modal-icon-custom ${type}`;
+                customModalIcon.innerHTML = MODAL_ICONS[type] || MODAL_ICONS.info;
+                customModalTitle.innerText = opts.title || 'Pemberitahuan';
+                customModalMsg.innerText = message;
+                customModalActions.innerHTML = '';
+
+                const okBtn = document.createElement('button');
+                okBtn.type = 'button';
+                okBtn.className = 'modal-btn-custom primary';
+                okBtn.innerText = opts.okText || 'OK';
+                okBtn.onclick = () => {
+                    customModalOverlay.classList.remove('show');
+                    resolve();
+                };
+                customModalActions.appendChild(okBtn);
+                customModalOverlay.classList.add('show');
+            });
+        }
+
         const tabSignIn = document.getElementById('tabSignIn');
         const tabSignUp = document.getElementById('tabSignUp');
         const usernameField = document.getElementById('usernameField');
+        const confirmPasswordField = document.getElementById('confirmPasswordField');
         const authTitle = document.getElementById('authTitle');
         const authDesc = document.getElementById('authDesc');
         const btnSubmitForm = document.getElementById('btnSubmitForm');
         const inputUsername = document.getElementById('inputUsername');
+        const inputEmail = document.getElementById('inputEmail');
+        const inputPassword = document.getElementById('inputPassword');
+        const inputConfirmPassword = document.getElementById('inputConfirmPassword');
 
         let isSignUpMode = false;
+
+        function clearFieldErrors() {
+            [inputUsername, inputEmail, inputPassword, inputConfirmPassword].forEach(el => el.classList.remove('invalid'));
+        }
 
         tabSignIn.addEventListener('click', () => {
             isSignUpMode = false;
             tabSignIn.classList.add('active');
             tabSignUp.classList.remove('active');
             usernameField.style.display = 'none';
+            confirmPasswordField.style.display = 'none';
             inputUsername.removeAttribute('required');
+            inputConfirmPassword.removeAttribute('required');
+            inputPassword.setAttribute('autocomplete', 'current-password');
+            clearFieldErrors();
             authTitle.innerText = "Selamat Datang Kembali";
-            authDesc.innerText = "Masuk untuk mengakses room kuis dan track skor kelas.";
+            authDesc.innerText = "Masuk untuk mengakses room kuis dan mainkan kuis.";
             btnSubmitForm.innerText = "Masuk Sekarang";
         });
 
@@ -265,10 +427,29 @@
             tabSignUp.classList.add('active');
             tabSignIn.classList.remove('active');
             usernameField.style.display = 'block';
+            confirmPasswordField.style.display = 'block';
             inputUsername.setAttribute('required', 'required');
+            inputConfirmPassword.setAttribute('required', 'required');
+            inputPassword.setAttribute('autocomplete', 'new-password');
+            clearFieldErrors();
             authTitle.innerText = "Daftar Akun Baru";
-            authDesc.innerText = "Buat akun Star Tools milikmu secara gratis sekarang.";
+            authDesc.innerText = "Buat akun Class Battle milikmu secara gratis sekarang.";
             btnSubmitForm.innerText = "Buat Akun Baru";
+        });
+
+        // Toggle lihat/sembunyikan kata sandi
+        document.querySelectorAll('.toggle-pass').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = document.getElementById(btn.dataset.target);
+                const icon = btn.querySelector('i');
+                const isHidden = target.type === 'password';
+                target.type = isHidden ? 'text' : 'password';
+                icon.className = isHidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+            });
+        });
+
+        [inputUsername, inputEmail, inputPassword, inputConfirmPassword].forEach(el => {
+            el.addEventListener('input', () => el.classList.remove('invalid'));
         });
 
         // =====================================================
@@ -310,20 +491,102 @@
         }
 
         // =====================================================
+        //  KEAMANAN: VALIDASI FORM + PESAN ERROR RAMAH PENGGUNA
+        // =====================================================
+        const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const USERNAME_REGEX = /^[A-Za-z0-9_ ]{3,20}$/;
+
+        let failedLoginAttempts = 0;
+        let lockoutUntil = 0;
+
+        // Ubah pesan error mentah dari Firebase jadi bahasa manusia.
+        // Untuk LOGIN, sengaja disamarkan (tidak bilang "email tidak ditemukan" vs
+        // "password salah" secara spesifik) supaya orang lain tidak bisa menebak-nebak
+        // email mana saja yang sudah terdaftar di sistem.
+        function getFriendlyAuthError(error, mode) {
+            const code = error && error.code ? error.code : '';
+            if (mode === 'signin') {
+                if (['auth/user-not-found', 'auth/wrong-password', 'auth/invalid-email', 'auth/invalid-credential'].includes(code)) {
+                    return 'Email atau kata sandi salah. Silakan periksa kembali.';
+                }
+            }
+            switch (code) {
+                case 'auth/email-already-in-use':
+                    return 'Email ini sudah terdaftar. Silakan masuk atau gunakan email lain.';
+                case 'auth/invalid-email':
+                    return 'Format email tidak valid.';
+                case 'auth/weak-password':
+                    return 'Kata sandi terlalu lemah. Gunakan minimal 6 karakter.';
+                case 'auth/too-many-requests':
+                    return 'Terlalu banyak percobaan dari perangkat ini. Coba lagi beberapa saat lagi.';
+                case 'auth/network-request-failed':
+                    return 'Koneksi bermasalah. Periksa jaringan internetmu.';
+                case 'auth/user-disabled':
+                    return 'Akun ini telah dinonaktifkan.';
+                default:
+                    return 'Terjadi kesalahan. Silakan coba lagi.';
+            }
+        }
+
+        function markInvalid(el) {
+            el.classList.add('invalid');
+        }
+
+        // Validasi di sisi klien sebelum request dikirim ke Firebase.
+        // Return string pesan error (kalau ada masalah) atau null (kalau semua valid).
+        function validateAuthForm(email, password, username, confirmPassword) {
+            clearFieldErrors();
+
+            if (!EMAIL_REGEX.test(email)) {
+                markInvalid(inputEmail);
+                return 'Format email tidak valid.';
+            }
+            if (password.length < 6) {
+                markInvalid(inputPassword);
+                return 'Kata sandi minimal 6 karakter.';
+            }
+            if (isSignUpMode) {
+                if (!USERNAME_REGEX.test(username)) {
+                    markInvalid(inputUsername);
+                    return 'Username 3-20 karakter, hanya huruf, angka, underscore, atau spasi.';
+                }
+                if (password !== confirmPassword) {
+                    markInvalid(inputConfirmPassword);
+                    return 'Konfirmasi kata sandi tidak cocok.';
+                }
+            }
+            return null;
+        }
+
+        // =====================================================
         //  ENGINE UTAMA PROSES REGISTER & LOGIN REAL
         // =====================================================
         window.handleAuthSubmit = function(e) {
             e.preventDefault();
+
+            // Pembatasan percobaan: kalau baru saja gagal login berkali-kali,
+            // tahan dulu sebentar sebelum boleh mencoba lagi (anti brute-force ringan).
+            if (!isSignUpMode && Date.now() < lockoutUntil) {
+                const sisaDetik = Math.ceil((lockoutUntil - Date.now()) / 1000);
+                showCustomAlert(`Terlalu banyak percobaan gagal. Coba lagi dalam ${sisaDetik} detik.`, { title: 'Ditahan Sementara', type: 'warning' });
+                return;
+            }
             
             const email = document.getElementById('inputEmail').value.trim();
             const password = document.getElementById('inputPassword').value;
+            const username = isSignUpMode ? inputUsername.value.trim() : '';
+            const confirmPassword = isSignUpMode ? inputConfirmPassword.value : '';
+
+            const validationError = validateAuthForm(email, password, username, confirmPassword);
+            if (validationError) {
+                showCustomAlert(validationError, { title: 'Periksa Kembali', type: 'warning' });
+                return;
+            }
 
             btnSubmitForm.disabled = true;
             btnSubmitForm.innerText = "Memproses...";
 
             if (isSignUpMode) {
-                const username = inputUsername.value.trim();
-
                 auth.createUserWithEmailAndPassword(email, password)
                     .then(async (userCredential) => {
                         const user = userCredential.user;
@@ -350,12 +613,14 @@
                         userProfile.isLogged = true;
                         localStorage.setItem('userSession', JSON.stringify(userProfile));
                         
-                        alert(`Akun @${username} Berhasil Dibuat! UID: ${customUID}`);
-                        window.location.href = 'index.html';
+                        showCustomAlert(`Akun @${username} berhasil dibuat! UID: ${customUID}`, { title: 'Berhasil!', type: 'info' }).then(() => {
+                            window.location.href = 'index.html';
+                        });
                     })
                     .catch((error) => {
-                        alert("Gagal membuat akun: " + error.message);
-                        resetSubmitButton();
+                        showCustomAlert(getFriendlyAuthError(error, 'signup'), { title: 'Gagal Membuat Akun', type: 'danger' }).then(() => {
+                            resetSubmitButton();
+                        });
                     });
 
             } else {
@@ -400,13 +665,28 @@
                         
                         sessionPayload.isLogged = true;
                         localStorage.setItem('userSession', JSON.stringify(sessionPayload));
+                        failedLoginAttempts = 0;
 
-                        alert("Login Berhasil! Selamat datang, " + sessionPayload.name);
-                        window.location.href = 'index.html';
+                        showCustomAlert(`Selamat datang, ${sessionPayload.name}!`, { title: 'Login Berhasil!', type: 'info' }).then(() => {
+                            window.location.href = 'index.html';
+                        });
                     })
                     .catch((error) => {
-                        alert("Login Gagal! Periksa email dan password kembali.\nError: " + error.message);
-                        resetSubmitButton();
+                        failedLoginAttempts++;
+                        let msg = getFriendlyAuthError(error, 'signin');
+                        
+                        // Setelah 5 kali gagal berturut-turut, tahan sebentar (anti brute-force ringan)
+                        if (failedLoginAttempts >= 5) {
+                            lockoutUntil = Date.now() + 30000;
+                            failedLoginAttempts = 0;
+                            msg = 'Terlalu banyak percobaan gagal. Coba lagi dalam 30 detik.';
+                        }
+                        
+                        markInvalid(inputEmail);
+                        markInvalid(inputPassword);
+                        showCustomAlert(msg, { title: 'Login Gagal', type: 'danger' }).then(() => {
+                            resetSubmitButton();
+                        });
                     });
             }
         };
@@ -429,8 +709,9 @@
                 isLogged: true
             };
             localStorage.setItem('userSession', JSON.stringify(guestData));
-            alert("Masuk sebagai Penjelajah Sementara (Guest). UID: " + guestUID);
-            window.location.href = 'index.html';
+            showCustomAlert(`Masuk sebagai Penjelajah Sementara (Guest). UID: ${guestUID}`, { title: 'Berhasil!', type: 'info' }).then(() => {
+                window.location.href = 'index.html';
+            });
         });
     </script>
 </body>

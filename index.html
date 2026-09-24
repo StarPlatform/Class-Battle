@@ -3,189 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Class Battle</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <title>Class Battle X Star Tools - Kompetisi Kelas Seru</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #f0f2f5;
+            --bg-card: #ffffff;
+            --bg-soft: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-color: #e2e8f0;
+            --border-soft: #edf2f7;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --accent-soft: #eef2ff;
+            --success: #10b981;
+            --success-hover: #059669;
+            --warning: #f59e0b;
+            --danger: #ef4444;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f0f2f5;
-            color: #1e293b;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.5;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-soft); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* HEADER */
         header {
-            background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-
         .navbar {
-            max-width: 1280px;
-            margin: 0 auto;
+            max-width: 1280px; margin: 0 auto;
             padding: 14px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 16px;
         }
-
         .logo {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
+            font-weight: 700; font-size: 1.2rem;
+            color: var(--text-primary);
+            display: flex; align-items: center; gap: 8px;
+            cursor: pointer; transition: transform 0.2s;
         }
-        .logo i {
-            color: #2563eb;
-            font-size: 1.3rem;
-        }
-        .logo span {
-            font-weight: 400;
-            color: #64748b;
-            font-size: 0.85rem;
-        }
+        .logo:hover { transform: scale(1.02); }
+        .logo i { color: var(--accent); font-size: 1.3rem; }
 
         .nav-menu {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            list-style: none;
-            flex-wrap: wrap;
+            display: flex; gap: 16px; align-items: center;
+            list-style: none; flex-wrap: wrap;
         }
-
         .nav-menu a {
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #475569;
-            transition: color 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            text-decoration: none; font-size: 0.9rem; font-weight: 500;
+            color: var(--text-secondary); transition: color 0.2s;
+            display: inline-flex; align-items: center; gap: 6px;
         }
-
-        .nav-menu a:hover {
-            color: #2563eb;
-        }
+        .nav-menu a:hover { color: var(--accent); }
 
         .nav-profile-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-weight: 700;
-            font-size: 0.95rem;
-            color: #ffffff;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 50%;
+            font-weight: 700; font-size: 0.95rem; color: #fff;
             text-decoration: none;
             box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-            overflow: hidden;
-            transition: transform 0.2s;
-            background: #2563eb;
-            cursor: pointer;
-            border: none;
+            overflow: hidden; transition: transform 0.2s;
+            background: var(--accent); cursor: pointer; border: none;
         }
-        .nav-profile-btn:hover {
-            transform: scale(1.08);
-        }
-        .nav-profile-btn img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .nav-profile-btn:hover { transform: scale(1.08); }
+        .nav-profile-btn img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         .btn-login-nav {
-            background: #1e293b;
-            color: #ffffff !important;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem !important;
-            font-weight: 600 !important;
+            background: var(--text-primary);
+            color: var(--bg-card) !important;
+            padding: 6px 16px; border-radius: 20px;
+            font-size: 0.85rem !important; font-weight: 600 !important;
         }
-        .btn-login-nav:hover {
-            background: #0f172a;
+        .btn-login-nav:hover { background: var(--accent); color: #fff !important; }
+
+        .badge-new {
+            background: var(--danger); color: #fff;
+            font-size: 0.6rem; padding: 2px 6px;
+            border-radius: 20px; font-weight: 700;
+            letter-spacing: 0.5px; text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
+        /* HERO */
         .hero {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 48px 24px 40px;
-            text-align: center;
+            max-width: 1280px; margin: 0 auto;
+            padding: 56px 24px 40px;
+            text-align: center; position: relative; overflow: hidden;
         }
-
+        .hero::before {
+            content: ''; position: absolute;
+            top: -50%; left: -10%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(37,99,235,0.08), transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
+        .hero::after {
+            content: ''; position: absolute;
+            bottom: -30%; right: -10%;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(16,185,129,0.08), transparent 70%);
+            border-radius: 50%; pointer-events: none;
+        }
         .hero h1 {
-            font-size: 2.3rem;
-            font-weight: 700;
-            color: #0f172a;
-            max-width: 720px;
-            margin: 0 auto 16px;
-            line-height: 1.3;
+            font-size: 2.3rem; font-weight: 800;
+            color: var(--text-primary);
+            max-width: 720px; margin: 0 auto 16px;
+            line-height: 1.3; position: relative; z-index: 1;
         }
-
         .hero p {
-            font-size: 1rem;
-            color: #475569;
-            max-width: 560px;
-            margin: 0 auto 32px;
+            font-size: 1rem; color: var(--text-secondary);
+            max-width: 560px; margin: 0 auto 32px;
+            position: relative; z-index: 1;
+        }
+        .hero-actions {
+            display: flex; gap: 12px;
+            justify-content: center; flex-wrap: wrap;
+            position: relative; z-index: 1;
         }
 
         .btn-main {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
+            background: var(--accent); color: white; border: none;
+            padding: 12px 28px; font-size: 0.95rem; font-weight: 600;
+            border-radius: 40px; cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 10px;
+            font-family: inherit;
         }
         .btn-main:hover {
-            background: #1d4ed8;
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -8px rgba(37,99,235,0.5);
         }
-
-        .btn-success {
-            background: #10b981;
-        }
+        .btn-success { background: var(--success); }
         .btn-success:hover {
-            background: #059669;
+            background: var(--success-hover);
+            box-shadow: 0 8px 20px -8px rgba(16,185,129,0.5);
         }
 
-        .btn-outline {
-            background: transparent;
-            color: #2563eb;
-            border: 2px solid #2563eb;
-        }
-        .btn-outline:hover {
-            background: #2563eb;
-            color: white;
-        }
-
+        /* FEATURES */
         .feature-section {
-            max-width: 1280px;
-            margin: 20px auto 40px;
+            max-width: 1280px; margin: 20px auto 40px;
             padding: 0 24px;
+        }
+        .section-title {
+            text-align: center; margin-bottom: 32px;
+        }
+        .section-title h2 {
+            font-size: 1.8rem; font-weight: 800;
+            color: var(--text-primary); margin-bottom: 8px;
+        }
+        .section-title p {
+            color: var(--text-secondary); font-size: 0.95rem;
         }
         .grid-cards {
             display: grid;
@@ -193,374 +187,571 @@
             gap: 24px;
         }
         .card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 24px 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
-            border: 1px solid #edf2f7;
-            transition: all 0.2s;
+            background: var(--bg-card);
+            border-radius: 20px; padding: 24px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid var(--border-soft);
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
         }
+        .card::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.3s;
+        }
+        .card:hover::before { transform: scaleX(1); }
         .card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 8px 20px -8px rgba(0,0,0,0.08);
+            border-color: var(--border-color);
+            box-shadow: 0 12px 28px -10px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
         }
         .card-icon {
-            font-size: 2rem;
-            margin-bottom: 16px;
+            font-size: 2rem; margin-bottom: 16px;
+            width: 56px; height: 56px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 16px; background: var(--bg-soft);
         }
         .card h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 1.2rem; font-weight: 700;
+            margin-bottom: 8px; color: var(--text-primary);
         }
         .card p {
-            color: #475569;
-            font-size: 0.9rem;
-            line-height: 1.4;
+            color: var(--text-secondary);
+            font-size: 0.9rem; line-height: 1.5;
         }
 
-        .arena-section {
-            max-width: 1280px;
-            margin: 24px auto 48px;
+        /* HOW IT WORKS */
+        .how-section {
+            max-width: 1280px; margin: 40px auto;
             padding: 0 24px;
         }
-        .arena-panel {
-            background: #ffffff;
-            border-radius: 24px;
-            border: 1px solid #e9edf2;
-            padding: 24px 28px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-        .panel-header h2 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .pin-input-area {
-            display: flex;
-            gap: 8px;
-            background: #f8fafc;
-            padding: 4px 12px 4px 16px;
-            border-radius: 48px;
-            border: 1px solid #e2e8f0;
-            align-items: center;
-        }
-        .pin-input-area input {
-            border: none;
-            background: transparent;
-            padding: 8px 0;
-            font-size: 0.85rem;
-            outline: none;
-            width: 120px;
-        }
-        .pin-input-area button {
-            background: #eef2ff;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 0.8rem;
-            cursor: pointer;
-            color: #1e40af;
-        }
-        .pin-input-area button:hover { background: #e0e7ff; }
-        
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-        }
-        .leaderboard-table th, .leaderboard-table td {
-            padding: 12px 8px;
-            text-align: left;
-            border-bottom: 1px solid #ecf3fa;
-        }
-        .leaderboard-table th { 
-            font-weight: 600; 
-            color: #334155; 
-        }
-        .leaderboard-table th i { 
-            margin-right: 6px; 
-            color: #94a3b8; 
-        }
-        .rank-badge {
-            font-weight: 600;
-            background: #f1f5f9;
-            display: inline-block;
-            width: 30px;
-            text-align: center;
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
             border-radius: 20px;
-            padding: 2px 0;
-        }
-        .rank-1 { background: #fef9e3; color: #b45309; }
-        .rank-2 { background: #eef2ff; color: #1e40af; }
-        .rank-3 { background: #e6f7ec; color: #15803d; }
-        .score-value { font-weight: 700; color: #0f172a; }
-        
-        .empty-leaderboard {
+            padding: 28px 20px;
             text-align: center;
-            padding: 40px 20px;
-            color: #94a3b8;
+            transition: all 0.25s;
         }
-        .empty-leaderboard i {
-            font-size: 2rem;
-            color: #cbd5e1;
-            margin-bottom: 12px;
+        .step-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 16px 32px -12px rgba(37,99,235,0.2);
+        }
+        .step-number {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: #fff; font-weight: 800;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+        }
+        .step-card h4 {
+            font-size: 1rem; font-weight: 700;
+            margin-bottom: 6px; color: var(--text-primary);
+        }
+        .step-card p {
+            font-size: 0.85rem; color: var(--text-secondary);
+            line-height: 1.5;
         }
 
-        /* ===== CTA BANNER DENGAN PILIHAN ===== */
-        .cta-banner {
-            background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-            margin: 40px 24px 32px;
-            border-radius: 32px;
-            padding: 40px 28px;
-            text-align: center;
-            border: 1px solid #c7d2fe;
-        }
-        .cta-banner h3 {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-        .cta-banner p {
-            color: #475569;
-            margin-top: 4px;
-            font-size: 0.95rem;
-        }
-        .cta-actions {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .cta-actions .btn-main {
-            min-width: 180px;
-        }
-
-        /* ===== CHAT SECTION ===== */
+        /* CHAT */
         .chat-section {
-            max-width: 848px;
-            width: 100%;
-            margin: 0 auto 40px;
+            max-width: 848px; width: 100%;
+            margin: 40px auto;
             padding: 0 24px;
         }
         .chat-section-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 1.3rem; font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            display: flex; align-items: center; gap: 8px;
         }
-        .chat-section-title i { color: #2563eb; }
+        .chat-section-title i { color: var(--accent); }
+        .chat-section-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .chat-section-subtitle i { color: var(--accent); }
+
+        .chat-filters {
+            display: flex; gap: 8px; margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .chat-filter {
+            background: var(--bg-soft);
+            border: 1px solid var(--border-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .chat-filter:hover { border-color: var(--accent); color: var(--accent); }
+        .chat-filter.active {
+            background: var(--accent); color: #fff; border-color: var(--accent);
+        }
 
         .chat-timeline {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 24px;
             padding: 24px;
-            min-height: 240px;
-            max-height: 480px;
+            min-height: 240px; max-height: 480px;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+            display: flex; flex-direction: column; gap: 16px;
         }
 
         .empty-chat {
             text-align: center;
             padding: 40px 20px;
-            color: #64748b;
+            color: var(--text-muted);
             margin: auto 0;
         }
         .empty-chat i {
-            font-size: 2.5rem;
-            color: #cbd5e1;
+            font-size: 2.5rem; color: var(--border-color);
             margin-bottom: 12px;
         }
 
         .chat-node {
-            background: #f8fafc;
+            background: var(--bg-soft);
             border-radius: 18px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-soft);
             padding: 14px 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            display: flex; flex-direction: column; gap: 6px;
             align-self: flex-start;
             max-width: 85%;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .chat-meta {
-            display: flex;
-            justify-content: space-between;
-            gap: 24px;
-            font-size: 0.75rem;
+            display: flex; justify-content: space-between;
+            gap: 24px; font-size: 0.75rem;
         }
-        .user-anon { font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 4px; }
-        .chat-time { color: #94a3b8; }
-        .chat-content { font-size: 0.9rem; color: #1e293b; word-break: break-word; white-space: pre-line; }
+        .user-anon {
+            font-weight: 600; color: var(--text-muted);
+            display: flex; align-items: center; gap: 4px;
+        }
+        .chat-time { color: var(--text-muted); }
+        .chat-content {
+            font-size: 0.9rem; color: var(--text-primary);
+            word-break: break-word; white-space: pre-line;
+        }
 
         .admin-reply-box {
-            background: #eff6ff;
-            border-left: 4px solid #2563eb;
+            background: var(--accent-soft);
+            border-left: 4px solid var(--accent);
             border-radius: 12px;
             padding: 10px 14px;
             margin-top: 4px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+            display: flex; flex-direction: column; gap: 4px;
         }
         .admin-tag {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #2563eb;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 0.8rem; font-weight: 700;
+            color: var(--accent);
+            display: flex; align-items: center; gap: 4px;
         }
-        .admin-tag i { font-size: 0.85rem; }
 
         .chat-input-box {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             padding: 12px 16px;
             margin-top: 14px;
-            display: flex;
-            gap: 12px;
-            align-items: flex-end;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+            display: flex; gap: 12px; align-items: flex-end;
         }
         .main-textarea {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-family: inherit;
-            font-size: 0.9rem;
-            resize: none;
-            height: 38px;
-            max-height: 100px;
-            padding-top: 8px;
-            color: #0f172a;
+            flex: 1; background: transparent; border: none;
+            outline: none; font-family: inherit;
+            font-size: 0.9rem; resize: none;
+            height: 38px; max-height: 100px;
+            padding-top: 8px; color: var(--text-primary);
         }
-        .btn-main-send {
-            background: #2563eb;
-            color: white;
-            border: none;
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            flex-shrink: 0;
-            transition: background 0.2s;
+        .main-textarea::placeholder { color: var(--text-muted); }
+        .char-counter {
+            font-size: 0.7rem; color: var(--text-muted);
+            align-self: flex-end; padding-bottom: 10px;
+            white-space: nowrap;
         }
-        .btn-main-send:hover { background: #1d4ed8; }
+        .char-counter.warning { color: var(--warning); }
+        .char-counter.danger { color: var(--danger); }
 
-        footer {
-            background: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            padding: 20px;
+        .btn-main-send {
+            background: var(--accent); color: white; border: none;
+            width: 38px; height: 38px; border-radius: 12px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .btn-main-send:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        /* CTA BANNER */
+        .cta-banner {
+            background: linear-gradient(135deg, var(--accent-soft), #e0e7ff);
+            margin: 40px 24px 32px;
+            border-radius: 32px;
+            padding: 40px 28px;
             text-align: center;
-            font-size: 0.75rem;
-            color: #64748b;
+            border: 1px solid #c7d2fe;
+            position: relative; overflow: hidden;
+        }
+        .cta-banner::before {
+            content: ''; position: absolute;
+            top: -50%; left: -20%;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(37,99,235,0.15), transparent 70%);
+            border-radius: 50%;
+        }
+        .cta-banner h3 {
+            font-size: 1.4rem; font-weight: 800;
+            color: var(--text-primary);
+            position: relative; z-index: 1;
+        }
+        .cta-banner p {
+            color: var(--text-secondary);
+            margin-top: 4px; font-size: 0.95rem;
+            position: relative; z-index: 1;
+        }
+        .cta-actions {
+            display: flex; gap: 16px;
+            justify-content: center; flex-wrap: wrap;
+            margin-top: 20px;
+            position: relative; z-index: 1;
+        }
+        .cta-actions .btn-main { min-width: 180px; justify-content: center; }
+
+        /* FAQ */
+        .faq-section {
+            max-width: 848px; margin: 40px auto;
+            padding: 0 24px;
+        }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .faq-item:hover { border-color: var(--border-color); }
+        .faq-question {
+            padding: 18px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            gap: 12px;
+        }
+        .faq-question i {
+            color: var(--accent);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+        .faq-item.open .faq-question i { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 0 20px 18px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 24px 20px;
             margin-top: auto;
         }
+        .footer-content {
+            max-width: 1280px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-bottom: 32px;
+        }
+        .footer-col h4 {
+            font-size: 0.95rem; font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+        .footer-col ul {
+            list-style: none;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .footer-col ul a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .footer-col ul a:hover { color: var(--accent); }
+        .footer-bottom {
+            max-width: 1280px; margin: 0 auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-soft);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
 
-        /* ===== MODAL ===== */
+        /* MODAL */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(4px);
             z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
+            display: none; align-items: center; justify-content: center;
             padding: 20px;
             animation: fadeIn 0.25s ease;
         }
-        .modal-overlay.show {
-            display: flex;
-        }
+        .modal-overlay.show { display: flex; }
         @keyframes fadeIn {
             from { opacity: 0; transform: scale(0.96); }
             to { opacity: 1; transform: scale(1); }
         }
         .modal-card {
-            background: white;
+            background: var(--bg-card);
             border-radius: 28px;
-            max-width: 420px;
-            width: 100%;
+            max-width: 420px; width: 100%;
             padding: 32px 28px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.15);
             text-align: center;
         }
         .modal-card .icon-big {
-            font-size: 3rem;
-            color: #2563eb;
+            font-size: 3rem; color: var(--accent);
             margin-bottom: 12px;
         }
         .modal-card h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #0f172a;
+            font-size: 1.3rem; font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 4px;
         }
         .modal-card p {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem; margin-bottom: 20px;
         }
         .modal-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            display: flex; flex-direction: column; gap: 10px;
         }
         .modal-actions .btn-main {
-            width: 100%;
-            justify-content: center;
+            width: 100%; justify-content: center;
         }
         .modal-close-btn {
-            background: #f1f5f9;
-            border: none;
-            padding: 12px;
+            background: var(--bg-soft);
+            border: none; padding: 12px;
             border-radius: 14px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #64748b;
-            cursor: pointer;
-            transition: all 0.2s;
+            font-size: 0.9rem; font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer; transition: all 0.2s;
+            font-family: inherit;
         }
         .modal-close-btn:hover {
-            background: #e2e8f0;
-            color: #0f172a;
+            background: var(--border-color);
+            color: var(--text-primary);
         }
 
+        /* INFO MODAL (Panduan, Privasi, Syarat, Kontak) */
+        .info-modal-card {
+            max-width: 640px;
+            max-height: 85vh;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            overflow: hidden;
+        }
+        .info-modal-header {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 12px;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-soft);
+            flex-shrink: 0;
+        }
+        .info-modal-header h2 {
+            font-size: 1.15rem; font-weight: 800; color: var(--text-primary);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .info-modal-header h2 i { color: var(--accent); }
+        .info-modal-close {
+            background: var(--bg-soft); border: none;
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-secondary);
+            transition: all 0.2s; flex-shrink: 0; font-size: 0.85rem;
+        }
+        .info-modal-close:hover { background: var(--border-color); color: var(--text-primary); }
+        .info-modal-body {
+            padding: 20px 24px 26px;
+            overflow-y: auto;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.7;
+        }
+        .info-modal-body .updated-note {
+            font-size: 0.76rem; color: var(--text-muted); margin-bottom: 16px; display: block;
+        }
+        .info-modal-body h3 {
+            font-size: 0.95rem; font-weight: 700; color: var(--text-primary);
+            margin: 18px 0 8px;
+        }
+        .info-modal-body h3:first-of-type { margin-top: 0; }
+        .info-modal-body p { margin-bottom: 10px; }
+        .info-modal-body ul { margin: 0 0 10px 20px; }
+        .info-modal-body li { margin-bottom: 6px; }
+        .info-contact-list { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+        .info-contact-item {
+            display: flex; align-items: center; gap: 12px;
+            background: var(--bg-soft); border: 1px solid var(--border-soft);
+            border-radius: 14px; padding: 12px 16px;
+            text-decoration: none; color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        .info-contact-item:hover { border-color: var(--accent); background: var(--accent-soft); }
+        .info-contact-item i { font-size: 1.1rem; color: var(--accent); width: 22px; text-align: center; flex-shrink: 0; }
+        .info-contact-item .ci-label { font-size: 0.7rem; color: var(--text-muted); display: block; }
+        .info-contact-item .ci-value { font-weight: 600; font-size: 0.88rem; }
+
+        /* PIN MODAL */
+        .pin-modal-card { max-width: 380px; }
+        .pin-input-group {
+            background: var(--bg-soft);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 4px 16px;
+            margin-bottom: 16px;
+            display: flex; align-items: center; gap: 12px;
+            transition: border-color 0.2s;
+        }
+        .pin-input-group:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+        }
+        .pin-input-group i { color: var(--text-muted); }
+        .pin-input-group input {
+            flex: 1; background: transparent;
+            border: none; outline: none;
+            padding: 14px 0; font-size: 1rem;
+            font-family: inherit;
+            color: var(--text-primary);
+            letter-spacing: 4px;
+            font-weight: 600;
+        }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            bottom: 24px; right: 24px;
+            z-index: 2000;
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--accent);
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: 0 12px 32px -8px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 12px;
+            min-width: 260px; max-width: 360px;
+            animation: toastIn 0.3s ease;
+        }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .toast.success { border-left-color: var(--success); }
+        .toast.error { border-left-color: var(--danger); }
+        .toast.warning { border-left-color: var(--warning); }
+        .toast-icon { font-size: 1.2rem; }
+        .toast.success .toast-icon { color: var(--success); }
+        .toast.error .toast-icon { color: var(--danger); }
+        .toast.warning .toast-icon { color: var(--warning); }
+        .toast.info .toast-icon { color: var(--accent); }
+        .toast-message {
+            font-size: 0.85rem; font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* BACK TO TOP */
+        .back-to-top {
+            position: fixed;
+            bottom: 24px; left: 24px;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff; border: none;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 8px 20px -4px rgba(37,99,235,0.4);
+            opacity: 0; visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 900;
+        }
+        .back-to-top.show {
+            opacity: 1; visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: var(--accent-hover);
+            transform: translateY(-3px);
+        }
+
+        /* ANIMATIONS */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
         @media (max-width: 680px) {
             .navbar { flex-direction: column; align-items: center; }
             .hero h1 { font-size: 1.7rem; }
-            .panel-header { flex-direction: column; align-items: stretch; }
             .chat-node { max-width: 95%; }
             .cta-banner { margin: 20px 12px 24px; padding: 28px 16px; }
             .cta-actions .btn-main { min-width: 140px; font-size: 0.85rem; padding: 10px 20px; }
+            .section-title h2 { font-size: 1.4rem; }
+            .toast-container { left: 16px; right: 16px; bottom: 16px; }
+            .back-to-top { bottom: 16px; left: 16px; }
+            .footer-content { grid-template-columns: 1fr; gap: 24px; }
+            .info-modal-card { max-height: 90vh; }
+            .info-modal-header { padding: 16px 18px; }
+            .info-modal-header h2 { font-size: 1.02rem; }
+            .info-modal-body { padding: 16px 18px 20px; font-size: 0.84rem; }
         }
     </style>
 </head>
@@ -569,7 +760,7 @@
 <header>
     <nav class="navbar">
         <div class="logo" onclick="location.href='index.html'">
-            <span style="font-size: 20px; font-weight:1000; color:#111;">Class Battle X Star Tools</span></span>
+            <span style="font-size: 20px; font-weight:900; color:var(--text-primary);">Class Battle X Star Tools</span>
         </div>
         <ul class="nav-menu">
             <li><a href="friend.html"><i class="fas fa-user-group"></i> Teman</a></li>
@@ -584,23 +775,28 @@
 </header>
 
 <main>
+    <!-- HERO -->
     <div class="hero">
         <h1>Kompetisi kelas lebih seru dengan <span style="color:#2563eb;">Class Battle</span></h1>
-        <p>Guru siapkan soal, murid bertarung di papan peringkat. Belajar kelompok makin kompetitif dan transparan.</p>
+        <p>Guru siapkan soal, murid bertarung di papan peringkat. Belajar kelompok semakin kompetitif dan transparan.</p>
         
-        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <div class="hero-actions">
             <button class="btn-main" id="btnStartBattle"><i class="fas fa-play"></i> Mulai Battle</button>
             <button class="btn-main btn-success" id="btnCreateRoom"><i class="fas fa-chalkboard-user"></i> Buat Room</button>
         </div>
     </div>
 
-    <!-- FEATURE SECTION -->
-    <div class="feature-section">
+    <!-- FEATURES -->
+    <div class="feature-section fade-up">
+        <div class="section-title">
+            <h2>Fitur Unggulan</h2>
+            <p>Semua yang kamu butuhkan untuk membuat kelas semakin kompetitif</p>
+        </div>
         <div class="grid-cards">
             <div class="card">
                 <div class="card-icon"><i class="fas fa-trophy" style="color:#eab308;"></i></div>
-                <h3>Live Leaderboard</h3>
-                <p>Skor terupdate tiap kali siswa menjawab. Sistem peringkat real-time antar kelas.</p>
+                <h3>Live Leaderboard <span class="badge-new">Hot</span></h3>
+                <p>Skor terupdate setiap kali siswa menjawab. Sistem peringkat real-time antar kelas.</p>
             </div>
             <div class="card">
                 <div class="card-icon"><i class="fas fa-users" style="color:#2563eb;"></i></div>
@@ -608,55 +804,64 @@
                 <p>Battle per tim atau duel personal. Cocok untuk kuis harian atau uji coba tryout.</p>
             </div>
             <div class="card">
-                <div class="card-icon"><i class="fas fa-chart-line" style="color:#10b981;"></i></div>
-                <h3>Analitik Performa</h3>
-                <p>Rekap hasil, kelemahan materi, rekomendasi belajar untuk tiap siswa.</p>
+                <div class="card-icon"><i class="fas fa-comments" style="color:#06b6d4;"></i></div>
+                <h3>Chat & Saran</h3>
+                <p>Kirim kritik dan saran langsung ke tim developer untuk perbaikan.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fas fa-mobile-screen-button" style="color:#ec4899;"></i></div>
+                <h3>Mobile Friendly</h3>
+                <p>Akses dari HP, tablet, atau laptop. Belajar di mana saja tanpa ribet.</p>
             </div>
         </div>
     </div>
 
-    <!-- ARENA / LEADERBOARD SECTION -->
-    <div class="arena-section">
-        <div class="arena-panel">
-            <div class="panel-header">
-                <h2><i class="fas fa-trophy" style="color:#eab308;"></i> Papan Peringkat</h2>
-                <div class="pin-input-area" id="pinWrapper">
-                    <i class="fas fa-lock" style="color:#64748b; font-size:0.8rem;"></i>
-                    <input type="text" id="pinInputField" placeholder="Kode PIN arena" maxlength="10">
-                    <button id="btnConfirmPin">Akses</button>
-                </div>
+    <!-- HOW IT WORKS -->
+    <div class="how-section fade-up">
+        <div class="section-title">
+            <h2>Cara Kerja</h2>
+            <p>Mulai battle hanya dalam 4 langkah mudah</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h4>Buat Room</h4>
+                <p>Guru membuat room dengan soal dan durasi yang ditentukan.</p>
             </div>
-            <div style="overflow-x: auto;">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th>Rank</th>
-                            <th>Peserta</th>
-                            <th>Kelas</th>
-                            <th>Skor</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboardBody">
-                        <tr>
-                            <td colspan="4">
-                                <div class="empty-leaderboard">
-                                    <i class="fas fa-database"></i>
-                                    <p>Belum ada data pemain. Yuk mulai battle!</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h4>Bagikan PIN</h4>
+                <p>Bagikan PIN room ke murid untuk bergabung ke battle.</p>
             </div>
-            <p style="margin-top: 14px; font-size:0.7rem; color:#62748c;"><i class="fas fa-info-circle"></i> Untuk dapat memasuki peringkat kamu perlu banyak mengumpulkan poin dengan cara bermain di Class Battle.</p>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h4>Murid Bertarung</h4>
+                <p>Murid menjawab soal dan skor terupdate di leaderboard.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <h4>Lihat Hasil</h4>
+                <p>Guru dan murid melihat hasil akhir serta analitik performa.</p>
+            </div>
         </div>
     </div>
 
     <!-- CHAT SECTION -->
-    <div class="chat-section">
+    <div class="chat-section fade-up">
         <div class="chat-section-title">
             <i class="fas fa-comments"></i>
-            <span>User Chat & Saran</span>
+            <span>Pesan & Saran</span>
+        </div>
+        <div class="chat-section-subtitle">
+            <i class="fas fa-user-secret"></i>
+            <span>Semua pesan otomatis terlihat sebagai anonim</span>
+        </div>
+
+        <div class="chat-filters">
+            <button class="chat-filter active" data-filter="all">Semua</button>
+            <button class="chat-filter" data-filter="saran">Saran</button>
+            <button class="chat-filter" data-filter="kritik">Kritik</button>
+            <button class="chat-filter" data-filter="pertanyaan">Pertanyaan</button>
         </div>
 
         <div class="chat-timeline" id="chatTimeline">
@@ -667,8 +872,53 @@
         </div>
 
         <div class="chat-input-box">
-            <textarea id="userInputText" class="main-textarea" placeholder="Tulis saran atau kritik di sini..."></textarea>
+            <textarea id="userInputText" class="main-textarea" placeholder="Tulis pesan di sini..." maxlength="300"></textarea>
+            <span class="char-counter" id="charCounter">0/300</span>
             <button class="btn-main-send" id="btnSendMain"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section fade-up">
+        <div class="section-title">
+            <h2>Pertanyaan Umum</h2>
+            <p>Hal-hal yang sering ditanyakan pengguna</p>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>Apakah Class Battle gratis?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Ya! Class Battle 100% gratis untuk semua guru dan siswa. Tidak ada biaya tersembunyi.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>Berapa jumlah maksimal pemain dalam satu room?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Satu room bisa menampung hingga 50 pemain sekaligus. Cocok untuk satu kelas penuh.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>Apakah bisa digunakan tanpa internet?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Saat ini Class Battle memerlukan koneksi internet untuk sinkronisasi real-time. Namun, kami sedang mengembangkan mode offline.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">
+                <span>Bagaimana cara membuat soal sendiri?</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Guru bisa membuat soal melalui menu "Buat Room". Tersedia berbagai format soal: pilihan ganda, benar/salah, dan isian singkat.</p>
+            </div>
         </div>
     </div>
 
@@ -684,10 +934,45 @@
 </main>
 
 <footer>
-    <span>© 2026 Class Battle Ecosystem<br>All rights reserved.</span>
+    <div class="footer-content">
+        <div class="footer-col">
+            <h4>Class Battle</h4>
+            <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">
+                Platform kompetisi kelas yang membuat belajar jadi seru dan kompetitif.
+            </p>
+        </div>
+        <div class="footer-col">
+            <h4>Navigasi</h4>
+            <ul>
+                <li><a href="index.html">Beranda</a></li>
+                <li><a href="friend.html">Teman</a></li>
+                <li><a href="play.html">Mulai Battle</a></li>
+                <li><a href="game.html">Buat Room</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Bantuan</h4>
+            <ul>
+                <li><a href="javascript:void(0)" data-info="guide">Panduan Pengguna</a></li>
+                <li><a href="javascript:void(0)" data-info="privacy">Kebijakan Privasi</a></li>
+                <li><a href="javascript:void(0)" data-info="terms">Syarat & Ketentuan</a></li>
+                <li><a href="javascript:void(0)" data-info="contact">Hubungi Kami</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Kontak</h4>
+            <ul>
+                <li><a href="mailto:classbattleid@gmail.com"><i class="fas fa-envelope"></i> support@classbattle.id</a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Jakarta, Indonesia</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 Class Battle Ecosystem. All rights reserved. Made with in Indonesia</span>
+    </div>
 </footer>
 
-<!-- ===== MODAL PILIHAN ===== -->
+<!-- MODAL PILIHAN -->
 <div class="modal-overlay" id="choiceModal">
     <div class="modal-card">
         <div class="icon-big"><i class="fas fa-rocket"></i></div>
@@ -700,6 +985,42 @@
         </div>
     </div>
 </div>
+
+<!-- PIN MODAL -->
+<div class="modal-overlay" id="pinModal">
+    <div class="modal-card pin-modal-card">
+        <div class="icon-big"><i class="fas fa-key"></i></div>
+        <h2>Masukkan PIN Arena</h2>
+        <p>Masukkan PIN yang diberikan guru untuk bergabung ke battle</p>
+        <div class="pin-input-group">
+            <i class="fas fa-lock"></i>
+            <input type="text" id="pinInputField" placeholder="PIN" maxlength="8" inputmode="numeric">
+        </div>
+        <div class="modal-actions">
+            <button class="btn-main" id="btnConfirmPin"><i class="fas fa-check"></i> Gabung Arena</button>
+            <button class="modal-close-btn" id="pinModalCloseBtn">Batal</button>
+        </div>
+    </div>
+</div>
+
+<!-- INFO MODAL (Panduan Pengguna / Kebijakan Privasi / Syarat & Ketentuan / Hubungi Kami) -->
+<div class="modal-overlay" id="infoModal">
+    <div class="modal-card info-modal-card">
+        <div class="info-modal-header">
+            <h2><i class="fas fa-info-circle" id="infoModalIcon"></i> <span id="infoModalTitle">Judul</span></h2>
+            <button class="info-modal-close" id="infoModalCloseBtn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="info-modal-body" id="infoModalBody"></div>
+    </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- BACK TO TOP -->
+<button class="back-to-top" id="backToTop" title="Kembali ke atas">
+    <i class="fas fa-arrow-up"></i>
+</button>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -726,21 +1047,41 @@
     let currentUserUID = null;
     let currentUserName = "Anonim";
     let myCustomUid = null;
+    let currentFilter = "all";
 
     function escapeHtml(str) {
         return str ? str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;') : '';
     }
 
-    // =======================================================
-    // AMBIL CUSTOM UID
-    // =======================================================
+    // ========== TOAST ==========
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-exclamation-circle',
+            warning: 'fa-exclamation-triangle',
+            info: 'fa-info-circle'
+        };
+        toast.innerHTML = `
+            <i class="fas ${icons[type]} toast-icon"></i>
+            <span class="toast-message">${message}</span>
+        `;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(40px)';
+            toast.style.transition = 'all 0.3s';
+            setTimeout(() => toast.remove(), 300);
+        }, 3500);
+    }
+
+    // ========== AMBIL CUSTOM UID ==========
     async function getMyCustomUid(firebaseUid) {
         const mappingSnap = await db.ref('uid_mapping/' + firebaseUid).once('value');
         let customUid = mappingSnap.val();
-        
-        if (customUid) {
-            return customUid;
-        }
+        if (customUid) return customUid;
 
         const userSnap = await db.ref('users').orderByChild('firebaseUID').equalTo(firebaseUid).once('value');
         if (userSnap.exists()) {
@@ -751,13 +1092,10 @@
                 return userData.uid;
             }
         }
-
         return null;
     }
 
-    // =======================================================
-    // CEK SESI LOGIN
-    // =======================================================
+    // ========== CEK SESI LOGIN (cuma buat navbar) ==========
     auth.onAuthStateChanged(async (user) => {
         const loginMenuBtn = document.getElementById("loginMenuBtn");
         if (!loginMenuBtn) return;
@@ -765,7 +1103,7 @@
         if (user) {
             currentUserUID = user.uid;
             myCustomUid = await getMyCustomUid(currentUserUID);
-            
+
             if (!myCustomUid) {
                 loginMenuBtn.href = "account.html";
                 loginMenuBtn.innerHTML = '<i class="fas fa-user"></i> Akun';
@@ -778,10 +1116,11 @@
 
             db.ref("users/" + myCustomUid).once("value").then((snap) => {
                 const userData = snap.val() || {};
-                currentUserName = userData.name || user.email.split('@')[0];
-                
+                // currentUserName cuma dipakai di navbar, BUKAN di chat
+                currentUserName = userData.name || (user.email ? user.email.split('@')[0] : "Anonim");
+
                 loginMenuBtn.className = 'nav-profile-btn';
-                
+
                 if (userData.avatarData) {
                     loginMenuBtn.innerHTML = `<img src="${userData.avatarData}" alt="PP">`;
                     loginMenuBtn.style.background = "transparent";
@@ -802,9 +1141,7 @@
         }
     });
 
-    // =======================================================
-    // NAVIGASI FUNGSI
-    // =======================================================
+    // ========== NAVIGASI ==========
     function goToPlay() {
         const savedPin = localStorage.getItem('star_battle_pin');
         const savedKey = localStorage.getItem('star_battle_key');
@@ -816,239 +1153,336 @@
     }
 
     function goToSoal() {
-        window.location.href = 'soal.html';
+        window.location.href = 'game.html';
     }
 
-    function goToLeaderboard() {
-        const savedPin = localStorage.getItem('star_battle_pin');
-        if (savedPin) {
-            window.location.href = 'leaderboard.html';
-        } else {
-            alert('Masukkan PIN arena terlebih dahulu!');
-            document.getElementById('pinInputField').focus();
-        }
-    }
-
-    // =======================================================
-    // TOMBOL NAVIGASI
-    // =======================================================
+    // ========== EVENT LISTENERS ==========
     document.addEventListener('DOMContentLoaded', () => {
-        // Tombol Mulai Battle
         document.getElementById('btnStartBattle')?.addEventListener('click', goToPlay);
         document.getElementById('ctaStartBattle')?.addEventListener('click', goToPlay);
         document.getElementById('modalStartBattle')?.addEventListener('click', goToPlay);
 
-        // Tombol Buat Room
         document.getElementById('btnCreateRoom')?.addEventListener('click', goToSoal);
         document.getElementById('ctaCreateRoom')?.addEventListener('click', goToSoal);
         document.getElementById('modalCreateRoom')?.addEventListener('click', goToSoal);
 
-        // Tombol PIN di navbar
+        // PIN Menu -> buka modal
         document.getElementById('pinMenuBtn')?.addEventListener('click', (e) => {
             e.preventDefault();
-            document.getElementById('pinInputField').focus();
-            document.getElementById('pinWrapper').style.borderColor = '#2563eb';
-            document.getElementById('pinWrapper').style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.15)';
+            document.getElementById('pinModal').classList.add('show');
+            setTimeout(() => document.getElementById('pinInputField').focus(), 100);
         });
 
-        // Tombol Konfirmasi PIN
+        // Konfirmasi PIN
         document.getElementById('btnConfirmPin')?.addEventListener('click', () => {
             const pin = document.getElementById('pinInputField').value.trim();
             if (pin.length >= 4) {
                 localStorage.setItem('star_battle_pin', pin);
-                window.location.href = 'play.html';
+                showToast('PIN tersimpan! Mengarahkan ke arena...', 'success');
+                setTimeout(() => window.location.href = 'play.html', 800);
             } else {
-                alert('Masukkan PIN yang valid (minimal 4 karakter)!');
+                showToast('Masukkan PIN yang valid (minimal 4 karakter)!', 'error');
             }
         });
 
-        // Enter pada input PIN
         document.getElementById('pinInputField')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                document.getElementById('btnConfirmPin').click();
-            }
+            if (e.key === 'Enter') document.getElementById('btnConfirmPin').click();
         });
 
-        // MODAL - muncul saat klik area banner CTA
-        const modal = document.getElementById('choiceModal');
-        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        document.getElementById('pinModalCloseBtn')?.addEventListener('click', () => {
+            document.getElementById('pinModal').classList.remove('show');
+        });
 
+        document.getElementById('pinModal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'pinModal') e.target.classList.remove('show');
+        });
+
+        // MODAL pilihan
+        const modal = document.getElementById('choiceModal');
+        document.getElementById('modalCloseBtn')?.addEventListener('click', () => modal.classList.remove('show'));
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('show');
+        });
         document.querySelector('.cta-banner')?.addEventListener('click', (e) => {
             if (e.target.closest('.cta-actions') || e.target.closest('button')) return;
             modal.classList.add('show');
         });
 
-        modalCloseBtn?.addEventListener('click', () => {
-            modal.classList.remove('show');
+        // ===== INFO MODAL (Panduan Pengguna / Kebijakan Privasi / Syarat & Ketentuan / Hubungi Kami) =====
+        const INFO_CONTENT = {
+            guide: {
+                icon: 'fa-book-open',
+                title: 'Panduan Pengguna',
+                body: `
+                    <h3>Untuk Murid</h3>
+                    <ul>
+                        <li>Klik <strong>Mulai Battle</strong> atau <strong>Masukkan PIN</strong>, lalu masukkan PIN 4-8 digit yang diberikan gurumu.</li>
+                        <li>Isi namamu, lalu pilih mode yang dibuka guru: <strong>Mode Klasik</strong> (jawab soal, kumpulkan skor) atau <strong>Mode Monster</strong> (jawab soal sambil membesarkan & bertarung dengan monster).</li>
+                        <li>Di Mode Monster, pilih salah satu dari 8 karakter monster dan beri nama sesukamu sebelum pertandingan dimulai.</li>
+                        <li>Tunggu di ruang tunggu sampai guru menekan tombol mulai. Jawaban benar menambah skor (dan XP monster kalau di Mode Monster), jawaban salah mengurangi skor.</li>
+                        <li>Pantau posisimu di papan peringkat secara langsung selama pertandingan berlangsung.</li>
+                    </ul>
+                    <h3>Untuk Guru</h3>
+                    <ul>
+                        <li>Buka halaman pembuatan soal, tulis pertanyaan beserta 4 pilihan jawaban dan tandai jawaban yang benar.</li>
+                        <li>Di Mode Monster, kamu juga bisa mengatur durasi pertandingan. soal akan diulang otomatis dari awal sampai waktu tersebut habis.</li>
+                        <li>Setelah soal disimpan, bagikan PIN room ke murid-muridmu agar mereka bisa bergabung.</li>
+                        <li>Pantau jumlah murid yang sudah bergabung, lalu tekan <strong>Mulai</strong> saat semua siap. Kamu bisa menghentikan pertandingan kapan saja lewat tombol <strong>Stop</strong>.</li>
+                        <li>Leaderboard dan statistik kelas dapat dilihat secara real-time selama dan setelah pertandingan.</li>
+                    </ul>
+                    <h3>Butuh bantuan lebih lanjut?</h3>
+                    <p>Gunakan kolom saran/kritik di halaman ini, atau lihat bagian <strong>Hubungi Kami</strong> untuk kontak langsung.</p>
+                `
+            },
+            privacy: {
+                icon: 'fa-shield-halved',
+                title: 'Kebijakan Privasi',
+                body: `
+                    <span class="updated-note">Terakhir diperbarui: 2026</span>
+                    <h3>Data yang Kami Kumpulkan</h3>
+                    <ul>
+                        <li><strong>Nama pemain</strong> yang kamu masukkan sendiri saat bergabung ke sebuah room tidak ada verifikasi identitas.</li>
+                        <li><strong>Data pertandingan</strong>: skor, jawaban benar/salah, dan (di Mode Monster) progres level & HP monster.</li>
+                        <li><strong>Pesan saran/kritik</strong> yang dikirim lewat kolom masukan di halaman ini. pesan ini selalu tersimpan sebagai <strong>Anonim</strong>, walau kamu sedang login.</li>
+                    </ul>
+                    <h3>Bagaimana Data Digunakan</h3>
+                    <p>Data disimpan di Firebase Realtime Database milik Class Battle hanya untuk menjalankan fitur pertandingan (leaderboard, skor, ruang tunggu) dan tidak dijual atau dibagikan ke pihak ketiga mana pun untuk kepentingan iklan.</p>
+                    <h3>Penyimpanan Lokal</h3>
+                    <p>Kami menyimpan PIN room dan sesi pemain di <em>localStorage</em> browsermu agar kamu tidak perlu memasukkan ulang PIN saat halaman di-refresh. Data ini hanya tersimpan di perangkatmu sendiri.</p>
+                    <h3>Hak Kamu</h3>
+                    <p>Kamu bisa meminta data pertandingan atas namamu dihapus dengan menghubungi kami melalui email di bagian Hubungi Kami.</p>
+                `
+            },
+            terms: {
+                icon: 'fa-file-contract',
+                title: 'Syarat & Ketentuan',
+                body: `
+                    <span class="updated-note">Terakhir diperbarui: 2026</span>
+                    <h3>Penggunaan Layanan</h3>
+                    <p>Class Battle disediakan gratis sebagai alat bantu belajar-mengajar di kelas. Layanan ini ditujukan untuk kegiatan edukasi, bukan untuk kompetisi berhadiah uang atau komersial.</p>
+                    <h3>Tanggung Jawab Pengguna</h3>
+                    <ul>
+                        <li>Gunakan nama dan bahasa yang sopan saat bergabung ke sebuah room atau mengirim saran/kritik.</li>
+                        <li>Dilarang menyalahgunakan sistem, seperti bergabung berulang kali dengan curang untuk merusak jalannya pertandingan kelas lain.</li>
+                        <li>Konten soal yang dibuat oleh guru sepenuhnya menjadi tanggung jawab guru yang membuatnya.</li>
+                    </ul>
+                    <h3>Ketersediaan Layanan</h3>
+                    <p>Class Battle adalah proyek independen yang terus dikembangkan. Fitur dapat berubah, ditambah, atau dihentikan sewaktu-waktu tanpa pemberitahuan sebelumnya, dan kami tidak menjamin layanan bebas gangguan 100% sepanjang waktu.</p>
+                    <h3>Batasan Tanggung Jawab</h3>
+                    <p>Kami tidak bertanggung jawab atas kehilangan data pertandingan akibat gangguan jaringan atau pemadaman server pihak ketiga (Firebase) di luar kendali kami.</p>
+                `
+            },
+            contact: {
+                icon: 'fa-headset',
+                title: 'Hubungi Kami',
+                body: `
+                    <p>Ada pertanyaan, laporan bug, atau ide fitur? Silakan hubungi kami lewat salah satu cara berikut, atau gunakan kolom saran/kritik langsung di halaman ini.</p>
+                    <div class="info-contact-list">
+                        <a href="mailto:classbattleid@gmail.com" class="info-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <span class="ci-label">Email</span>
+                                <span class="ci-value">classbattleid@gmail.com</span>
+                            </div>
+                        </a>
+                        <div class="info-contact-item" style="cursor:default;">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <span class="ci-label">Lokasi</span>
+                                <span class="ci-value">Jakarta, Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 style="margin-top:18px;">Waktu Respon</h3>
+                    <p>Kami biasanya membalas email dalam 1-3 hari kerja. Untuk laporan bug mendesak, sertakan PIN room dan screenshot jika ada supaya lebih cepat ditelusuri.</p>
+                `
+            }
+        };
+
+        function openInfoModal(key) {
+            const data = INFO_CONTENT[key];
+            if (!data) return;
+            document.getElementById('infoModalIcon').className = `fas ${data.icon}`;
+            document.getElementById('infoModalTitle').innerText = data.title;
+            document.getElementById('infoModalBody').innerHTML = data.body;
+            document.getElementById('infoModal').classList.add('show');
+        }
+
+        document.querySelectorAll('[data-info]').forEach(link => {
+            link.addEventListener('click', () => openInfoModal(link.dataset.info));
+        });
+        const infoModal = document.getElementById('infoModal');
+        document.getElementById('infoModalCloseBtn')?.addEventListener('click', () => infoModal.classList.remove('show'));
+        infoModal?.addEventListener('click', (e) => {
+            if (e.target === infoModal) infoModal.classList.remove('show');
         });
 
-        modal?.addEventListener('click', (e) => {
-            if (e.target === modal) modal.classList.remove('show');
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                q.parentElement.classList.toggle('open');
+            });
         });
 
-        // Tombol Teman sudah otomatis ke friends.html
+        // Filter Chat
+        document.querySelectorAll('.chat-filter').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.chat-filter').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderChats();
+            });
+        });
+
+        // Back to top
+        const backTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) backTop.classList.add('show');
+            else backTop.classList.remove('show');
+        });
+        backTop?.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Fade-up animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
     });
 
     // =======================================================
-    // CHAT
+    // CHAT — SELALU ANONIM (walau user login)
     // =======================================================
     const btnSendMain = document.getElementById('btnSendMain');
     const tx = document.getElementById('userInputText');
+    const charCounter = document.getElementById('charCounter');
 
     if (tx) {
         tx.addEventListener('input', function() {
             this.style.height = '38px';
-            this.style.height = (this.scrollHeight) + 'px';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            const len = this.value.length;
+            charCounter.textContent = `${len}/300`;
+            charCounter.classList.remove('warning', 'danger');
+            if (len > 250) charCounter.classList.add('danger');
+            else if (len > 200) charCounter.classList.add('warning');
         });
     }
 
     if (btnSendMain && tx) {
         btnSendMain.addEventListener('click', () => {
             const message = tx.value.trim();
-            if (!message) return;
+            if (!message) {
+                showToast('Pesan tidak boleh kosong!', 'warning');
+                return;
+            }
 
             const timeNow = new Date();
-            const timestampStr = timeNow.toLocaleDateString('id-ID') + ' ' + timeNow.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+            const timestampStr = timeNow.toLocaleDateString('id-ID') + ' ' +
+                timeNow.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
 
+            // Deteksi kategori otomatis
+            const lower = message.toLowerCase();
+            let category = "saran";
+            if (lower.includes("?") || lower.includes("gimana") || lower.includes("bagaimana") || lower.includes("kenapa")) category = "pertanyaan";
+            else if (lower.includes("jelek") || lower.includes("buruk") || lower.includes("error") || lower.includes("bug") || lower.includes("lambat")) category = "kritik";
+
+            // =======================================================
+            // PENTING: Sender SELALU "Anonim", tidak peduli login atau tidak.
+            // Tidak ada currentUserName / currentUserUID / myCustomUid yang dikirim.
+            // =======================================================
             const chatPayload = {
-                senderUID: myCustomUid || currentUserUID || "ANONIM_USER",
-                senderName: currentUserName,
+                senderName: "Anonim",   // <-- selalu anonim
                 message: message,
                 time: timestampStr,
                 timestamp: Date.now(),
+                category: category,
                 reply: ""
             };
 
             db.ref('chat_hub').push(chatPayload).then(() => {
                 tx.value = '';
                 tx.style.height = '38px';
+                charCounter.textContent = '0/300';
+                charCounter.classList.remove('warning', 'danger');
+                showToast('Pesan berhasil terkirim!', 'success');
             }).catch((err) => {
-                alert("Gagal kirim pesan. Error: " + err.message);
+                showToast('Gagal kirim pesan: ' + err.message, 'error');
             });
         });
     }
 
-    // =======================================================
-    // AMBIL DATA CHAT REAL-TIME
-    // =======================================================
+    // ========== RENDER CHAT ==========
     const timeline = document.getElementById('chatTimeline');
-    const emptyState = document.getElementById('emptyState');
+    let allChats = [];
 
-    if (timeline && emptyState) {
-        db.ref('chat_hub').on('value', (snapshot) => {
-            const data = snapshot.val();
+    function renderChats() {
+        if (!timeline) return;
+        timeline.innerHTML = '';
 
-            timeline.innerHTML = '';
-            timeline.appendChild(emptyState);
+        const filtered = currentFilter === 'all'
+            ? allChats
+            : allChats.filter(c => c.category === currentFilter);
 
-            if (!data) {
-                emptyState.style.display = 'block';
-                return;
+        if (filtered.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'empty-chat';
+            empty.innerHTML = `
+                <i class="fas fa-message-slash"></i>
+                <p>${currentFilter === 'all' ? 'Belum ada saran atau kritik yang masuk' : 'Tidak ada pesan di kategori ini'}</p>
+            `;
+            timeline.appendChild(empty);
+            return;
+        }
+
+        filtered.forEach(val => {
+            const node = document.createElement('div');
+            node.className = 'chat-node';
+
+            // Selalu tampilkan "Anonim" di UI, walau data lama punya senderName lain
+            let nodeInner = `
+                <div class="chat-meta">
+                    <span class="user-anon"><i class="fas fa-user-secret"></i> Anonim</span>
+                    <span class="chat-time">${val.time || ''}</span>
+                </div>
+                <div class="chat-content">${escapeHtml(val.message || '')}</div>
+            `;
+
+            if (val.reply) {
+                nodeInner += `
+                    <div class="admin-reply-box">
+                        <div class="admin-tag">
+                            <span>MinBattle</span>
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="chat-content" style="color: var(--text-primary); font-weight: 500;">${escapeHtml(val.reply)}</div>
+                    </div>
+                `;
             }
 
-            emptyState.style.display = 'none';
+            node.innerHTML = nodeInner;
+            timeline.appendChild(node);
+        });
 
-            Object.entries(data).forEach(([key, val]) => {
-                const node = document.createElement('div');
-                node.className = 'chat-node';
+        timeline.scrollTop = timeline.scrollHeight;
+    }
 
-                const displaySender = val.senderUID !== "ANONIM_USER" ? val.senderName : "Anonim";
-
-                let nodeInner = `
-                    <div class="chat-meta">
-                        <span class="user-anon"><i class="fas ${val.senderUID !== 'ANONIM_USER' ? 'fa-user' : 'fa-user-secret'}"></i> ${escapeHtml(displaySender)}</span>
-                        <span class="chat-time">${val.time}</span>
-                    </div>
-                    <div class="chat-content">${escapeHtml(val.message)}</div>
-                `;
-
-                if (val.reply) {
-                    nodeInner += `
-                        <div class="admin-reply-box">
-                            <div class="admin-tag">
-                                <span>MinBattle</span>
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="chat-content" style="color: #0f172a; font-weight: 500;">${escapeHtml(val.reply)}</div>
-                        </div>
-                    `;
-                }
-
-                node.innerHTML = nodeInner;
-                timeline.appendChild(node);
-            });
-
-            timeline.scrollTop = timeline.scrollHeight;
+    // Realtime listener
+    if (timeline) {
+        db.ref('chat_hub').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                allChats = [];
+            } else {
+                allChats = Object.entries(data).map(([key, val]) => ({ key, ...val }))
+                    .sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+            }
+            renderChats();
         });
     }
-
-    // =======================================================
-    // LEADERBOARD REAL-TIME
-    // =======================================================
-    function renderLeaderboard(usersData) {
-        const tbody = document.getElementById('leaderboardBody');
-        if (!tbody) return;
-
-        if (!usersData || Object.keys(usersData).length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="4">
-                        <div class="empty-leaderboard">
-                            <i class="fas fa-database"></i>
-                            <p>Belum ada data pemain. Yuk mulai battle!</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-
-        const users = Object.entries(usersData)
-            .map(([uid, data]) => ({
-                uid: uid,
-                name: data.name || "Pengguna",
-                score: data.score || data.points || 0,
-                class: data.class || data.kelas || "-",
-                avatarData: data.avatarData || null
-            }))
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 50);
-
-        if (users.length === 0) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="4">
-                        <div class="empty-leaderboard">
-                            <i class="fas fa-database"></i>
-                            <p>Belum ada data pemain. Yuk mulai battle!</p>
-                        </div>
-                    </td>
-                </tr>
-            `;
-            return;
-        }
-
-        tbody.innerHTML = users.map((item, idx) => {
-            let rankClass = '';
-            if (idx === 0) rankClass = 'rank-1';
-            else if (idx === 1) rankClass = 'rank-2';
-            else if (idx === 2) rankClass = 'rank-3';
-
-            return `
-                <tr>
-                    <td><span class="rank-badge ${rankClass}">${idx + 1}</span></td>
-                    <td><strong>${escapeHtml(item.name)}</strong></td>
-                    <td>${escapeHtml(item.class)}</td>
-                    <td class="score-value">${item.score.toLocaleString('id-ID')} pts</td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    db.ref('users').on('value', (snapshot) => {
-        const data = snapshot.val();
-        renderLeaderboard(data);
-    });
 </script>
 </body>
 </html>
